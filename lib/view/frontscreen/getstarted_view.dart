@@ -46,6 +46,7 @@ class _GetstartedViewState extends State<GetstartedView> {
                         style: ElevatedButton.styleFrom(
                             backgroundColor:
                                 const Color.fromRGBO(114, 162, 138, 1),
+                            foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18.0),
                             )),
@@ -70,6 +71,7 @@ class _GetstartedViewState extends State<GetstartedView> {
                         style: ElevatedButton.styleFrom(
                             backgroundColor:
                                 const Color.fromRGBO(25, 25, 25, 1),
+                            foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18.0),
                             )),

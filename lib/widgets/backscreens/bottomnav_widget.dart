@@ -17,6 +17,7 @@ class Expatnav extends StatelessWidget {
           TabItem(title: 'Home', icon: Icons.home),
           TabItem(title: 'Scan', icon: Icons.qr_code),
           TabItem(title: 'Profile', icon: Icons.person),
+          // TabItem(title: 'ProfileMe', icon: Icons.person),
         ],
         initialActiveIndex: 1,
         onTap: (int i) => {

@@ -133,6 +133,7 @@ class _LandingViewState extends State<LandingView> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromRGBO(114, 162, 138, 1),
+                        foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18.0),
                         )),

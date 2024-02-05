@@ -63,11 +63,13 @@ class _HomeViewState extends State<HomeView> {
                     ),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromRGBO(114, 162, 138, 1),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                            )),
+                          backgroundColor:
+                              const Color.fromRGBO(114, 162, 138, 1),
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                          ),
+                        ),
                         onPressed: () async {
                           Get.toNamed("/front-screen/allpromo", arguments: [
                             {"first": localData}

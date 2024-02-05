@@ -1,4 +1,5 @@
 import 'package:expatroaster/view/frontscreen/about_view.dart';
+import 'package:expatroaster/view/frontscreen/all_menu.dart';
 import 'package:expatroaster/view/frontscreen/benefit_view.dart';
 import 'package:expatroaster/view/frontscreen/complete_view.dart';
 import 'package:expatroaster/view/frontscreen/getstarted_view.dart';
@@ -130,6 +131,11 @@ class MyApp extends StatelessWidget {
             name: '/front-screen/topup',
             page: () => const TopupView(),
             transition: Transition.rightToLeft,
+          ),
+          GetPage(
+            name: '/front-screen/allmenu',
+            page: () => const AllMenu(),
+            transition: Transition.fadeIn,
           ),
         ]);
   }

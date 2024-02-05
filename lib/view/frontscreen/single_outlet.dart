@@ -177,18 +177,71 @@ class _SingleoutletViewState extends State<SingleoutletView> {
                             SizedBox(
                               height: 2.h,
                             ),
-                            const Text("CONTACT",
-                                style: TextStyle(color: Colors.white)),
-                            SizedBox(
-                              height: 1.h,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text("CONTACT",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        )),
+                                    SizedBox(
+                                      height: 1.h,
+                                    ),
+                                    (is_loading)
+                                        ? const ShimmerWidget(
+                                            tinggi: 15, lebar: 100)
+                                        : Text(
+                                            resultData["kontak"],
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: const Color.fromRGBO(
+                                            78, 78, 97, 0.2),
+                                        foregroundColor: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        Get.toNamed("/front-screen/allmenu",
+                                            arguments: [
+                                              {"first": localData}
+                                            ]);
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                              'assets/images/icon-menu.png'),
+                                          SizedBox(
+                                            width: 1.w,
+                                          ),
+                                          Text(
+                                            'Menu'.toUpperCase(),
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ],
                             ),
-                            (is_loading)
-                                ? const ShimmerWidget(tinggi: 15, lebar: 100)
-                                : Text(
-                                    resultData["kontak"],
-                                    style: const TextStyle(
-                                        color: Colors.white, fontSize: 12),
-                                  ),
                           ],
                         ))),
                 SizedBox(

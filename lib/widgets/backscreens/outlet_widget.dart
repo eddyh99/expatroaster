@@ -35,16 +35,17 @@ class _OutletViewState extends State<OutletView> {
     String body = '';
     var url = Uri.parse("$urlapi/v1/outlet/get_allcabang");
     resultData = jsonDecode(await expatAPI(url, body))["message"];
+    printDebug(resultData);
     for (var isi in resultData) {
       setState(() {
         imglst.add([isi["picture"], isi["nama"], isi["alamat"], isi["id"]]);
         is_loading = false;
       });
     }
-    printDebug(imglst[0][0].toString());
-    printDebug(imglst[1][0].toString());
-    printDebug(imglst[2][0].toString());
-    printDebug(imglst[3][0].toString());
+    // printDebug(imglst[0][0].toString());
+    // printDebug(imglst[1][0].toString());
+    // printDebug(imglst[2][0].toString());
+    // printDebug(imglst[3][0].toString());
   }
 
   @override
