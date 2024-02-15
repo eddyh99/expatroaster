@@ -34,6 +34,7 @@ class _ProfileViewState extends State<ProfileView> {
   Future _asyncMethod() async {
     var url = Uri.parse("$urlapi/v1/member/get_userdetail");
     var query = jsonDecode(await expatAPI(url, body))["message"];
+    printDebug(query);
     if (query != null) {
       setState(() {
         resultData = query;
@@ -129,17 +130,21 @@ class _ProfileViewState extends State<ProfileView> {
                                   width: 70.w,
                                   height: 5.h,
                                   child: DecoratedBox(
-                                      decoration: BoxDecoration(
-                                        color: const Color.fromRGBO(
-                                            114, 162, 138, 1),
-                                        borderRadius:
-                                            BorderRadius.circular(18.0),
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromRGBO(
+                                          114, 162, 138, 1),
+                                      borderRadius: BorderRadius.circular(18.0),
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        localData['membership'].toUpperCase(),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                      child: const Align(
-                                          alignment: Alignment.center,
-                                          child: Text("BRONZE",
-                                              style: TextStyle(
-                                                  color: Colors.white)))),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),

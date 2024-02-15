@@ -49,6 +49,24 @@ class _SigninViewState extends State<SigninView> {
     );
   }
 
+  String? validateEmail(String? email) {
+    RegExp emailRegex = RegExp(r'^[\w\.-]+@[\w-]+\.\w{2,3}(\.\w{2,3})?$');
+    final isEmailValid = emailRegex.hasMatch(email ?? '');
+
+    // Navigator.pop(context);
+    if (email == null || email.isEmpty) {
+      return "Please enter your email";
+    }
+    if (!isEmailValid) {
+      return "Please enter a valid email";
+    }
+
+    // else if (email == null || email.isEmpty) {
+    //   return "Please enter your email";
+    // }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,6 +110,20 @@ class _SigninViewState extends State<SigninView> {
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 isDense: true,
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.red,
+                                    width: 0.0,
+                                  ),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.red,
+                                    width: 0.0,
+                                  ),
+                                ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
                                       color: Colors.grey, width: 0.0),
@@ -104,12 +136,7 @@ class _SigninViewState extends State<SigninView> {
                                 ),
                                 hintText: 'Enter your email',
                               ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Please enter your email address";
-                                }
-                                return null;
-                              },
+                              validator: validateEmail,
                             ),
                           ],
                         ),
@@ -154,6 +181,20 @@ class _SigninViewState extends State<SigninView> {
                                           });
                                         }),
                                     isDense: true,
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.red,
+                                        width: 0.0,
+                                      ),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.red,
+                                        width: 0.0,
+                                      ),
+                                    ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
                                           color: Colors.grey, width: 0.0),
@@ -226,6 +267,11 @@ class _SigninViewState extends State<SigninView> {
                                 )),
                             onPressed: () async {
                               showLoaderDialog(context);
+                              printDebug(context.mounted);
+                              if (!_signinFormKey.currentState!.validate()) {
+                                Navigator.pop(context);
+                              }
+
                               if (_signinFormKey.currentState!.validate()) {
                                 Map<String, dynamic> mdata;
                                 mdata = {
@@ -235,44 +281,103 @@ class _SigninViewState extends State<SigninView> {
                                           .encode(_passwordTextController.text))
                                       .toString()
                                 };
-                                printDebug(jsonEncode(mdata));
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
                                 var url = Uri.parse("$urlapi/auth/signin");
-                                var result = jsonDecode(
-                                    await expatAPI(url, jsonEncode(mdata)));
-                                if (result["code"] == "200") {
-                                  if (context.mounted) {
-                                    Navigator.pop(context);
-                                  }
-                                  SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
-                                  prefs.setString(
-                                      "email", _emailTextController.text);
-                                  prefs.setString(
-                                      "passwd",
-                                      sha1
-                                          .convert(utf8.encode(
-                                              _passwordTextController.text))
-                                          .toString());
-                                  prefs.setBool(
-                                      "_rememberme", _rememberIsChecked);
+                                var result = await expatAPI(
+                                        url, jsonEncode(mdata))
+                                    .then(
+                                      (ress) => {
+                                        if (context.mounted)
+                                          {
+                                            Navigator.pop(context),
+                                          },
+                                        // List data = jsonDecode(ress),
+                                        printDebug(
+                                            jsonDecode(ress)['messages']),
+                                        prefs.setString(
+                                            "email", _emailTextController.text),
+                                        prefs.setString(
+                                            "passwd",
+                                            sha1
+                                                .convert(utf8.encode(
+                                                    _passwordTextController
+                                                        .text))
+                                                .toString()),
+                                        prefs.setBool(
+                                            "_rememberme", _rememberIsChecked),
+                                        Get.toNamed("/front-screen/home",
+                                            arguments: [
+                                              {
+                                                "first":
+                                                    jsonDecode(ress)['messages']
+                                              }
+                                            ]),
+                                        _signinFormKey.currentState?.reset(),
+                                        _emailTextController.clear(),
+                                        _passwordTextController.clear(),
+                                      },
+                                    )
+                                    .catchError(
+                                      (err) => {
+                                        if (context.mounted)
+                                          {
+                                            Navigator.pop(context),
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                    "Invalid Email or Password!"),
+                                              ),
+                                            ),
+                                          },
+                                      },
+                                    );
 
-                                  Get.toNamed("/front-screen/home", arguments: [
-                                    {"first": result["message"]}
-                                  ]);
-                                  _signinFormKey.currentState?.reset();
-                                  _emailTextController.clear();
-                                  _passwordTextController.clear();
-                                } else {
-                                  var psnerror = result["message"];
-                                  if (context.mounted) {
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(SnackBar(
-                                      content: Text(psnerror),
-                                      backgroundColor: Colors.deepOrange,
-                                    ));
-                                  }
-                                }
+                                // Get.toNamed("/front-screen/home", arguments: [
+                                //   {"first": result["messages"]}
+                                // ]);
+                                // _signinFormKey.currentState?.reset();
+                                // _emailTextController.clear();
+                                // _passwordTextController.clear();
+
+                                // printDebug(result);
+                                // if (result["status"] == "400") {
+                                //   var psnerror = result["messages"]['email'];
+                                //   // printDebug(psnerror);
+                                // if (context.mounted) {
+                                //   Navigator.pop(context);
+                                //   ScaffoldMessenger.of(context)
+                                //       .showSnackBar(SnackBar(
+                                //     content: Text(psnerror),
+                                //     backgroundColor:
+                                //         const Color.fromARGB(255, 0, 111, 85),
+                                //   ));
+                                // }
+                                // } else {
+                                //   if (context.mounted) {
+                                //     Navigator.pop(context);
+                                //   }
+                                //   SharedPreferences prefs =
+                                //       await SharedPreferences.getInstance();
+                                //   prefs.setString(
+                                //       "email", _emailTextController.text);
+                                //   prefs.setString(
+                                //       "passwd",
+                                //       sha1
+                                //           .convert(utf8.encode(
+                                //               _passwordTextController.text))
+                                //           .toString());
+                                //   prefs.setBool(
+                                //       "_rememberme", _rememberIsChecked);
+
+                                //   Get.toNamed("/front-screen/home", arguments: [
+                                //     {"first": result["messages"]}
+                                //   ]);
+                                //   _signinFormKey.currentState?.reset();
+                                //   _emailTextController.clear();
+                                //   _passwordTextController.clear();
+                                // }
                               }
                             },
                             child: const Text("Sign In")),

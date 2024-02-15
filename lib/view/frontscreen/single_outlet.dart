@@ -27,13 +27,14 @@ class _SingleoutletViewState extends State<SingleoutletView> {
   @override
   void initState() {
     super.initState();
+    printDebug(localid);
     _asyncMethod();
   }
 
   Future _asyncMethod() async {
     //get user detail
     var url = Uri.parse("$urlapi/v1/outlet/getcabang_byid?id=$localid");
-    var query = jsonDecode(await expatAPI(url, body))["message"];
+    var query = jsonDecode(await expatAPI(url, body))["messages"];
     setState(() {
       resultData = query;
       is_loading = false;

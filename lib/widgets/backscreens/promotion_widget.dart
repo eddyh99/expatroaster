@@ -33,14 +33,15 @@ class _PromotionViewState extends State<PromotionView> {
     //get user detail
     String body = '';
     var url = Uri.parse("$urlapi/v1/promotion/get_allpromo");
-    resultData = jsonDecode(await expatAPI(url, body))["message"];
+    resultData = jsonDecode(await expatAPI(url, body))['messages'];
+    printDebug(resultData);
     for (var isi in resultData) {
       setState(() {
         imglst.add([isi["picture"], isi["id"]]);
         is_loading = false;
       });
     }
-    printDebug(imglst[0][0].toString());
+    // printDebug(imglst[0][0].toString());
   }
 
   @override

@@ -34,7 +34,7 @@ class _OutletViewState extends State<OutletView> {
     //get user detail
     String body = '';
     var url = Uri.parse("$urlapi/v1/outlet/get_allcabang");
-    resultData = jsonDecode(await expatAPI(url, body))["message"];
+    resultData = jsonDecode(await expatAPI(url, body))["messages"];
     printDebug(resultData);
     for (var isi in resultData) {
       setState(() {

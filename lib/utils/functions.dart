@@ -45,6 +45,8 @@ Future<String> expatAPI(Uri url, String body) async {
   }
 
   Response response = await post(url, headers: headers, body: body);
-
+  if (response.statusCode != 200) {
+    throw response.body;
+  }
   return response.body;
 }

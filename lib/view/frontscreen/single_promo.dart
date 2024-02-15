@@ -34,7 +34,7 @@ class _SinglepromoViewState extends State<SinglepromoView> {
     //get user detail
     printDebug(localid);
     var url = Uri.parse("$urlapi/v1/promotion/getpromo_byid?id=$localid");
-    var query = jsonDecode(await expatAPI(url, body))["message"];
+    var query = jsonDecode(await expatAPI(url, body))["messages"];
     setState(() {
       resultData = query[0];
       is_loading = false;
@@ -50,13 +50,18 @@ class _SinglepromoViewState extends State<SinglepromoView> {
             extendBodyBehindAppBar: true,
             backgroundColor: Colors.black,
             appBar: AppBar(
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-                onPressed: () => Navigator.of(context).pop(),
+              leading: Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
               ),
-              title: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  child: const Text("PROMOTION")),
+              centerTitle: true,
+              title: const Text(
+                "PROMOTION",
+                style: TextStyle(color: Colors.white),
+              ),
               backgroundColor: Colors.transparent,
               elevation: 0,
             ),

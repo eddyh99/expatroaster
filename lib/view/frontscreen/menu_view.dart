@@ -43,7 +43,7 @@ class _PromotionViewState extends State<MenuView>
     var url = Uri.parse("$urlapi/v1/promotion/get_allinstore");
     var query = jsonDecode(await expatAPI(url, body))["message"];
     var url2 = Uri.parse("$urlapi/v1/promotion/get_allonline");
-    var query2 = jsonDecode(await expatAPI(url2, body))["message"];
+    var query2 = jsonDecode(await expatAPI(url2, body))["messages"];
     setState(() {
       instoreData = query;
       onlineData = query2;
