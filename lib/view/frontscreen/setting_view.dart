@@ -32,7 +32,6 @@ class _SettingViewState extends State<SettingView> {
   var dobformat = DateFormat('MM/d/yyyy');
   late String _password;
 
-  double _strength = 0;
   bool _passwordVisible = false;
   RegExp numReg = RegExp(r".*[0-9].*");
   RegExp letterReg = RegExp(r".*[A-Za-z].*");
@@ -69,30 +68,21 @@ class _SettingViewState extends State<SettingView> {
     _password = value.trim();
 
     if (_password.isEmpty) {
-      setState(() {
-        _strength = 0;
-      });
+      setState(() {});
     } else if (_password.length < 8) {
-      setState(() {
-        _strength = 1 / 4;
-      });
+      setState(() {});
     } else if (!charReg.hasMatch(_password)) {
-      setState(() {
-        _strength = 2 / 4;
-      });
+      setState(() {});
     } else {
       if (!letterReg.hasMatch(_password) || !numReg.hasMatch(_password)) {
         setState(() {
           // Password length >= 8
           // But doesn't contain both letter and digit characters
-          _strength = 3 / 4;
         });
       } else {
         // Password length >= 8
         // Password contains both letter and digit characters
-        setState(() {
-          _strength = 1;
-        });
+        setState(() {});
       }
     }
   }

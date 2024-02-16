@@ -36,18 +36,18 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   get: ^4.6.6
-  url_launcher: ^6.2.1
+  url_launcher: ^6.2.4
   google_fonts: ^6.1.0
   carousel_slider: ^4.2.1
   convex_bottom_bar: ^3.2.0
   dots_indicator: ^3.0.0
-  http: ^1.1.0
+  http: ^1.2.1
   shared_preferences: ^2.2.2
   crypto: ^3.0.3
   qr_flutter: ^4.1.0
   shimmer: ^3.0.0  
-  image_picker: ^1.0.4
-  intl: ^0.18.1
+  image_picker: ^1.0.7
+  intl: ^0.19.0
   
 dev_dependencies:
   flutter_test:
@@ -58,7 +58,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.3
+  flutter_lints: ^3.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

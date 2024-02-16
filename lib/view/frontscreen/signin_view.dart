@@ -112,14 +112,14 @@ class _SigninViewState extends State<SigninView> {
                                 isDense: true,
                                 focusedErrorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     color: Colors.red,
                                     width: 0.0,
                                   ),
                                 ),
                                 errorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     color: Colors.red,
                                     width: 0.0,
                                   ),
@@ -183,14 +183,14 @@ class _SigninViewState extends State<SigninView> {
                                     isDense: true,
                                     focusedErrorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15.0),
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Colors.red,
                                         width: 0.0,
                                       ),
                                     ),
                                     errorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15.0),
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Colors.red,
                                         width: 0.0,
                                       ),
