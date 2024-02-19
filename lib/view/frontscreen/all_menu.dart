@@ -1,14 +1,14 @@
 // import 'dart:convert';
-import 'package:expatroaster/utils/extensions.dart';
-import 'package:expatroaster/utils/functions.dart';
+import 'package:expatroasters/utils/extensions.dart';
+import 'package:expatroasters/utils/functions.dart';
 // import 'package:expatroaster/utils/globalvar.dart';
-import 'package:expatroaster/widgets/backscreens/bottomnav_widget.dart';
+import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 // import 'package:expatroaster/widgets/backscreens/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AllMenu extends StatefulWidget {
-  const AllMenu({Key? key}) : super(key: key);
+  const AllMenu({super.key});
 
   @override
   State<AllMenu> createState() {
@@ -41,7 +41,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
               padding: const EdgeInsets.only(right: 20),
               child: IconButton(
                 onPressed: () => {},
-                icon: Icon(Icons.shopping_cart),
+                icon: const Icon(Icons.shopping_cart),
                 color: Colors.white,
                 iconSize: 6.5.w,
               ),
@@ -63,12 +63,12 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                 color: Colors.black,
                 child: TabBar(
                   physics: const ClampingScrollPhysics(),
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   unselectedLabelColor: Colors.white,
                   indicatorSize: TabBarIndicatorSize.label,
                   indicator: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
-                    color: Color.fromRGBO(73, 116, 95, 1),
+                    color: const Color.fromRGBO(73, 116, 95, 1),
                   ),
                   dividerColor: Colors.transparent,
                   tabs: [
@@ -78,7 +78,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
                           border: Border.all(
-                            color: Color.fromRGBO(114, 162, 138, 1),
+                            color: const Color.fromRGBO(114, 162, 138, 1),
                           ),
                         ),
                         child: const Align(

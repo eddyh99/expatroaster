@@ -1,11 +1,11 @@
-import 'package:expatroaster/utils/extensions.dart';
+import 'package:expatroasters/utils/extensions.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class GetstartedView extends StatefulWidget {
-  const GetstartedView({Key? key}) : super(key: key);
+  const GetstartedView({super.key});
 
   @override
   State<GetstartedView> createState() {
@@ -64,6 +64,9 @@ class _GetstartedViewState extends State<GetstartedView> {
                           ],
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      height: 1.h,
                     ),
                     SizedBox(
                       width: 90.w,

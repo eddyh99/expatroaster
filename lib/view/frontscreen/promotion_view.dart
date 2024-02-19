@@ -1,15 +1,15 @@
 import 'dart:convert';
 
-import 'package:expatroaster/utils/extensions.dart';
-import 'package:expatroaster/utils/functions.dart';
-import 'package:expatroaster/utils/globalvar.dart';
-import 'package:expatroaster/widgets/backscreens/bottomnav_widget.dart';
-import 'package:expatroaster/widgets/backscreens/shimmer_widget.dart';
+import 'package:expatroasters/utils/extensions.dart';
+import 'package:expatroasters/utils/functions.dart';
+import 'package:expatroasters/utils/globalvar.dart';
+import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
+import 'package:expatroasters/widgets/backscreens/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PromotionView extends StatefulWidget {
-  const PromotionView({Key? key}) : super(key: key);
+  const PromotionView({super.key});
 
   @override
   State<PromotionView> createState() {
@@ -138,7 +138,7 @@ class _PromotionViewState extends State<PromotionView>
                                   // give the indicator a decoration (color and border radius)
                                   indicator: BoxDecoration(
                                     borderRadius: BorderRadius.circular(
-                                      25.0,
+                                      10.0,
                                     ),
                                     color: const Color.fromRGBO(78, 78, 97, 1),
                                   ),
@@ -146,14 +146,20 @@ class _PromotionViewState extends State<PromotionView>
                                   unselectedLabelColor: Colors.white,
                                   tabs: const [
                                     // first tab [you can add an icon using the icon property]
-                                    Tab(
-                                      text: 'ONLINE',
-                                    ),
+                                    Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 30),
+                                        child: Tab(
+                                          text: 'ONLINE',
+                                        )),
 
                                     // second tab [you can add an icon using the icon property]
-                                    Tab(
-                                      text: 'IN-STORE',
-                                    ),
+                                    Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 25),
+                                        child: Tab(
+                                          text: 'IN-STORE',
+                                        )),
                                   ],
                                 ),
                               )),

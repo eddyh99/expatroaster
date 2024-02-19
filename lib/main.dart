@@ -1,20 +1,20 @@
-import 'package:expatroaster/view/frontscreen/about_view.dart';
-import 'package:expatroaster/view/frontscreen/all_menu.dart';
-import 'package:expatroaster/view/frontscreen/benefit_view.dart';
-import 'package:expatroaster/view/frontscreen/complete_view.dart';
-import 'package:expatroaster/view/frontscreen/getstarted_view.dart';
-import 'package:expatroaster/view/frontscreen/home_view.dart';
-import 'package:expatroaster/view/frontscreen/profile_view.dart';
-import 'package:expatroaster/view/frontscreen/promotion_view.dart';
-import 'package:expatroaster/view/frontscreen/qrcode_view.dart';
-import 'package:expatroaster/view/frontscreen/setting_view.dart';
-import 'package:expatroaster/view/frontscreen/signin_view.dart';
-import 'package:expatroaster/view/frontscreen/signup_view.dart';
-import 'package:expatroaster/view/frontscreen/single_outlet.dart';
-import 'package:expatroaster/view/frontscreen/single_promo.dart';
-import 'package:expatroaster/view/frontscreen/topup_view.dart';
-import 'package:expatroaster/view/landing_view.dart';
-import 'package:expatroaster/view/splashscreen.dart';
+import 'package:expatroasters/view/frontscreen/about_view.dart';
+import 'package:expatroasters/view/frontscreen/all_menu.dart';
+import 'package:expatroasters/view/frontscreen/benefit_view.dart';
+import 'package:expatroasters/view/frontscreen/complete_view.dart';
+import 'package:expatroasters/view/frontscreen/getstarted_view.dart';
+import 'package:expatroasters/view/frontscreen/home_view.dart';
+import 'package:expatroasters/view/frontscreen/profile_view.dart';
+import 'package:expatroasters/view/frontscreen/promotion_view.dart';
+import 'package:expatroasters/view/frontscreen/qrcode_view.dart';
+import 'package:expatroasters/view/frontscreen/setting_view.dart';
+import 'package:expatroasters/view/frontscreen/signin_view.dart';
+import 'package:expatroasters/view/frontscreen/signup_view.dart';
+import 'package:expatroasters/view/frontscreen/single_outlet.dart';
+import 'package:expatroasters/view/frontscreen/single_promo.dart';
+import 'package:expatroasters/view/frontscreen/topup_view.dart';
+import 'package:expatroasters/view/landing_view.dart';
+import 'package:expatroasters/view/splashscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -37,7 +37,7 @@ class NoGlowScrollBehavior extends MaterialScrollBehavior {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -142,7 +142,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MainApp extends StatefulWidget {
-  const MainApp({Key? key}) : super(key: key);
+  const MainApp({super.key});
 
   @override
   State<MainApp> createState() => _MainAppState();

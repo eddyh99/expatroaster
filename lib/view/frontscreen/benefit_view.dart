@@ -1,14 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:expatroaster/utils/extensions.dart';
-import 'package:expatroaster/utils/functions.dart';
-import 'package:expatroaster/widgets/backscreens/bottomnav_widget.dart';
-import 'package:expatroaster/widgets/backscreens/promotion_widget.dart';
+import 'package:expatroasters/utils/extensions.dart';
+import 'package:expatroasters/utils/functions.dart';
+import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
+import 'package:expatroasters/widgets/backscreens/promotion_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BenefitView extends StatefulWidget {
-  const BenefitView({Key? key}) : super(key: key);
+  const BenefitView({super.key});
 
   @override
   State<BenefitView> createState() {
@@ -115,7 +115,10 @@ class _BenefitViewState extends State<BenefitView> {
               elevation: 0,
               title: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  child: const Text("BENEFIT")),
+                  child: const Text(
+                    "BENEFIT",
+                    style: TextStyle(color: Colors.white),
+                  )),
             ),
             body: SafeArea(
                 child: SingleChildScrollView(

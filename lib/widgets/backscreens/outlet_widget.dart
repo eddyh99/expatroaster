@@ -1,17 +1,18 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:expatroaster/utils/extensions.dart';
-import 'package:expatroaster/utils/functions.dart';
-import 'package:expatroaster/utils/globalvar.dart';
-import 'package:expatroaster/widgets/backscreens/shimmer_widget.dart';
-import 'package:expatroaster/widgets/frontscreens/listimage_widget.dart';
+import 'package:expatroasters/utils/extensions.dart';
+import 'package:expatroasters/utils/functions.dart';
+import 'package:expatroasters/utils/globalvar.dart';
+import 'package:expatroasters/widgets/backscreens/shimmer_widget.dart';
+import 'package:expatroasters/widgets/frontscreens/listimage_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class OutletView extends StatefulWidget {
-  const OutletView({Key? key}) : super(key: key);
+  const OutletView({super.key});
 
   @override
   State<OutletView> createState() {
@@ -35,14 +36,15 @@ class _OutletViewState extends State<OutletView> {
     String body = '';
     var url = Uri.parse("$urlapi/v1/outlet/get_allcabang");
     resultData = jsonDecode(await expatAPI(url, body))["messages"];
-    printDebug(resultData);
+    //printDebug(resultData);
     for (var isi in resultData) {
       setState(() {
         imglst.add([isi["picture"], isi["nama"], isi["alamat"], isi["id"]]);
         is_loading = false;
       });
     }
-    // printDebug(imglst[0][0].toString());
+
+    log(imglst.toList().toString());
     // printDebug(imglst[1][0].toString());
     // printDebug(imglst[2][0].toString());
     // printDebug(imglst[3][0].toString());
@@ -51,7 +53,7 @@ class _OutletViewState extends State<OutletView> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 25.h,
+        height: 26.h,
         width: 100.w,
         child: DecoratedBox(
           decoration: const BoxDecoration(

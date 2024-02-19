@@ -1,10 +1,13 @@
-import 'package:expatroaster/utils/extensions.dart';
-import 'package:expatroaster/widgets/backscreens/bottomnav_widget.dart';
+import 'package:expatroasters/utils/extensions.dart';
+import 'package:expatroasters/utils/functions.dart';
+import 'package:expatroasters/utils/globalvar.dart';
+import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class TopupView extends StatefulWidget {
-  const TopupView({Key? key}) : super(key: key);
+  const TopupView({super.key});
 
   @override
   State<TopupView> createState() {
@@ -14,49 +17,39 @@ class TopupView extends StatefulWidget {
 
 class _TopupViewState extends State<TopupView> {
   var localData = Get.arguments[0]["first"];
-  final TextEditingController _amountText = TextEditingController();
+  late final WebViewController wvcontroller;
+  String token = "";
   int value = 0;
   int selectedOption = 0;
 
   @override
   void initState() {
     super.initState();
-  }
-
-  Widget customRadioButton(String text, int index) {
-    return SizedBox(
-        width: 28.w,
-        child: ElevatedButton(
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.white),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        side: (value == index)
-                            ? const BorderSide(
-                                color: Color.fromRGBO(114, 162, 138, 1))
-                            : const BorderSide(color: Colors.white)))),
-            onPressed: () {
-              setState(() {
-                value = index;
-              });
-            },
-            child: RichText(
-              text: TextSpan(
-                text: "Rp ",
-                style: TextStyle(
-                    color: (value == index) ? Colors.green : Colors.black,
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold),
-                children: [
-                  TextSpan(text: text),
-                ],
-              ),
-            )));
+    bearerToken().then((value) => {
+          setState(() {
+            token = value;
+          })
+        });
+    wvcontroller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0x00000000))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {
+            // Update loading bar.
+          },
+          onPageStarted: (String url) {},
+          onPageFinished: (String url) {},
+          onWebResourceError: (WebResourceError error) {},
+        ),
+      );
   }
 
   @override
   Widget build(BuildContext context) {
+    wvcontroller
+        .loadRequest(Uri.parse("$urlbase/widget/topup/membertopup/$token"));
+
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
@@ -69,227 +62,17 @@ class _TopupViewState extends State<TopupView> {
               ),
               title: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  child: const Text("TOPUP")),
+                  child: const Text("TOPUP",
+                      style: TextStyle(color: Colors.white))),
               backgroundColor: Colors.transparent,
               elevation: 0,
             ),
             body: SafeArea(
                 child: SingleChildScrollView(
-                    child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 5.w, vertical: 2.h),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "SELECT TOP-UP VALUE",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                customRadioButton("50.000", 1),
-                                customRadioButton("100.000", 2),
-                                customRadioButton("200.000", 3),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 1.h,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                customRadioButton("300.000", 4),
-                                customRadioButton("500.000", 5),
-                                customRadioButton("1.000.000", 6),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 2.h,
-                            ),
-                            SizedBox(
-                              width: 100.w,
-                              child: TextFormField(
-                                style: const TextStyle(color: Colors.white),
-                                controller: _amountText,
-                                maxLines: 1,
-                                keyboardType: TextInputType.number,
-                                decoration: const InputDecoration(
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 0.0),
-                                  ),
-                                  isDense: true,
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 0.0),
-                                  ),
-                                  hintText: 'Enter specific value',
-                                  hintStyle: TextStyle(color: Colors.white),
-                                ),
-                                onChanged: (text) {
-                                  if (text.isNotEmpty) {
-                                    setState(() {
-                                      value = 0;
-                                    });
-                                  }
-                                },
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5.h,
-                            ),
-                            const Text("PAYMENT METHOD (by Doku)",
-                                style: TextStyle(color: Colors.white)),
-                            SizedBox(
-                              height: 3.h,
-                            ),
-                            SizedBox(
-                              width: 100.w,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Radio<int>(
-                                        value: 1,
-                                        groupValue: selectedOption,
-                                        activeColor: Colors
-                                            .grey, // Change the active radio button color here
-                                        fillColor: MaterialStateProperty.all(Colors
-                                            .white), // Change the fill color when selected
-                                        splashRadius:
-                                            20, // Change the splash radius when clicked
-                                        onChanged: (value) {
-                                          setState(() {
-                                            selectedOption = value!;
-                                          });
-                                        },
-                                      ),
-                                      const Text("Credit Card",
-                                          style:
-                                              TextStyle(color: Colors.white)),
-                                      SizedBox(
-                                        width: 2.w,
-                                      ),
-                                      Image.asset(
-                                        "assets/images/card.png",
-                                        width: 25.w,
-                                      )
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Radio<int>(
-                                        value: 2,
-                                        groupValue: selectedOption,
-                                        activeColor: Colors
-                                            .grey, // Change the active radio button color here
-                                        fillColor: MaterialStateProperty.all(Colors
-                                            .white), // Change the fill color when selected
-                                        splashRadius:
-                                            20, // Change the splash radius when clicked
-                                        onChanged: (value) {
-                                          setState(() {
-                                            selectedOption = value!;
-                                          });
-                                        },
-                                      ),
-                                      const Text("Virtual Account",
-                                          style:
-                                              TextStyle(color: Colors.white)),
-                                      SizedBox(
-                                        width: 2.w,
-                                      ),
-                                      Image.asset(
-                                        "assets/images/va.png",
-                                        width: 40.w,
-                                      )
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Radio<int>(
-                                        value: 3,
-                                        groupValue: selectedOption,
-                                        activeColor: Colors
-                                            .grey, // Change the active radio button color here
-                                        fillColor: MaterialStateProperty.all(Colors
-                                            .white), // Change the fill color when selected
-                                        splashRadius:
-                                            20, // Change the splash radius when clicked
-                                        onChanged: (value) {
-                                          setState(() {
-                                            selectedOption = value!;
-                                          });
-                                        },
-                                      ),
-                                      const Text("e-wallet",
-                                          style:
-                                              TextStyle(color: Colors.white)),
-                                      SizedBox(
-                                        width: 2.w,
-                                      ),
-                                      Image.asset(
-                                        "assets/images/e-wallet.png",
-                                        width: 40.w,
-                                      )
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Radio<int>(
-                                        value: 4,
-                                        groupValue: selectedOption,
-                                        activeColor: Colors
-                                            .grey, // Change the active radio button color here
-                                        fillColor: MaterialStateProperty.all(Colors
-                                            .white), // Change the fill color when selected
-                                        splashRadius:
-                                            20, // Change the splash radius when clicked
-                                        onChanged: (value) {
-                                          setState(() {
-                                            selectedOption = value!;
-                                          });
-                                        },
-                                      ),
-                                      const Text("QRis",
-                                          style:
-                                              TextStyle(color: Colors.white)),
-                                      SizedBox(
-                                        width: 2.w,
-                                      ),
-                                      Image.asset(
-                                        "assets/images/qris.png",
-                                        width: 10.w,
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Align(
-                                alignment: Alignment.center,
-                                child: SizedBox(
-                                  width: 40.w,
-                                  child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: const Color.fromRGBO(
-                                              114, 162, 138, 1),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(18.0),
-                                          )),
-                                      onPressed: () async {
-                                        Get.toNamed("/front-screen/allpromo",
-                                            arguments: [
-                                              {"first": localData}
-                                            ]);
-                                      },
-                                      child: const Text("TOP UP")),
-                                )),
-                          ],
-                        )))),
+                    child: SizedBox(
+                        height: 100.h,
+                        width: 100.w,
+                        child: WebViewWidget(controller: wvcontroller)))),
             bottomNavigationBar: Expatnav(data: localData)));
   }
 }

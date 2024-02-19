@@ -1,6 +1,6 @@
 {
-    "name": "expatroaster",
-    "short_name": "expatroaster",
+    "name": "expatroasters",
+    "short_name": "expatroasters",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
