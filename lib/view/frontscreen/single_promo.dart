@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:expatroaster/utils/extensions.dart';
-import 'package:expatroaster/utils/functions.dart';
-import 'package:expatroaster/utils/globalvar.dart';
-import 'package:expatroaster/widgets/backscreens/bottomnav_widget.dart';
-import 'package:expatroaster/widgets/backscreens/shimmer_widget.dart';
+import 'package:expatroasters/utils/extensions.dart';
+import 'package:expatroasters/utils/functions.dart';
+import 'package:expatroasters/utils/globalvar.dart';
+import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
+import 'package:expatroasters/widgets/backscreens/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

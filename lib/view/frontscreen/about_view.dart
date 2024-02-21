@@ -1,12 +1,12 @@
-import 'package:expatroaster/utils/extensions.dart';
-import 'package:expatroaster/utils/functions.dart';
-import 'package:expatroaster/widgets/backscreens/bottomnav_widget.dart';
-import 'package:expatroaster/widgets/backscreens/outlet_widget.dart';
+import 'package:expatroasters/utils/extensions.dart';
+import 'package:expatroasters/utils/functions.dart';
+import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
+import 'package:expatroasters/widgets/backscreens/outlet_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AboutView extends StatefulWidget {
-  const AboutView({Key? key}) : super(key: key);
+  const AboutView({super.key});
 
   @override
   State<AboutView> createState() {
@@ -61,7 +61,7 @@ class _AboutViewState extends State<AboutView> {
                         style: TextStyle(color: Colors.white),
                       ),
                     )),
-                SizedBox(height: 25.h, width: 100.w, child: const OutletView()),
+                SizedBox(height: 26.h, width: 100.w, child: const OutletView()),
                 SizedBox(
                   height: 5.h,
                 )

@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:expatroaster/utils/extensions.dart';
-import 'package:expatroaster/utils/functions.dart';
-import 'package:expatroaster/utils/globalvar.dart';
-import 'package:expatroaster/widgets/backscreens/bottomnav_widget.dart';
-import 'package:expatroaster/widgets/backscreens/shimmer_widget.dart';
+import 'package:expatroasters/utils/extensions.dart';
+import 'package:expatroasters/utils/functions.dart';
+import 'package:expatroasters/utils/globalvar.dart';
+import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
+import 'package:expatroasters/widgets/backscreens/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -34,13 +34,13 @@ class _ProfileViewState extends State<ProfileView> {
   Future _asyncMethod() async {
     var url = Uri.parse("$urlapi/v1/member/get_userdetail");
     var query = jsonDecode(await expatAPI(url, body))["message"];
-    printDebug(query);
+    //printDebug(query);
     if (query != null) {
       setState(() {
         resultData = query;
       });
     }
-    printDebug(resultData);
+    //printDebug(resultData);
   }
 
   Future logout() async {
@@ -128,7 +128,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 ),
                                 SizedBox(
                                   width: 70.w,
-                                  height: 5.h,
+                                  height: 4.h,
                                   child: DecoratedBox(
                                     decoration: BoxDecoration(
                                       color: const Color.fromRGBO(

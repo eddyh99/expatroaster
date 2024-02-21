@@ -27,6 +27,20 @@ int randomNumber() {
   return r;
 }
 
+Future bearerToken() async {
+  final prefs = await SharedPreferences.getInstance();
+  var email = prefs.getString("email");
+  var passwd = prefs.getString("passwd");
+
+  String token = '';
+  if (email != null && passwd != null) {
+    token = sha1.convert(utf8.encode(email + passwd)).toString();
+  }
+  debugPrint('100-$token');
+
+  return token;
+}
+
 Future<String> expatAPI(Uri url, String body) async {
   final prefs = await SharedPreferences.getInstance();
   var email = prefs.getString("email");

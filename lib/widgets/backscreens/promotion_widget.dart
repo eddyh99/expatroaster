@@ -1,17 +1,17 @@
 import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:expatroaster/utils/extensions.dart';
-import 'package:expatroaster/utils/functions.dart';
-import 'package:expatroaster/utils/globalvar.dart';
-import 'package:expatroaster/widgets/backscreens/shimmer_widget.dart';
-import 'package:expatroaster/widgets/frontscreens/listimage_widget.dart';
+import 'package:expatroasters/utils/extensions.dart';
+import 'package:expatroasters/utils/functions.dart';
+import 'package:expatroasters/utils/globalvar.dart';
+import 'package:expatroasters/widgets/backscreens/shimmer_widget.dart';
+import 'package:expatroasters/widgets/frontscreens/listimage_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PromotionView extends StatefulWidget {
-  const PromotionView({Key? key}) : super(key: key);
+  const PromotionView({super.key});
 
   @override
   State<PromotionView> createState() {
@@ -47,7 +47,7 @@ class _PromotionViewState extends State<PromotionView> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 25.h,
+        height: 26.h,
         width: 100.w,
         child: DecoratedBox(
           decoration: const BoxDecoration(

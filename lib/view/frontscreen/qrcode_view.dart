@@ -1,11 +1,11 @@
-import 'package:expatroaster/utils/extensions.dart';
-import 'package:expatroaster/widgets/backscreens/bottomnav_widget.dart';
+import 'package:expatroasters/utils/extensions.dart';
+import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QrcodeView extends StatefulWidget {
-  const QrcodeView({Key? key}) : super(key: key);
+  const QrcodeView({super.key});
 
   @override
   State<QrcodeView> createState() {

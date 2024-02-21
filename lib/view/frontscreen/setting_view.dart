@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:crypto/crypto.dart';
-import 'package:expatroaster/utils/extensions.dart';
-import 'package:expatroaster/utils/functions.dart';
-import 'package:expatroaster/utils/globalvar.dart';
+import 'package:expatroasters/utils/extensions.dart';
+import 'package:expatroasters/utils/functions.dart';
+import 'package:expatroasters/utils/globalvar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -11,7 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class SettingView extends StatefulWidget {
-  const SettingView({Key? key}) : super(key: key);
+  const SettingView({super.key});
 
   @override
   State<SettingView> createState() {
@@ -50,7 +50,7 @@ class _SettingViewState extends State<SettingView> {
     //get user detail
     var url = Uri.parse("$urlapi/v1/member/get_userdetail");
     var query = jsonDecode(await expatAPI(url, body))["message"];
-    printDebug(query);
+    //printDebug(query);
     setState(() {
       resultData = query;
       _nameTextController.text = resultData["nama"];
@@ -221,7 +221,10 @@ class _SettingViewState extends State<SettingView> {
               elevation: 0,
               title: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  child: const Text("SETTINGS")),
+                  child: const Text(
+                    "SETTINGS",
+                    style: TextStyle(color: Colors.white),
+                  )),
             ),
             body: SafeArea(
                 child: SingleChildScrollView(

@@ -1,10 +1,10 @@
-import 'package:expatroaster/utils/extensions.dart';
+import 'package:expatroasters/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CompleteView extends StatefulWidget {
-  const CompleteView({Key? key}) : super(key: key);
+  const CompleteView({super.key});
 
   @override
   State<CompleteView> createState() {

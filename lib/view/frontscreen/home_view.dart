@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:expatroaster/utils/extensions.dart';
-import 'package:expatroaster/utils/functions.dart';
-import 'package:expatroaster/utils/globalvar.dart';
-import 'package:expatroaster/widgets/backscreens/bottomnav_widget.dart';
-import 'package:expatroaster/widgets/backscreens/outlet_widget.dart';
-import 'package:expatroaster/widgets/backscreens/promotion_widget.dart';
+import 'package:expatroasters/utils/extensions.dart';
+import 'package:expatroasters/utils/functions.dart';
+import 'package:expatroasters/utils/globalvar.dart';
+import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
+import 'package:expatroasters/widgets/backscreens/outlet_widget.dart';
+import 'package:expatroasters/widgets/backscreens/promotion_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -186,7 +186,7 @@ class _HomeViewState extends State<HomeView> {
                                                 ]),
                                               ),
                                               SizedBox(
-                                                height: 2.h,
+                                                height: 1.5.h,
                                               ),
                                               Text(
                                                 "Expat Points",
@@ -210,7 +210,7 @@ class _HomeViewState extends State<HomeView> {
                                                 ),
                                               ),
                                               SizedBox(
-                                                height: 2.h,
+                                                height: 1.5.h,
                                               ),
                                               GestureDetector(
                                                 onTap: () => {

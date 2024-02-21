@@ -1,4 +1,4 @@
-import 'package:expatroaster/utils/extensions.dart';
+import 'package:expatroasters/utils/extensions.dart';
 import 'package:flutter/material.dart';
 
 class AlertTile extends StatelessWidget {
