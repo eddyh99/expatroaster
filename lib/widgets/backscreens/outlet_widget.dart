@@ -44,16 +44,16 @@ class _OutletViewState extends State<OutletView> {
       });
     }
 
-    log(imglst.toList().toString());
-    // printDebug(imglst[1][0].toString());
-    // printDebug(imglst[2][0].toString());
-    // printDebug(imglst[3][0].toString());
+    // log(imglst.toList().toString());
+    printDebug(imglst[1][1].toString());
+    printDebug(imglst[2][1].toString());
+    printDebug(imglst[3][1].toString());
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 26.h,
+        height: 36.h,
         width: 100.w,
         child: DecoratedBox(
           decoration: const BoxDecoration(
@@ -69,84 +69,116 @@ class _OutletViewState extends State<OutletView> {
                     style: GoogleFonts.inter(color: Colors.white),
                   )),
               SizedBox(
-                  height: 20.h,
-                  width: 100.w,
-                  child: (is_loading)
-                      ? Row(
-                          children: [
-                            ShimmerWidget(tinggi: 20.h, lebar: 32.w),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            ShimmerWidget(tinggi: 20.h, lebar: 32.w),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            ShimmerWidget(tinggi: 20.h, lebar: 32.w),
-                          ],
-                        )
-                      : CarouselSlider.builder(
-                          options: CarouselOptions(
-                            autoPlay: true,
-                            aspectRatio: 1.0,
-                            enlargeCenterPage: true,
-                            viewportFraction: 1,
+                height: 20.h,
+                width: 100.w,
+                child: (is_loading)
+                    ? Row(
+                        children: [
+                          ShimmerWidget(tinggi: 20.h, lebar: 32.w),
+                          SizedBox(
+                            width: 2.w,
                           ),
-                          itemCount: (imglst.length / 3).round(),
-                          itemBuilder: (context, index, realIdx) {
-                            final int first = index * 3;
-                            final int second = first + 1;
-                            final int third = second + 1;
-                            return Row(
-                                children: [first, second, third].map((idx) {
-                              return (imglst.asMap().containsKey(idx))
-                                  ? Expanded(
-                                      child: ListimageView(
-                                          image: NetworkImage(imglst[idx][0]),
-                                          child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                  shadowColor:
-                                                      Colors.transparent),
-                                              onPressed: () async {
-                                                Get.toNamed(
-                                                    "/front-screen/singleoutlet",
-                                                    arguments: [
-                                                      {
-                                                        "first":
-                                                            Get.arguments[0]
-                                                                ["first"]
-                                                      },
-                                                      {"second": imglst[idx][3]}
-                                                    ]);
-                                              },
-                                              child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    Text(
-                                                      imglst[idx][1],
-                                                      style: const TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 10),
-                                                    ),
-                                                    SizedBox(
-                                                        width: 100.w,
-                                                        child: Text(
-                                                          imglst[idx][2],
-                                                          style:
-                                                              const TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 6),
-                                                        ))
-                                                  ]))))
-                                  : Container();
-                            }).toList());
-                          }))
+                          ShimmerWidget(tinggi: 20.h, lebar: 32.w),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          ShimmerWidget(tinggi: 20.h, lebar: 32.w),
+                        ],
+                      )
+                    : CarouselSlider.builder(
+                        options: CarouselOptions(
+                          autoPlay: true,
+                          aspectRatio: 1.0,
+                          enlargeCenterPage: true,
+                          viewportFraction: 1,
+                        ),
+                        itemCount: (imglst.length / 3).round(),
+                        itemBuilder: (context, index, realIdx) {
+                          final int first = index * 3;
+                          final int second = first + 1;
+                          final int third = second + 1;
+                          return Row(
+                              children: [first, second, third].map((idx) {
+                            return (imglst.asMap().containsKey(idx))
+                                ? Expanded(
+                                    child: ListimageView(
+                                      image: NetworkImage(imglst[idx][0]),
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.transparent,
+                                            shadowColor: Colors.transparent),
+                                        onPressed: () async {
+                                          Get.toNamed(
+                                              "/front-screen/singleoutlet",
+                                              arguments: [
+                                                {
+                                                  "first": Get.arguments[0]
+                                                      ["first"]
+                                                },
+                                                {"second": imglst[idx][3]}
+                                              ]);
+                                        },
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              imglst[idx][1],
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 10),
+                                            ),
+                                            SizedBox(
+                                                width: 100.w,
+                                                child: Text(
+                                                  imglst[idx][2],
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 6),
+                                                ))
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Container();
+                          }).toList());
+                        },
+                      ),
+              ),
+              SizedBox(
+                height: 1.h,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromRGBO(114, 162, 138, 1),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(999.0),
+                    ),
+                  ),
+                  onPressed: () async {
+                    Get.toNamed("/front-screen/list_outlet");
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.add_shopping_cart_outlined),
+                      ),
+                      SizedBox(
+                        width: 0.4.w,
+                      ),
+                      const Text("Order Now")
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ));

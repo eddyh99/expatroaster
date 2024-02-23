@@ -62,29 +62,29 @@ class _HomeViewState extends State<HomeView> {
                       child: Image.asset("assets/images/logo.png"),
                     ),
                     ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromRGBO(114, 162, 138, 1),
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                          ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromRGBO(114, 162, 138, 1),
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
                         ),
-                        onPressed: () async {
-                          Get.toNamed("/front-screen/allpromo", arguments: [
-                            {"first": localData}
-                          ]);
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset('assets/images/icon_discount.png'),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            const Text("Promo")
-                          ],
-                        )),
+                      ),
+                      onPressed: () async {
+                        Get.toNamed("/front-screen/allpromo", arguments: [
+                          {"first": localData}
+                        ]);
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset('assets/images/icon_discount.png'),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          const Text("Promo")
+                        ],
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(height: 3.h),

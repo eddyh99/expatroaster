@@ -60,6 +60,7 @@ class _TopupViewState extends State<TopupView> {
                 icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
                 onPressed: () => Navigator.of(context).pop(),
               ),
+              centerTitle: true,
               title: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15.w),
                   child: const Text("TOPUP",
