@@ -34,7 +34,7 @@ class _PromotionViewState extends State<PromotionView> {
     String body = '';
     var url = Uri.parse("$urlapi/v1/promotion/get_allpromo");
     resultData = jsonDecode(await expatAPI(url, body))['messages'];
-    printDebug(resultData);
+    // printDebug(resultData);
     for (var isi in resultData) {
       setState(() {
         imglst.add([isi["picture"], isi["id"]]);
