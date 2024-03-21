@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Expatnav extends StatelessWidget {
-  final data;
-  const Expatnav({Key? key, required this.data}) : super(key: key);
+  const Expatnav({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,23 +21,11 @@ class Expatnav extends StatelessWidget {
         initialActiveIndex: 1,
         onTap: (int i) => {
               if (i == 0)
-                {
-                  Get.toNamed("/front-screen/home", arguments: [
-                    {"first": data}
-                  ])
-                }
+                {Get.toNamed("/front-screen/home")}
               else if (i == 1)
-                {
-                  Get.toNamed("/front-screen/qrcode", arguments: [
-                    {"first": data}
-                  ])
-                }
+                {Get.toNamed("/front-screen/qrcode")}
               else if (i == 2)
-                {
-                  Get.toNamed("/front-screen/profile", arguments: [
-                    {"first": data}
-                  ])
-                }
+                {Get.toNamed("/front-screen/profile")}
             });
   }
 }

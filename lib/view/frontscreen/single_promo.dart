@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SinglepromoView extends StatefulWidget {
-  const SinglepromoView({Key? key}) : super(key: key);
+  const SinglepromoView({super.key});
 
   @override
   State<SinglepromoView> createState() {
@@ -18,8 +18,7 @@ class SinglepromoView extends StatefulWidget {
 }
 
 class _SinglepromoViewState extends State<SinglepromoView> {
-  var localData = Get.arguments[0]["first"];
-  var localid = Get.arguments[1]["second"];
+  var localid = Get.arguments[0]["second"];
   var body = "";
   dynamic resultData;
   bool is_loading = true;
@@ -32,7 +31,7 @@ class _SinglepromoViewState extends State<SinglepromoView> {
 
   Future _asyncMethod() async {
     //get user detail
-    printDebug(localid);
+    //printDebug(localid);
     var url = Uri.parse("$urlapi/v1/promotion/getpromo_byid?id=$localid");
     var query = jsonDecode(await expatAPI(url, body))["messages"];
     setState(() {
@@ -109,9 +108,7 @@ class _SinglepromoViewState extends State<SinglepromoView> {
                             borderRadius: BorderRadius.circular(18.0),
                           )),
                       onPressed: () async {
-                        Get.toNamed("/front-screen/allpromo", arguments: [
-                          {"first": localData}
-                        ]);
+                        Get.toNamed("/front-screen/allpromo");
                       },
                       child: const Text("Shop Now")),
                 ),
@@ -120,6 +117,6 @@ class _SinglepromoViewState extends State<SinglepromoView> {
                 )
               ],
             ))),
-            bottomNavigationBar: Expatnav(data: localData)));
+            bottomNavigationBar: const Expatnav()));
   }
 }

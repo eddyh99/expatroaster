@@ -19,7 +19,6 @@ class MenuView extends StatefulWidget {
 
 class _PromotionViewState extends State<MenuView>
     with SingleTickerProviderStateMixin {
-  var localData = Get.arguments[0]["first"];
   var selectedTabIndex = 1;
   late TabController _tabController;
   String body = '';
@@ -35,7 +34,6 @@ class _PromotionViewState extends State<MenuView>
       });
     });
     _asyncMethod();
-    printDebug("Promotion - $localData");
   }
 
   Future _asyncMethod() async {
@@ -199,6 +197,6 @@ class _PromotionViewState extends State<MenuView>
                         ],
                       ))),
             ),
-            bottomNavigationBar: Expatnav(data: localData)));
+            bottomNavigationBar: const Expatnav()));
   }
 }

@@ -64,3 +64,8 @@ Future<String> expatAPI(Uri url, String body) async {
   }
   return response.body;
 }
+
+readPrefStr(String key) async {
+  final SharedPreferences pref = await SharedPreferences.getInstance();
+  return jsonDecode(pref.getString(key)!);
+}

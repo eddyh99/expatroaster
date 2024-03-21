@@ -9,16 +9,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class OutletView extends StatefulWidget {
-  const OutletView({super.key});
+class OrderView extends StatefulWidget {
+  const OrderView({super.key});
 
   @override
-  State<OutletView> createState() {
+  State<OrderView> createState() {
     return _OutletViewState();
   }
 }
 
-class _OutletViewState extends State<OutletView> {
+class _OutletViewState extends State<OrderView> {
   dynamic resultData;
   final List<dynamic> imglst = [];
   bool is_loading = true;
@@ -32,20 +32,20 @@ class _OutletViewState extends State<OutletView> {
   Future _asyncMethod() async {
     //get user detail
     String body = '';
-    var url = Uri.parse("$urlapi/v1/outlet/get_allcabang");
+    var url = Uri.parse("$urlapi/v1/produk/favproduk");
     resultData = jsonDecode(await expatAPI(url, body))["messages"];
     //printDebug(resultData);
     for (var isi in resultData) {
       setState(() {
-        imglst.add([isi["picture"], isi["nama"], isi["alamat"], isi["id"]]);
+        imglst.add([isi["picture"], isi["nama"], isi["id"]]);
         is_loading = false;
       });
     }
 
     // log(imglst.toList().toString());
-    printDebug(imglst[1][1].toString());
-    printDebug(imglst[2][1].toString());
-    printDebug(imglst[3][1].toString());
+    //printDebug(imglst[0][1].toString());
+    //printDebug(imglst[2][1].toString());
+    //printDebug(imglst[3][1].toString());
   }
 
   @override
@@ -63,7 +63,7 @@ class _OutletViewState extends State<OutletView> {
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.h),
                   child: Text(
-                    "OUTLETS",
+                    "ORDER NOW",
                     style: GoogleFonts.inter(color: Colors.white),
                   )),
               SizedBox(
@@ -107,9 +107,9 @@ class _OutletViewState extends State<OutletView> {
                                             shadowColor: Colors.transparent),
                                         onPressed: () async {
                                           Get.toNamed(
-                                              "/front-screen/singleoutlet",
+                                              "/front-screen/list_outlet",
                                               arguments: [
-                                                {"second": imglst[idx][3]}
+                                                {"second": imglst[idx][2]}
                                               ]);
                                         },
                                         child: Column(

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
+import 'package:expatroasters/widgets/backscreens/async_widget.dart';
 import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:expatroasters/widgets/backscreens/shimmer_widget.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileView extends StatefulWidget {
-  const ProfileView({Key? key}) : super(key: key);
+  const ProfileView({super.key});
 
   @override
   State<ProfileView> createState() {
@@ -20,14 +21,12 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  var localData = Get.arguments[0]["first"];
   dynamic resultData;
   String body = '';
 
   @override
   void initState() {
     super.initState();
-    printDebug("profile - $localData['first']");
     _asyncMethod();
   }
 
@@ -98,13 +97,8 @@ class _ProfileViewState extends State<ProfileView> {
                                 SizedBox(
                                   height: 1.h,
                                 ),
-                                Text(
-                                  localData["nama"],
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                                const AsyncTextWidget(
+                                    pref: "logged", field: "nama"),
                                 SizedBox(
                                   height: 3.h,
                                 ),
@@ -135,14 +129,10 @@ class _ProfileViewState extends State<ProfileView> {
                                           114, 162, 138, 1),
                                       borderRadius: BorderRadius.circular(18.0),
                                     ),
-                                    child: Align(
+                                    child: const Align(
                                       alignment: Alignment.center,
-                                      child: Text(
-                                        localData['membership'].toUpperCase(),
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      ),
+                                      child: AsyncTextWidget(
+                                          pref: "logged", field: "nama"),
                                     ),
                                   ),
                                 ),
@@ -181,10 +171,7 @@ class _ProfileViewState extends State<ProfileView> {
                               alignment: Alignment.center,
                               child: GestureDetector(
                                 onTap: () {
-                                  Get.toNamed("/front-screen/about",
-                                      arguments: [
-                                        {"first": localData}
-                                      ]);
+                                  Get.toNamed("/front-screen/about");
                                 },
                                 child: const Text("ABOUT EXPAT. ROASTERS",
                                     style: TextStyle(
@@ -240,10 +227,7 @@ class _ProfileViewState extends State<ProfileView> {
                               alignment: Alignment.center,
                               child: GestureDetector(
                                 onTap: () {
-                                  Get.toNamed("/front-screen/benefit",
-                                      arguments: [
-                                        {"first": localData}
-                                      ]);
+                                  Get.toNamed("/front-screen/benefit");
                                 },
                                 child: const Text("BENEFIT",
                                     style: TextStyle(
@@ -271,12 +255,8 @@ class _ProfileViewState extends State<ProfileView> {
                           child: Align(
                               alignment: Alignment.center,
                               child: GestureDetector(
-                                onTap: () => {
-                                  Get.toNamed("/front-screen/settings",
-                                      arguments: [
-                                        {"first": localData}
-                                      ])
-                                },
+                                onTap: () =>
+                                    {Get.toNamed("/front-screen/settings")},
                                 child: const Text("SETTINGS",
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 18),
@@ -317,6 +297,6 @@ class _ProfileViewState extends State<ProfileView> {
             )
           ])),
         ),
-        bottomNavigationBar: Expatnav(data: localData));
+        bottomNavigationBar: const Expatnav());
   }
 }

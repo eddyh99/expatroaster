@@ -1,9 +1,10 @@
 import 'dart:convert';
-
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
+import 'package:expatroasters/widgets/backscreens/async_widget.dart';
 import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
+import 'package:expatroasters/widgets/backscreens/order_widget.dart';
 import 'package:expatroasters/widgets/backscreens/outlet_widget.dart';
 import 'package:expatroasters/widgets/backscreens/promotion_widget.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({Key? key}) : super(key: key);
+  const HomeView({super.key});
 
   @override
   State<HomeView> createState() {
@@ -20,7 +21,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  var localData = Get.arguments[0]["first"];
+  //var localData = Get.arguments[0]["first"];
   dynamic resultData;
   String body = '';
   bool is_loading = true;
@@ -28,7 +29,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    printDebug("100- $localData");
+    //printDebug("100- $localData");
     _asyncMethod();
   }
 
@@ -40,7 +41,7 @@ class _HomeViewState extends State<HomeView> {
       resultData = query;
       is_loading = false;
     });
-    printDebug(localData);
+    //printDebug(localData);
   }
 
   @override
@@ -71,7 +72,7 @@ class _HomeViewState extends State<HomeView> {
                       ),
                       onPressed: () async {
                         Get.toNamed("/front-screen/allpromo", arguments: [
-                          {"first": localData}
+                          {"first": ""}
                         ]);
                       },
                       child: Row(
@@ -121,24 +122,20 @@ class _HomeViewState extends State<HomeView> {
                                         vertical: 2.h, horizontal: 2.h),
                                     child: Row(
                                       children: [
-                                        Expanded(
+                                        const Expanded(
                                           flex: 5,
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              const Text(
+                                              Text(
                                                 "Hi",
                                                 style: TextStyle(
                                                     color: Colors.white),
                                               ),
-                                              Text(
-                                                localData["nama"],
-                                                style: const TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      114, 162, 138, 1),
-                                                ),
-                                              )
+                                              AsyncTextWidget(
+                                                  pref: "logged",
+                                                  field: "nama"),
                                             ],
                                           ),
                                         ),
@@ -217,7 +214,9 @@ class _HomeViewState extends State<HomeView> {
                                                   Get.toNamed(
                                                       "/front-screen/topup",
                                                       arguments: [
-                                                        {"first": localData}
+                                                        {
+                                                          "first": ""
+                                                        } //localData}
                                                       ])
                                                 },
                                                 child: RichText(
@@ -259,12 +258,14 @@ class _HomeViewState extends State<HomeView> {
           Padding(
               padding: EdgeInsets.only(top: 2.h), child: const OutletView()),
           SizedBox(height: 2.h),
+          Padding(padding: EdgeInsets.only(top: 2.h), child: const OrderView()),
+          SizedBox(height: 2.h),
           Padding(
               padding: EdgeInsets.only(top: 2.h), child: const PromotionView()),
           SizedBox(
             height: 5.h,
           )
         ]))),
-        bottomNavigationBar: Expatnav(data: localData));
+        bottomNavigationBar: const Expatnav());
   }
 }

@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SingleoutletView extends StatefulWidget {
-  const SingleoutletView({Key? key}) : super(key: key);
+  const SingleoutletView({super.key});
 
   @override
   State<SingleoutletView> createState() {
@@ -18,8 +18,7 @@ class SingleoutletView extends StatefulWidget {
 }
 
 class _SingleoutletViewState extends State<SingleoutletView> {
-  var localData = Get.arguments[0]["first"];
-  var localid = Get.arguments[1]["second"];
+  var localid = Get.arguments[0]["second"];
   var body = "";
   dynamic resultData;
   bool is_loading = true;
@@ -80,7 +79,7 @@ class _SingleoutletViewState extends State<SingleoutletView> {
                     padding: EdgeInsets.fromLTRB(5.h, 2.h, 5.h, 0),
                     child: SizedBox(
                         width: 100.w,
-                        height: 40.h,
+                        height: 45.h,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -94,7 +93,7 @@ class _SingleoutletViewState extends State<SingleoutletView> {
                                 padding: EdgeInsets.only(top: 1.h),
                                 child: SizedBox(
                                     width: 100.w,
-                                    height: 12.h,
+                                    height: 15.h,
                                     child: DecoratedBox(
                                         decoration: const BoxDecoration(
                                           border: Border(
@@ -140,7 +139,7 @@ class _SingleoutletViewState extends State<SingleoutletView> {
                                 padding: EdgeInsets.only(top: 1.h),
                                 child: SizedBox(
                                     width: 100.w,
-                                    height: 12.h,
+                                    height: 10.h,
                                     child: DecoratedBox(
                                         decoration: const BoxDecoration(
                                           border: Border(
@@ -218,10 +217,7 @@ class _SingleoutletViewState extends State<SingleoutletView> {
                                         ),
                                       ),
                                       onPressed: () async {
-                                        Get.toNamed("/front-screen/allmenu",
-                                            arguments: [
-                                              {"first": localData}
-                                            ]);
+                                        Get.toNamed("/front-screen/allmenu");
                                       },
                                       child: Row(
                                         mainAxisAlignment:
@@ -234,7 +230,7 @@ class _SingleoutletViewState extends State<SingleoutletView> {
                                           ),
                                           Text(
                                             'Menu'.toUpperCase(),
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Colors.white,
                                             ),
                                           )
@@ -252,6 +248,6 @@ class _SingleoutletViewState extends State<SingleoutletView> {
                 )
               ],
             )),
-            bottomNavigationBar: Expatnav(data: localData)));
+            bottomNavigationBar: const Expatnav()));
   }
 }

@@ -5,7 +5,6 @@ import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:expatroasters/widgets/backscreens/promotion_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class BenefitView extends StatefulWidget {
   const BenefitView({super.key});
@@ -17,8 +16,6 @@ class BenefitView extends StatefulWidget {
 }
 
 class _BenefitViewState extends State<BenefitView> {
-  var localData = Get.arguments[0]["first"];
-
   final items = [
     //1st Image of Slider
     SizedBox(
@@ -158,6 +155,6 @@ class _BenefitViewState extends State<BenefitView> {
                   child: const PromotionView()),
               SizedBox(height: 5.h)
             ]))),
-            bottomNavigationBar: Expatnav(data: localData)));
+            bottomNavigationBar: const Expatnav()));
   }
 }

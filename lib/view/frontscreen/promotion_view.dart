@@ -19,7 +19,6 @@ class PromotionView extends StatefulWidget {
 
 class _PromotionViewState extends State<PromotionView>
     with SingleTickerProviderStateMixin {
-  var localData = Get.arguments[0]["first"];
   var selectedTabIndex = 1;
   late TabController _tabController;
   String body = '';
@@ -35,7 +34,6 @@ class _PromotionViewState extends State<PromotionView>
       });
     });
     _asyncMethod();
-    printDebug("Promotion - $localData");
   }
 
   Future _asyncMethod() async {
@@ -60,7 +58,6 @@ class _PromotionViewState extends State<PromotionView>
         child: GestureDetector(
             onTap: () async {
               Get.toNamed("/front-screen/singlePromo", arguments: [
-                {"first": Get.arguments[0]["first"]},
                 {"second": instoreData[i]["id"]}
               ]);
             },
@@ -82,7 +79,6 @@ class _PromotionViewState extends State<PromotionView>
         child: GestureDetector(
             onTap: () async {
               Get.toNamed("/front-screen/singlePromo", arguments: [
-                {"first": Get.arguments[0]["first"]},
                 {"second": onlineData[i]["id"]}
               ]);
             },
@@ -206,6 +202,6 @@ class _PromotionViewState extends State<PromotionView>
                         ],
                       ))),
             ),
-            bottomNavigationBar: Expatnav(data: localData)));
+            bottomNavigationBar: const Expatnav()));
   }
 }

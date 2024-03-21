@@ -3,7 +3,6 @@ import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
 import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class TopupView extends StatefulWidget {
@@ -16,7 +15,6 @@ class TopupView extends StatefulWidget {
 }
 
 class _TopupViewState extends State<TopupView> {
-  var localData = Get.arguments[0]["first"];
   late final WebViewController wvcontroller;
   String token = "";
   int value = 0;
@@ -74,6 +72,6 @@ class _TopupViewState extends State<TopupView> {
                         height: 100.h,
                         width: 100.w,
                         child: WebViewWidget(controller: wvcontroller)))),
-            bottomNavigationBar: Expatnav(data: localData)));
+            bottomNavigationBar: const Expatnav()));
   }
 }

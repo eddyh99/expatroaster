@@ -1,11 +1,7 @@
-// import 'dart:convert';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
-// import 'package:expatroaster/utils/globalvar.dart';
 import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
-// import 'package:expatroaster/widgets/backscreens/shimmer_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class AllMenu extends StatefulWidget {
   const AllMenu({super.key});
@@ -17,8 +13,6 @@ class AllMenu extends StatefulWidget {
 }
 
 class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
-  var localData = Get.arguments[0]["first"];
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -96,7 +90,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
                           border: Border.all(
-                              color: Color.fromRGBO(114, 162, 138, 1)),
+                              color: const Color.fromRGBO(114, 162, 138, 1)),
                         ),
                         child: const Align(
                           alignment: Alignment.center,
@@ -113,7 +107,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
                           border: Border.all(
-                              color: Color.fromRGBO(114, 162, 138, 1)),
+                              color: const Color.fromRGBO(114, 162, 138, 1)),
                         ),
                         child: const Align(
                           alignment: Alignment.center,
@@ -178,7 +172,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                         right: 5.w,
                                         bottom: 2.h,
                                         left: 5.w),
-                                    child: Divider(
+                                    child: const Divider(
                                       color: Color.fromRGBO(55, 55, 55, 1),
                                     ),
                                   ),
@@ -246,7 +240,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                         right: 5.w,
                                         bottom: 2.h,
                                         left: 5.w),
-                                    child: Divider(
+                                    child: const Divider(
                                       color: Color.fromRGBO(55, 55, 55, 1),
                                     ),
                                   ),
@@ -313,7 +307,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                         right: 5.w,
                                         bottom: 2.h,
                                         left: 5.w),
-                                    child: Divider(
+                                    child: const Divider(
                                       color: Color.fromRGBO(55, 55, 55, 1),
                                     ),
                                   ),
@@ -380,7 +374,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                         right: 5.w,
                                         bottom: 2.h,
                                         left: 5.w),
-                                    child: Divider(
+                                    child: const Divider(
                                       color: Color.fromRGBO(55, 55, 55, 1),
                                     ),
                                   ),
@@ -447,7 +441,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                         right: 5.w,
                                         bottom: 2.h,
                                         left: 5.w),
-                                    child: Divider(
+                                    child: const Divider(
                                       color: Color.fromRGBO(55, 55, 55, 1),
                                     ),
                                   ),
@@ -514,7 +508,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                         right: 5.h,
                                         bottom: 2.h,
                                         left: 5.w),
-                                    child: Divider(
+                                    child: const Divider(
                                       color: Color.fromRGBO(55, 55, 55, 1),
                                     ),
                                   ),
@@ -549,7 +543,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
             ]),
           ),
         ),
-        bottomNavigationBar: Expatnav(data: localData),
+        bottomNavigationBar: const Expatnav(),
       ),
     );
   }

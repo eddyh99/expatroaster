@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:crypto/crypto.dart';
 import 'package:expatroasters/utils/extensions.dart';
@@ -73,8 +74,9 @@ class _SigninViewState extends State<SigninView> {
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.black,
         body: SafeArea(
-            child: Center(
-                child: Column(children: [
+            child: SingleChildScrollView(
+                child: Center(
+                    child: Column(children: [
           Padding(
               padding: EdgeInsets.all(30.sp),
               child: SizedBox(
@@ -284,8 +286,7 @@ class _SigninViewState extends State<SigninView> {
                                 SharedPreferences prefs =
                                     await SharedPreferences.getInstance();
                                 var url = Uri.parse("$urlapi/auth/signin");
-                                var result = await expatAPI(
-                                        url, jsonEncode(mdata))
+                                await expatAPI(url, jsonEncode(mdata))
                                     .then(
                                       (ress) => {
                                         if (context.mounted)
@@ -306,13 +307,11 @@ class _SigninViewState extends State<SigninView> {
                                                 .toString()),
                                         prefs.setBool(
                                             "_rememberme", _rememberIsChecked),
-                                        Get.toNamed("/front-screen/home",
-                                            arguments: [
-                                              {
-                                                "first":
-                                                    jsonDecode(ress)['messages']
-                                              }
-                                            ]),
+                                        prefs.setString(
+                                            "logged",
+                                            jsonEncode(
+                                                jsonDecode(ress)["messages"])),
+                                        Get.toNamed("/front-screen/home"),
                                         _signinFormKey.currentState?.reset(),
                                         _emailTextController.clear(),
                                         _passwordTextController.clear(),
@@ -320,6 +319,7 @@ class _SigninViewState extends State<SigninView> {
                                     )
                                     .catchError(
                                       (err) => {
+                                        log("100-$err"),
                                         if (context.mounted)
                                           {
                                             Navigator.pop(context),
@@ -418,6 +418,6 @@ class _SigninViewState extends State<SigninView> {
                   ),
                 ),
               ))
-        ]))));
+        ])))));
   }
 }

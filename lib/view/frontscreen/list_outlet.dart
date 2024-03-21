@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:expatroasters/utils/functions.dart';
+import 'package:expatroasters/utils/globalvar.dart';
 import 'package:flutter/material.dart';
 import 'package:expatroasters/utils/extensions.dart';
 // import 'package:get/get.dart';
@@ -12,56 +16,55 @@ class ListOutlet extends StatefulWidget {
 class _ListOutletState extends State<ListOutlet> {
   final List<String> entries = <String>['A', 'B', 'C', 'D', 'E', 'F'];
   final List<int> colorCodes = <int>[600, 500, 100, 600, 500, 400];
+  String body = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _asyncMethod();
+  }
+
+  Future _asyncMethod() async {
+    //get user detail
+    var url = Uri.parse("$urlapi/v1/promotion/get_allinstore");
+    var query = jsonDecode(await expatAPI(url, body))["messages"];
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: IconButton(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          extendBodyBehindAppBar: true,
+          backgroundColor: Colors.black,
+          appBar: AppBar(
+            leading: IconButton(
               icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
               onPressed: () => Navigator.of(context).pop(),
             ),
+            title: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: const Text("OUTLET")),
+            backgroundColor: Colors.transparent,
+            foregroundColor: Colors.white,
+            elevation: 0,
           ),
-          centerTitle: true,
-          title: const Text(
-            "LIST OUTLET",
-            style: TextStyle(color: Colors.white),
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: IconButton(
-                onPressed: () => {},
-                icon: const Icon(Icons.storefront),
-                color: Colors.white,
-                iconSize: 6.5.w,
-              ),
+          body: SafeArea(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount: entries.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  height: 200,
+                  color: Colors.amber[colorCodes[index]],
+                  margin: EdgeInsets.all(1.w),
+                  child: Center(child: Text('Entry ${entries[index]}')),
+                );
+              },
+              // separatorBuilder: (BuildContext context, int index) =>
+              //     const Divider(),
             ),
-          ],
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        backgroundColor: Colors.black,
-        body: SafeArea(
-          child: ListView.builder(
-            padding: const EdgeInsets.all(8),
-            itemCount: entries.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                height: 200,
-                color: Colors.amber[colorCodes[index]],
-                child: Center(child: Text('Entry ${entries[index]}')),
-                margin: EdgeInsets.all(1.w),
-              );
-            },
-            // separatorBuilder: (BuildContext context, int index) =>
-            //     const Divider(),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

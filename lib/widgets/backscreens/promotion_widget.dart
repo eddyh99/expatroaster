@@ -97,10 +97,6 @@ class _PromotionViewState extends State<PromotionView> {
                                             Get.toNamed(
                                                 "/front-screen/singlePromo",
                                                 arguments: [
-                                                  {
-                                                    "first": Get.arguments[0]
-                                                        ["first"]
-                                                  },
                                                   {"second": imglst[idx][1]}
                                                 ]);
                                           },

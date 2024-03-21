@@ -6,7 +6,6 @@ import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -20,8 +19,6 @@ class SettingView extends StatefulWidget {
 }
 
 class _SettingViewState extends State<SettingView> {
-  var localData = Get.arguments[0]["first"];
-
   final GlobalKey<FormState> _settingFormKey = GlobalKey<FormState>();
   final TextEditingController _nameTextController = TextEditingController();
   final TextEditingController _dobTextController = TextEditingController();

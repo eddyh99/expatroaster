@@ -1,12 +1,12 @@
 import 'package:expatroasters/utils/extensions.dart';
+import 'package:expatroasters/utils/functions.dart';
+import 'package:expatroasters/widgets/backscreens/async_widget.dart';
 import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QrcodeView extends StatefulWidget {
   const QrcodeView({super.key});
-
   @override
   State<QrcodeView> createState() {
     return _QrcodeViewState();
@@ -14,7 +14,20 @@ class QrcodeView extends StatefulWidget {
 }
 
 class _QrcodeViewState extends State<QrcodeView> {
-  var localData = Get.arguments[0]["first"];
+  String memberid = '';
+
+  Future<void> getCompany() async {
+    var name = await readPrefStr("logged");
+    setState(() {
+      memberid = name["memberid"];
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getCompany();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +64,7 @@ class _QrcodeViewState extends State<QrcodeView> {
                       "Hi",
                       style: TextStyle(color: Colors.white),
                     ),
-                    Text(
-                      localData["nama"],
-                      style: const TextStyle(
-                          color: Color.fromRGBO(114, 162, 138, 1),
-                          fontSize: 18),
-                    ),
+                    const AsyncTextWidget(pref: "logged", field: "nama"),
                     SizedBox(
                       height: 2.h,
                     ),
@@ -90,7 +98,7 @@ class _QrcodeViewState extends State<QrcodeView> {
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 2.h, vertical: 2.h),
                                     child: QrImageView(
-                                      data: localData["memberid"],
+                                      data: memberid,
                                       version: QrVersions.auto,
                                       size: 300.0,
                                     ),
@@ -100,6 +108,6 @@ class _QrcodeViewState extends State<QrcodeView> {
                 ),
               ),
             ])),
-        bottomNavigationBar: Expatnav(data: localData));
+        bottomNavigationBar: const Expatnav());
   }
 }

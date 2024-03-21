@@ -4,8 +4,7 @@ import 'package:shimmer/shimmer.dart';
 class ShimmerWidget extends StatelessWidget {
   final double tinggi;
   final double lebar;
-  const ShimmerWidget({Key? key, required this.tinggi, required this.lebar})
-      : super(key: key);
+  const ShimmerWidget({super.key, required this.tinggi, required this.lebar});
 
   @override
   Widget build(BuildContext context) {
