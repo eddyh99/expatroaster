@@ -10,6 +10,7 @@ import 'package:expatroasters/widgets/backscreens/promotion_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -26,13 +27,6 @@ class _HomeViewState extends State<HomeView> {
   String body = '';
   bool is_loading = true;
 
-  @override
-  void initState() {
-    super.initState();
-    //printDebug("100- $localData");
-    _asyncMethod();
-  }
-
   Future _asyncMethod() async {
     //get user detail
     var url = Uri.parse("$urlapi/v1/member/get_userdetail");
@@ -42,6 +36,19 @@ class _HomeViewState extends State<HomeView> {
       is_loading = false;
     });
     //printDebug(localData);
+    printDebug(const AsyncTextWidget(pref: "logged", field: "nama"));
+  }
+
+  void _readFromPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String value = prefs.getString('logged') ?? 'default value';
+    print(value);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _readFromPreferences();
   }
 
   @override

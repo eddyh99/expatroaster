@@ -20,6 +20,8 @@ class ListimageView extends StatelessWidget {
               image: DecorationImage(
                 image: image,
                 fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.3), BlendMode.darken),
               ),
             ),
             child: child,

@@ -1,7 +1,11 @@
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
+import 'package:expatroasters/utils/globalvar.dart';
 import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:get/get.dart';
+import 'package:expatroasters/widgets/backscreens/async_widget.dart';
 
 class AllMenu extends StatefulWidget {
   const AllMenu({super.key});
@@ -13,6 +17,41 @@ class AllMenu extends StatefulWidget {
 }
 
 class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
+  var idcabang = Get.arguments[0]["idcabang"];
+
+  dynamic resultData;
+  final List<dynamic> products = [];
+  bool is_loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _asyncMethod();
+    printDebug(const AsyncTextWidget(pref: "logged", field: "nama"));
+  }
+
+  Future _asyncMethod() async {
+    //get user detail
+    String body = '';
+    var url = Uri.parse("$urlapi/v1/produk/getproduk_bycabang?id=$idcabang");
+    resultData = jsonDecode(await expatAPI(url, body))["messages"];
+    printDebug(resultData);
+    for (var isi in resultData) {
+      setState(() {
+        products.add([
+          isi["id"],
+          isi["picture"],
+          isi["deskripsi"],
+          isi["nama"],
+          isi['harga'],
+          isi['kategori']
+        ]);
+        is_loading = false;
+      });
+    }
+    // resultData.map((e) => {printDebug(e.nama)}).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,7 +73,14 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
             Padding(
               padding: const EdgeInsets.only(right: 20),
               child: IconButton(
-                onPressed: () => {},
+                onPressed: () => {
+                  Get.toNamed(
+                    "/front-screen/order",
+                    arguments: [
+                      {"idcabang": idcabang},
+                    ],
+                  )
+                },
                 icon: const Icon(Icons.shopping_cart),
                 color: Colors.white,
                 iconSize: 6.5.w,
@@ -166,352 +212,376 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                       ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 0,
-                                        right: 5.w,
-                                        bottom: 2.h,
-                                        left: 5.w),
-                                    child: const Divider(
-                                      color: Color.fromRGBO(55, 55, 55, 1),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: 0,
-                                      right: 5.w,
-                                      bottom: 0,
-                                      left: 5.w,
-                                    ),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        printDebug('GO TO DETAIL MENU');
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                            'assets/images/expresso.png',
+                                  ...products.map((val) {
+                                    return Column(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 0,
+                                              right: 5.w,
+                                              bottom: 2.h,
+                                              left: 5.w),
+                                          child: const Divider(
+                                            color:
+                                                Color.fromRGBO(55, 55, 55, 1),
                                           ),
-                                          const Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                                child: Text(
-                                                  'Expresso',
-                                                  style: TextStyle(
-                                                      fontSize: 24,
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                                child: Text(
-                                                  'lorem ipsum domet',
-                                                  style: TextStyle(
-                                                    color: Color.fromRGBO(
-                                                        255, 255, 255, 0.7),
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                                child: Text(
-                                                  'Rp. 38.000',
-                                                  style: TextStyle(
-                                                      color: Color.fromRGBO(
-                                                          114, 162, 138, 1),
-                                                      fontSize: 22),
-                                                ),
-                                              ),
-                                            ],
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                            top: 0,
+                                            right: 5.w,
+                                            bottom: 0,
+                                            left: 5.w,
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 2.h,
-                                        right: 5.w,
-                                        bottom: 2.h,
-                                        left: 5.w),
-                                    child: const Divider(
-                                      color: Color.fromRGBO(55, 55, 55, 1),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: 0,
-                                      right: 5.w,
-                                      bottom: 0,
-                                      left: 5.w,
-                                    ),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        printDebug('GO TO DETAIL MENU');
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                              'assets/images/expresso.png'),
-                                          const Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                                child: Text(
-                                                  'Expresso',
-                                                  style: TextStyle(
-                                                      fontSize: 24,
-                                                      color: Colors.white),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              printDebug('GO TO DETAIL MENU');
+                                            },
+                                            child: Row(
+                                              children: [
+                                                Image.network(val[1], scale: 3),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 10),
+                                                      child: Text(
+                                                        val[3],
+                                                        style: TextStyle(
+                                                            fontSize: 24,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 10),
+                                                      child: SizedBox(
+                                                        width: 50.w,
+                                                        child: Text(
+                                                          val[2],
+                                                          overflow:
+                                                              TextOverflow.clip,
+                                                          style: TextStyle(
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    255,
+                                                                    255,
+                                                                    255,
+                                                                    0.7),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 10),
+                                                      child: Text(
+                                                        'Rp. 38.000',
+                                                        style: TextStyle(
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    114,
+                                                                    162,
+                                                                    138,
+                                                                    1),
+                                                            fontSize: 22),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                                child: Text(
-                                                  'lorem ipsum domet',
-                                                  style: TextStyle(
-                                                    color: Color.fromRGBO(
-                                                        255, 255, 255, 0.7),
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                                child: Text(
-                                                  'Rp. 38.000',
-                                                  style: TextStyle(
-                                                      color: Color.fromRGBO(
-                                                          114, 162, 138, 1),
-                                                      fontSize: 22),
-                                                ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 2.h,
-                                        right: 5.w,
-                                        bottom: 2.h,
-                                        left: 5.w),
-                                    child: const Divider(
-                                      color: Color.fromRGBO(55, 55, 55, 1),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: 0,
-                                      right: 5.w,
-                                      bottom: 0,
-                                      left: 5.w,
-                                    ),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        printDebug('GO TO DETAIL MENU');
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                              'assets/images/expresso.png'),
-                                          const Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                                child: Text(
-                                                  'Expresso',
-                                                  style: TextStyle(
-                                                      fontSize: 24,
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                                child: Text(
-                                                  'lorem ipsum domet',
-                                                  style: TextStyle(
-                                                    color: Color.fromRGBO(
-                                                        255, 255, 255, 0.7),
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                                child: Text(
-                                                  'Rp. 38.000',
-                                                  style: TextStyle(
-                                                      color: Color.fromRGBO(
-                                                          114, 162, 138, 1),
-                                                      fontSize: 22),
-                                                ),
-                                              ),
-                                            ],
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 2.h,
+                                              right: 5.w,
+                                              bottom: 2.h,
+                                              left: 5.w),
+                                          child: const Divider(
+                                            color:
+                                                Color.fromRGBO(55, 55, 55, 1),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 2.h,
-                                        right: 5.w,
-                                        bottom: 2.h,
-                                        left: 5.w),
-                                    child: const Divider(
-                                      color: Color.fromRGBO(55, 55, 55, 1),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: 0,
-                                      right: 5.w,
-                                      bottom: 0,
-                                      left: 5.w,
-                                    ),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        printDebug('GO TO DETAIL MENU');
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                              'assets/images/expresso.png'),
-                                          const Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                                child: Text(
-                                                  'Expresso',
-                                                  style: TextStyle(
-                                                      fontSize: 24,
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                                child: Text(
-                                                  'lorem ipsum domet',
-                                                  style: TextStyle(
-                                                    color: Color.fromRGBO(
-                                                        255, 255, 255, 0.7),
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                                child: Text(
-                                                  'Rp. 38.000',
-                                                  style: TextStyle(
-                                                      color: Color.fromRGBO(
-                                                          114, 162, 138, 1),
-                                                      fontSize: 22),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 2.h,
-                                        right: 5.w,
-                                        bottom: 2.h,
-                                        left: 5.w),
-                                    child: const Divider(
-                                      color: Color.fromRGBO(55, 55, 55, 1),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: 0,
-                                      right: 5.w,
-                                      bottom: 0,
-                                      left: 5.w,
-                                    ),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        printDebug('GO TO DETAIL MENU');
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                              'assets/images/expresso.png'),
-                                          const Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                                child: Text(
-                                                  'Expresso',
-                                                  style: TextStyle(
-                                                      fontSize: 24,
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                                child: Text(
-                                                  'lorem ipsum domet',
-                                                  style: TextStyle(
-                                                    color: Color.fromRGBO(
-                                                        255, 255, 255, 0.7),
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                                child: Text(
-                                                  'Rp. 38.000',
-                                                  style: TextStyle(
-                                                      color: Color.fromRGBO(
-                                                          114, 162, 138, 1),
-                                                      fontSize: 22),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 2.h,
-                                        right: 5.h,
-                                        bottom: 2.h,
-                                        left: 5.w),
-                                    child: const Divider(
-                                      color: Color.fromRGBO(55, 55, 55, 1),
-                                    ),
-                                  ),
+                                        ),
+                                      ],
+                                    );
+                                  }).toList(),
+
+                                  // Padding(
+                                  //   padding: EdgeInsets.only(
+                                  //     top: 0,
+                                  //     right: 5.w,
+                                  //     bottom: 0,
+                                  //     left: 5.w,
+                                  //   ),
+                                  //   child: GestureDetector(
+                                  //     onTap: () {
+                                  //       printDebug('GO TO DETAIL MENU');
+                                  //     },
+                                  //     child: Row(
+                                  //       children: [
+                                  //         Image.asset(
+                                  //             'assets/images/expresso.png'),
+                                  //         const Column(
+                                  //           crossAxisAlignment:
+                                  //               CrossAxisAlignment.start,
+                                  //           children: [
+                                  //             Padding(
+                                  //               padding: EdgeInsets.symmetric(
+                                  //                   horizontal: 10),
+                                  //               child: Text(
+                                  //                 'Expresso',
+                                  //                 style: TextStyle(
+                                  //                     fontSize: 24,
+                                  //                     color: Colors.white),
+                                  //               ),
+                                  //             ),
+                                  //             Padding(
+                                  //               padding: EdgeInsets.symmetric(
+                                  //                   horizontal: 10),
+                                  //               child: Text(
+                                  //                 'lorem ipsum domet',
+                                  //                 style: TextStyle(
+                                  //                   color: Color.fromRGBO(
+                                  //                       255, 255, 255, 0.7),
+                                  //                 ),
+                                  //               ),
+                                  //             ),
+                                  //             Padding(
+                                  //               padding: EdgeInsets.symmetric(
+                                  //                   horizontal: 10),
+                                  //               child: Text(
+                                  //                 'Rp. 38.000',
+                                  //                 style: TextStyle(
+                                  //                     color: Color.fromRGBO(
+                                  //                         114, 162, 138, 1),
+                                  //                     fontSize: 22),
+                                  //               ),
+                                  //             ),
+                                  //           ],
+                                  //         ),
+                                  //       ],
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  // Padding(
+                                  //   padding: EdgeInsets.only(
+                                  //       top: 2.h,
+                                  //       right: 5.w,
+                                  //       bottom: 2.h,
+                                  //       left: 5.w),
+                                  //   child: const Divider(
+                                  //     color: Color.fromRGBO(55, 55, 55, 1),
+                                  //   ),
+                                  // ),
+                                  // Padding(
+                                  //   padding: EdgeInsets.only(
+                                  //     top: 0,
+                                  //     right: 5.w,
+                                  //     bottom: 0,
+                                  //     left: 5.w,
+                                  //   ),
+                                  //   child: GestureDetector(
+                                  //     onTap: () {
+                                  //       printDebug('GO TO DETAIL MENU');
+                                  //     },
+                                  //     child: Row(
+                                  //       children: [
+                                  //         Image.asset(
+                                  //             'assets/images/expresso.png'),
+                                  //         const Column(
+                                  //           crossAxisAlignment:
+                                  //               CrossAxisAlignment.start,
+                                  //           children: [
+                                  //             Padding(
+                                  //               padding: EdgeInsets.symmetric(
+                                  //                   horizontal: 10),
+                                  //               child: Text(
+                                  //                 'Expresso',
+                                  //                 style: TextStyle(
+                                  //                     fontSize: 24,
+                                  //                     color: Colors.white),
+                                  //               ),
+                                  //             ),
+                                  //             Padding(
+                                  //               padding: EdgeInsets.symmetric(
+                                  //                   horizontal: 10),
+                                  //               child: Text(
+                                  //                 'lorem ipsum domet',
+                                  //                 style: TextStyle(
+                                  //                   color: Color.fromRGBO(
+                                  //                       255, 255, 255, 0.7),
+                                  //                 ),
+                                  //               ),
+                                  //             ),
+                                  //             Padding(
+                                  //               padding: EdgeInsets.symmetric(
+                                  //                   horizontal: 10),
+                                  //               child: Text(
+                                  //                 'Rp. 38.000',
+                                  //                 style: TextStyle(
+                                  //                     color: Color.fromRGBO(
+                                  //                         114, 162, 138, 1),
+                                  //                     fontSize: 22),
+                                  //               ),
+                                  //             ),
+                                  //           ],
+                                  //         ),
+                                  //       ],
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  // Padding(
+                                  //   padding: EdgeInsets.only(
+                                  //       top: 2.h,
+                                  //       right: 5.w,
+                                  //       bottom: 2.h,
+                                  //       left: 5.w),
+                                  //   child: const Divider(
+                                  //     color: Color.fromRGBO(55, 55, 55, 1),
+                                  //   ),
+                                  // ),
+                                  // Padding(
+                                  //   padding: EdgeInsets.only(
+                                  //     top: 0,
+                                  //     right: 5.w,
+                                  //     bottom: 0,
+                                  //     left: 5.w,
+                                  //   ),
+                                  //   child: GestureDetector(
+                                  //     onTap: () {
+                                  //       printDebug('GO TO DETAIL MENU');
+                                  //     },
+                                  //     child: Row(
+                                  //       children: [
+                                  //         Image.asset(
+                                  //             'assets/images/expresso.png'),
+                                  //         const Column(
+                                  //           crossAxisAlignment:
+                                  //               CrossAxisAlignment.start,
+                                  //           children: [
+                                  //             Padding(
+                                  //               padding: EdgeInsets.symmetric(
+                                  //                   horizontal: 10),
+                                  //               child: Text(
+                                  //                 'Expresso',
+                                  //                 style: TextStyle(
+                                  //                     fontSize: 24,
+                                  //                     color: Colors.white),
+                                  //               ),
+                                  //             ),
+                                  //             Padding(
+                                  //               padding: EdgeInsets.symmetric(
+                                  //                   horizontal: 10),
+                                  //               child: Text(
+                                  //                 'lorem ipsum domet',
+                                  //                 style: TextStyle(
+                                  //                   color: Color.fromRGBO(
+                                  //                       255, 255, 255, 0.7),
+                                  //                 ),
+                                  //               ),
+                                  //             ),
+                                  //             Padding(
+                                  //               padding: EdgeInsets.symmetric(
+                                  //                   horizontal: 10),
+                                  //               child: Text(
+                                  //                 'Rp. 38.000',
+                                  //                 style: TextStyle(
+                                  //                     color: Color.fromRGBO(
+                                  //                         114, 162, 138, 1),
+                                  //                     fontSize: 22),
+                                  //               ),
+                                  //             ),
+                                  //           ],
+                                  //         ),
+                                  //       ],
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  // Padding(
+                                  //   padding: EdgeInsets.only(
+                                  //       top: 2.h,
+                                  //       right: 5.w,
+                                  //       bottom: 2.h,
+                                  //       left: 5.w),
+                                  //   child: const Divider(
+                                  //     color: Color.fromRGBO(55, 55, 55, 1),
+                                  //   ),
+                                  // ),
+                                  // Padding(
+                                  //   padding: EdgeInsets.only(
+                                  //     top: 0,
+                                  //     right: 5.w,
+                                  //     bottom: 0,
+                                  //     left: 5.w,
+                                  //   ),
+                                  //   child: GestureDetector(
+                                  //     onTap: () {
+                                  //       printDebug('GO TO DETAIL MENU');
+                                  //     },
+                                  //     child: Row(
+                                  //       children: [
+                                  //         Image.asset(
+                                  //             'assets/images/expresso.png'),
+                                  //         const Column(
+                                  //           crossAxisAlignment:
+                                  //               CrossAxisAlignment.start,
+                                  //           children: [
+                                  //             Padding(
+                                  //               padding: EdgeInsets.symmetric(
+                                  //                   horizontal: 10),
+                                  //               child: Text(
+                                  //                 'Expresso',
+                                  //                 style: TextStyle(
+                                  //                     fontSize: 24,
+                                  //                     color: Colors.white),
+                                  //               ),
+                                  //             ),
+                                  //             Padding(
+                                  //               padding: EdgeInsets.symmetric(
+                                  //                   horizontal: 10),
+                                  //               child: Text(
+                                  //                 'lorem ipsum domet',
+                                  //                 style: TextStyle(
+                                  //                   color: Color.fromRGBO(
+                                  //                       255, 255, 255, 0.7),
+                                  //                 ),
+                                  //               ),
+                                  //             ),
+                                  //             Padding(
+                                  //               padding: EdgeInsets.symmetric(
+                                  //                   horizontal: 10),
+                                  //               child: Text(
+                                  //                 'Rp. 38.000',
+                                  //                 style: TextStyle(
+                                  //                     color: Color.fromRGBO(
+                                  //                         114, 162, 138, 1),
+                                  //                     fontSize: 22),
+                                  //               ),
+                                  //             ),
+                                  //           ],
+                                  //         ),
+                                  //       ],
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  // Padding(
+                                  //   padding: EdgeInsets.only(
+                                  //       top: 2.h,
+                                  //       right: 5.h,
+                                  //       bottom: 2.h,
+                                  //       left: 5.w),
+                                  //   child: const Divider(
+                                  //     color: Color.fromRGBO(55, 55, 55, 1),
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             ),
