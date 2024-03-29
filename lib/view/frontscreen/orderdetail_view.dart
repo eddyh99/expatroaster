@@ -44,27 +44,16 @@ class _OrderDetailViewState extends State<OrderDetailView> {
 
   @override
   Widget build(BuildContext context) {
-    wvcontroller.loadRequest(Uri.parse(
-        "$urlbase/widget/order/detail?cabang=$idcabang&produk=$idproduk"));
+    wvcontroller.loadRequest(
+      Uri.parse(
+          "$urlbase/widget/order/detail?cabang=$idcabang&produk=$idproduk"),
+    );
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.black,
-        // appBar: AppBar(
-        //   leading: IconButton(
-        //     icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-        //     onPressed: () => Navigator.of(context).pop(),
-        //   ),
-        //   centerTitle: true,
-        //   title: Padding(
-        //       padding: EdgeInsets.symmetric(horizontal: 15.w),
-        //       child: const Text("ORDER DETAIL",
-        //           style: TextStyle(color: Colors.white))),
-        //   backgroundColor: Colors.transparent,
-        //   elevation: 0,
-        // ),
         body: SafeArea(
           child: WebViewWidget(controller: wvcontroller),
         ),

@@ -18,13 +18,19 @@ class OrderView extends StatefulWidget {
 class _OrderViewState extends State<OrderView> {
   late final WebViewController wvcontroller;
   var idcabang = Get.arguments[0]["idcabang"];
-  // var idproduk = Get.arguments[1]["idproduk"];
-  // int idproduk = 6;
+  String token = "";
+  int value = 0;
 
   @override
   void initState() {
     super.initState();
-
+    bearerToken().then(
+      (value) => {
+        setState(() {
+          token = value;
+        })
+      },
+    );
     wvcontroller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
@@ -42,26 +48,14 @@ class _OrderViewState extends State<OrderView> {
 
   @override
   Widget build(BuildContext context) {
-    wvcontroller.loadRequest(Uri.parse("$urlbase/widget/order"));
+    wvcontroller.loadRequest(Uri.parse(
+        "$urlbase/widget/order/ordersummary/$token?cabang=$idcabang"));
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.black,
-        // appBar: AppBar(
-        //   leading: IconButton(
-        //     icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-        //     onPressed: () => Navigator.of(context).pop(),
-        //   ),
-        //   centerTitle: true,
-        //   title: Padding(
-        //       padding: EdgeInsets.symmetric(horizontal: 15.w),
-        //       child: const Text("ORDER DETAIL",
-        //           style: TextStyle(color: Colors.white))),
-        //   backgroundColor: Colors.transparent,
-        //   elevation: 0,
-        // ),
         body: SafeArea(
           child: WebViewWidget(controller: wvcontroller),
         ),

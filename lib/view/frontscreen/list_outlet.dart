@@ -71,22 +71,8 @@ class _ListOutletState extends State<ListOutlet> {
           ),
           body: SafeArea(
             child: (is_loading)
-                ? ListView.builder(
-                    padding: const EdgeInsets.all(8),
-                    itemCount: imglst.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        height: 28.h,
-                        margin: EdgeInsets.all(1.w),
-                        // color: Color.fromRGBO(131, 173, 152, 1),
-                        // child: Center(child: Text('Entry ${imglst[index][0]}')),
-                        child: SizedBox(
-                          height: 28.h,
-                          width: 100.w,
-                          child: ShimmerWidget(tinggi: 28.h, lebar: 100.w),
-                        ),
-                      );
-                    },
+                ? SizedBox(
+                    child: ShimmerWidget(tinggi: 100.h, lebar: 100.w),
                   )
                 : ListView.builder(
                     padding: const EdgeInsets.all(8),

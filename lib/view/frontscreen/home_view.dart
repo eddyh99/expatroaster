@@ -26,6 +26,7 @@ class _HomeViewState extends State<HomeView> {
   dynamic resultData;
   String body = '';
   bool is_loading = true;
+  String memberid = '';
 
   Future _asyncMethod() async {
     //get user detail
@@ -36,19 +37,20 @@ class _HomeViewState extends State<HomeView> {
       is_loading = false;
     });
     //printDebug(localData);
-    printDebug(const AsyncTextWidget(pref: "logged", field: "nama"));
   }
 
-  void _readFromPreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String value = prefs.getString('logged') ?? 'default value';
-    print(value);
+  Future<void> getUser() async {
+    var name = await readPrefStr("logged");
+    printDebug(name);
+    setState(() {
+      memberid = name["memberid"];
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    _readFromPreferences();
+    getUser();
   }
 
   @override
