@@ -46,7 +46,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
   Widget build(BuildContext context) {
     wvcontroller.loadRequest(
       Uri.parse(
-          "$urlbase/widget/order/detail?cabang=$idcabang&produk=$idproduk"),
+          "$urlbase/widget/order/detail?cabang=$idcabang&product=$idproduk"),
     );
 
     return MaterialApp(

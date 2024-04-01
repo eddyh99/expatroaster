@@ -181,14 +181,18 @@ class _HomeViewState extends State<HomeView> {
                                                     child: SizedBox(width: 1.w),
                                                   ),
                                                   TextSpan(
-                                                      text: (resultData == null)
-                                                          ? "0"
-                                                          : formatter.format(int
-                                                              .parse(resultData[
-                                                                  "saldo"])),
-                                                      style: const TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 16)),
+                                                    text: (resultData == null)
+                                                        ? "0"
+                                                        : formatter.format(
+                                                            int.parse(
+                                                              resultData[
+                                                                  "saldo"],
+                                                            ),
+                                                          ),
+                                                    style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 16),
+                                                  ),
                                                 ]),
                                               ),
                                               SizedBox(
