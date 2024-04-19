@@ -217,7 +217,12 @@ class _SingleoutletViewState extends State<SingleoutletView> {
                                         ),
                                       ),
                                       onPressed: () async {
-                                        Get.toNamed("/front-screen/allmenu");
+                                        Get.toNamed(
+                                          "/front-screen/allmenu",
+                                          arguments: [
+                                            {"idcabang": localid},
+                                          ],
+                                        );
                                       },
                                       child: Row(
                                         mainAxisAlignment:

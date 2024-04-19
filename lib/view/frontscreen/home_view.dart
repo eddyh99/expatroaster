@@ -10,6 +10,7 @@ import 'package:expatroasters/widgets/backscreens/promotion_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -25,13 +26,7 @@ class _HomeViewState extends State<HomeView> {
   dynamic resultData;
   String body = '';
   bool is_loading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    //printDebug("100- $localData");
-    _asyncMethod();
-  }
+  String memberid = '';
 
   Future _asyncMethod() async {
     //get user detail
@@ -42,6 +37,20 @@ class _HomeViewState extends State<HomeView> {
       is_loading = false;
     });
     //printDebug(localData);
+  }
+
+  Future<void> getUser() async {
+    var name = await readPrefStr("logged");
+    printDebug(name);
+    setState(() {
+      memberid = name["memberid"];
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
   }
 
   @override
@@ -172,14 +181,18 @@ class _HomeViewState extends State<HomeView> {
                                                     child: SizedBox(width: 1.w),
                                                   ),
                                                   TextSpan(
-                                                      text: (resultData == null)
-                                                          ? "0"
-                                                          : formatter.format(int
-                                                              .parse(resultData[
-                                                                  "saldo"])),
-                                                      style: const TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 16)),
+                                                    text: (resultData == null)
+                                                        ? "0"
+                                                        : formatter.format(
+                                                            int.parse(
+                                                              resultData[
+                                                                  "saldo"],
+                                                            ),
+                                                          ),
+                                                    style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 16),
+                                                  ),
                                                 ]),
                                               ),
                                               SizedBox(

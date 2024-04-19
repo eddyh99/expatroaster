@@ -41,11 +41,7 @@ class _OutletViewState extends State<OutletView> {
         is_loading = false;
       });
     }
-
     // log(imglst.toList().toString());
-    printDebug(imglst[1][1].toString());
-    printDebug(imglst[2][1].toString());
-    printDebug(imglst[3][1].toString());
   }
 
   @override
@@ -121,17 +117,21 @@ class _OutletViewState extends State<OutletView> {
                                             Text(
                                               imglst[idx][1],
                                               style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 10),
+                                                  color: Color.fromRGBO(
+                                                      131, 173, 152, 1),
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.w700),
                                             ),
                                             SizedBox(
-                                                width: 100.w,
-                                                child: Text(
-                                                  imglst[idx][2],
-                                                  style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 6),
-                                                ))
+                                              width: 100.w,
+                                              child: Text(
+                                                imglst[idx][2],
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 6),
+                                              ),
+                                            ),
+                                            SizedBox(height: 0.5.h),
                                           ],
                                         ),
                                       ),

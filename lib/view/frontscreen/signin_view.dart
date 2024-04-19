@@ -62,9 +62,6 @@ class _SigninViewState extends State<SigninView> {
       return "Please enter a valid email";
     }
 
-    // else if (email == null || email.isEmpty) {
-    //   return "Please enter your email";
-    // }
     return null;
   }
 
@@ -269,7 +266,7 @@ class _SigninViewState extends State<SigninView> {
                                 )),
                             onPressed: () async {
                               showLoaderDialog(context);
-                              printDebug(context.mounted);
+                              // printDebug(context.mounted);
                               if (!_signinFormKey.currentState!.validate()) {
                                 Navigator.pop(context);
                               }

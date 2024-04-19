@@ -42,8 +42,7 @@ class _OutletViewState extends State<OrderView> {
       });
     }
 
-    // log(imglst.toList().toString());
-    //printDebug(imglst[0][1].toString());
+    printDebug(imglst);
     //printDebug(imglst[2][1].toString());
     //printDebug(imglst[3][1].toString());
   }
@@ -107,10 +106,11 @@ class _OutletViewState extends State<OrderView> {
                                             shadowColor: Colors.transparent),
                                         onPressed: () async {
                                           Get.toNamed(
-                                              "/front-screen/list_outlet",
-                                              arguments: [
-                                                {"second": imglst[idx][2]}
-                                              ]);
+                                            "/front-screen/list_outlet",
+                                            arguments: [
+                                              {"second": imglst[idx][2]}
+                                            ],
+                                          );
                                         },
                                         child: Column(
                                           crossAxisAlignment:
@@ -118,20 +118,25 @@ class _OutletViewState extends State<OrderView> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.end,
                                           children: [
-                                            Text(
-                                              imglst[idx][1],
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 10),
-                                            ),
                                             SizedBox(
-                                                width: 100.w,
-                                                child: Text(
-                                                  imglst[idx][2],
-                                                  style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 6),
-                                                ))
+                                              width: 100.w,
+                                              child: Text(
+                                                imglst[idx][1],
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 16),
+                                              ),
+                                            ),
+                                            SizedBox(height: 1.h),
+                                            // SizedBox(
+                                            //   width: 100.w,
+                                            //   child: Text(
+                                            //     imglst[idx][2],
+                                            //     style: const TextStyle(
+                                            //         color: Colors.white,
+                                            //         fontSize: 6),
+                                            //   ),
+                                            // )
                                           ],
                                         ),
                                       ),
