@@ -62,9 +62,6 @@ class _SigninViewState extends State<SigninView> {
       return "Please enter a valid email";
     }
 
-    // else if (email == null || email.isEmpty) {
-    //   return "Please enter your email";
-    // }
     return null;
   }
 
