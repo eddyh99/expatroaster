@@ -1,4 +1,4 @@
-package com.example.expatroasters
+package com.example.expatroaster
 
 import io.flutter.embedding.android.FlutterActivity
 

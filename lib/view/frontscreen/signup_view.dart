@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SignupView extends StatefulWidget {
-  const SignupView({Key? key}) : super(key: key);
+  const SignupView({super.key});
 
   @override
   State<SignupView> createState() {
@@ -60,30 +60,6 @@ class _SignupViewState extends State<SignupView> {
         });
       }
     }
-  }
-
-  showLoaderDialog(BuildContext context) {
-    AlertDialog alert = AlertDialog(
-      backgroundColor: const Color.fromRGBO(30, 30, 30, 1),
-      content: SizedBox(
-          height: 9.h,
-          child: const Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                      Color.fromRGBO(114, 162, 138, 1))),
-            ],
-          )),
-    );
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
   }
 
   @override
@@ -264,7 +240,7 @@ class _SignupViewState extends State<SignupView> {
                             var url = Uri.parse("$urlapi/auth/register");
                             var result = jsonDecode(
                                 await expatAPI(url, jsonEncode(mdata)));
-                            if (result["code"] == "200") {
+                            if (result["status"] == 200) {
                               if (context.mounted) {
                                 Navigator.pop(context);
                                 _signupFormKey.currentState?.reset();
@@ -272,13 +248,17 @@ class _SignupViewState extends State<SignupView> {
                                     arguments: [_emailTextController.text]);
                               }
                             } else {
-                              var psnerror = result["message"];
+                              var psnerror = result["messages"]["error"];
                               if (context.mounted) {
                                 Navigator.pop(context);
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
-                                  content: Text(psnerror),
-                                  backgroundColor: Colors.deepOrange,
+                                  content: Text(
+                                    psnerror,
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                  backgroundColor:
+                                      const Color.fromRGBO(114, 162, 138, 1),
                                 ));
                               }
                             }

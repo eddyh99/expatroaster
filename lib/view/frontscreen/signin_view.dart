@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:crypto/crypto.dart';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
@@ -283,98 +281,67 @@ class _SigninViewState extends State<SigninView> {
                                 SharedPreferences prefs =
                                     await SharedPreferences.getInstance();
                                 var url = Uri.parse("$urlapi/auth/signin");
-                                await expatAPI(url, jsonEncode(mdata))
-                                    .then(
-                                      (ress) => {
-                                        if (context.mounted)
-                                          {
-                                            Navigator.pop(context),
-                                          },
-                                        // List data = jsonDecode(ress),
-                                        printDebug(
-                                            jsonDecode(ress)['messages']),
-                                        prefs.setString(
-                                            "email", _emailTextController.text),
-                                        prefs.setString(
-                                            "passwd",
-                                            sha1
-                                                .convert(utf8.encode(
-                                                    _passwordTextController
-                                                        .text))
-                                                .toString()),
-                                        prefs.setBool(
-                                            "_rememberme", _rememberIsChecked),
-                                        prefs.setString(
-                                            "logged",
-                                            jsonEncode(
-                                                jsonDecode(ress)["messages"])),
-                                        Get.toNamed("/front-screen/home"),
-                                        _signinFormKey.currentState?.reset(),
-                                        _emailTextController.clear(),
-                                        _passwordTextController.clear(),
-                                      },
-                                    )
-                                    .catchError(
-                                      (err) => {
-                                        log("100-$err"),
-                                        if (context.mounted)
-                                          {
-                                            Navigator.pop(context),
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              const SnackBar(
-                                                content: Text(
-                                                    "Invalid Email or Password!"),
-                                              ),
-                                            ),
-                                          },
-                                      },
-                                    );
+                                var result = jsonDecode(
+                                    await expatAPI(url, jsonEncode(mdata)));
+                                printDebug(result["messages"]["pin"]);
+                                if (result["status"] == 200) {
+                                  if (context.mounted) {
+                                    Navigator.pop(context);
+                                    prefs.setString(
+                                        "email", _emailTextController.text);
+                                    prefs.setString(
+                                        "passwd",
+                                        sha1
+                                            .convert(utf8.encode(
+                                                _passwordTextController.text))
+                                            .toString());
+                                    prefs.setBool(
+                                        "_rememberme", _rememberIsChecked);
+                                    prefs.setString("logged",
+                                        jsonEncode(result["messages"]));
+                                    if (result["messages"]["pin"]?.isEmpty) {
+                                      Get.toNamed("/front-screen/createpin");
+                                    } else {
+                                      Get.toNamed("/front-screen/home");
+                                      _signinFormKey.currentState?.reset();
+                                      _emailTextController.clear();
+                                      _passwordTextController.clear();
+                                    }
+                                  }
+                                } else {
+                                  var psnerror = result["messages"]["error"];
 
-                                // Get.toNamed("/front-screen/home", arguments: [
-                                //   {"first": result["messages"]}
-                                // ]);
-                                // _signinFormKey.currentState?.reset();
-                                // _emailTextController.clear();
-                                // _passwordTextController.clear();
-
-                                // printDebug(result);
-                                // if (result["status"] == "400") {
-                                //   var psnerror = result["messages"]['email'];
-                                //   // printDebug(psnerror);
-                                // if (context.mounted) {
-                                //   Navigator.pop(context);
-                                //   ScaffoldMessenger.of(context)
-                                //       .showSnackBar(SnackBar(
-                                //     content: Text(psnerror),
-                                //     backgroundColor:
-                                //         const Color.fromARGB(255, 0, 111, 85),
-                                //   ));
-                                // }
-                                // } else {
-                                //   if (context.mounted) {
-                                //     Navigator.pop(context);
-                                //   }
-                                //   SharedPreferences prefs =
-                                //       await SharedPreferences.getInstance();
-                                //   prefs.setString(
-                                //       "email", _emailTextController.text);
-                                //   prefs.setString(
-                                //       "passwd",
-                                //       sha1
-                                //           .convert(utf8.encode(
-                                //               _passwordTextController.text))
-                                //           .toString());
-                                //   prefs.setBool(
-                                //       "_rememberme", _rememberIsChecked);
-
-                                //   Get.toNamed("/front-screen/home", arguments: [
-                                //     {"first": result["messages"]}
-                                //   ]);
-                                //   _signinFormKey.currentState?.reset();
-                                //   _emailTextController.clear();
-                                //   _passwordTextController.clear();
-                                // }
+                                  printDebug(
+                                      "100 - " + _emailTextController.text);
+                                  if (result["error"] == "03") {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Text(
+                                        psnerror,
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                      ),
+                                      backgroundColor: const Color.fromRGBO(
+                                          114, 162, 138, 1),
+                                    ));
+                                    Get.toNamed("/front-screen/confirm",
+                                        arguments: [_emailTextController.text]);
+                                  } else {
+                                    if (context.mounted) {
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: Text(
+                                          psnerror,
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        ),
+                                        backgroundColor: const Color.fromRGBO(
+                                            114, 162, 138, 1),
+                                      ));
+                                    }
+                                  }
+                                }
                               }
                             },
                             child: const Text("Sign In")),

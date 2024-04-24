@@ -71,7 +71,7 @@ class _CompleteViewState extends State<CompleteView> {
                         height: 5.h,
                       ),
                       SizedBox(
-                        width: 40.w,
+                        width: 60.w,
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor:
@@ -80,9 +80,13 @@ class _CompleteViewState extends State<CompleteView> {
                                   borderRadius: BorderRadius.circular(18.0),
                                 )),
                             onPressed: () async {
-                              Get.toNamed("/front-screen/signin");
+                              Get.toNamed("/front-screen/confirm",
+                                  arguments: [localData]);
                             },
-                            child: const Text("Sign in")),
+                            child: const Text(
+                              "CONFIRMATION CODE",
+                              style: TextStyle(color: Colors.white),
+                            )),
                       ),
                     ],
                   )))),

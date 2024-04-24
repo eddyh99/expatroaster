@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
+import 'package:expatroasters/utils/extensions.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -59,13 +61,34 @@ Future<String> expatAPI(Uri url, String body) async {
   }
 
   Response response = await post(url, headers: headers, body: body);
-  if (response.statusCode != 200) {
-    throw response.body;
-  }
   return response.body;
 }
 
 readPrefStr(String key) async {
   final SharedPreferences pref = await SharedPreferences.getInstance();
   return jsonDecode(pref.getString(key)!);
+}
+
+showLoaderDialog(BuildContext context) {
+  AlertDialog alert = AlertDialog(
+    backgroundColor: const Color.fromRGBO(30, 30, 30, 1),
+    content: SizedBox(
+        height: 9.h,
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                    Color.fromRGBO(114, 162, 138, 1))),
+          ],
+        )),
+  );
+  showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

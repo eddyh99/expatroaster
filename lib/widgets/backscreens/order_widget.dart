@@ -26,25 +26,6 @@ class _OutletViewState extends State<OrderView> {
   @override
   void initState() {
     super.initState();
-    _asyncMethod();
-  }
-
-  Future _asyncMethod() async {
-    //get user detail
-    String body = '';
-    var url = Uri.parse("$urlapi/v1/produk/favproduk");
-    resultData = jsonDecode(await expatAPI(url, body))["messages"];
-    //printDebug(resultData);
-    for (var isi in resultData) {
-      setState(() {
-        imglst.add([isi["picture"], isi["nama"], isi["id"]]);
-        is_loading = false;
-      });
-    }
-
-    printDebug(imglst);
-    //printDebug(imglst[2][1].toString());
-    //printDebug(imglst[3][1].toString());
   }
 
   @override

@@ -2,6 +2,8 @@ import 'package:expatroasters/view/frontscreen/about_view.dart';
 import 'package:expatroasters/view/frontscreen/all_menu.dart';
 import 'package:expatroasters/view/frontscreen/benefit_view.dart';
 import 'package:expatroasters/view/frontscreen/complete_view.dart';
+import 'package:expatroasters/view/frontscreen/confirmation_view.dart';
+import 'package:expatroasters/view/frontscreen/createpin_view.dart';
 import 'package:expatroasters/view/frontscreen/getstarted_view.dart';
 import 'package:expatroasters/view/frontscreen/home_view.dart';
 import 'package:expatroasters/view/frontscreen/list_outlet.dart';
@@ -74,6 +76,16 @@ class MyApp extends StatelessWidget {
             name: '/front-screen/register',
             page: () => const SignupView(),
             transition: Transition.leftToRight,
+          ),
+          GetPage(
+            name: '/front-screen/confirm',
+            page: () => const ConfirmationView(),
+            transition: Transition.noTransition,
+          ),
+          GetPage(
+            name: '/front-screen/createpin',
+            page: () => const PinView(),
+            transition: Transition.noTransition,
           ),
           GetPage(
             name: '/front-screen/signin',
