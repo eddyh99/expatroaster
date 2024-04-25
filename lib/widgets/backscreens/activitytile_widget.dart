@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class ActivityTile extends StatelessWidget {
   const ActivityTile({
-    Key? key,
+    super.key,
     required this.titleText,
     required this.subtitleText,
     this.margin,
     this.padding,
     this.height,
     this.width,
-  }) : super(key: key);
+  });
 
   final String titleText;
   final String subtitleText;

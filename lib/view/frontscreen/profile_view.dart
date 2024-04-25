@@ -31,7 +31,7 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   Future _asyncMethod() async {
-    var url = Uri.parse("$urlapi/v1/member/get_userdetail");
+    var url = Uri.parse("$urlapi/v1/member/mobile/get_userdetail");
     var query = jsonDecode(await expatAPI(url, body))["message"];
     //printDebug(query);
     if (query != null) {
@@ -297,6 +297,6 @@ class _ProfileViewState extends State<ProfileView> {
             )
           ])),
         ),
-        bottomNavigationBar: const Expatnav());
+        bottomNavigationBar: const Expatnav(pos: 3));
   }
 }

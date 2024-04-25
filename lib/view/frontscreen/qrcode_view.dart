@@ -108,6 +108,6 @@ class _QrcodeViewState extends State<QrcodeView> {
                 ),
               ),
             ])),
-        bottomNavigationBar: const Expatnav());
+        bottomNavigationBar: const Expatnav(pos: 1));
   }
 }

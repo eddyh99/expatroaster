@@ -7,7 +7,6 @@ import 'package:expatroasters/utils/globalvar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class EnterpinView extends StatefulWidget {
   const EnterpinView({super.key});

@@ -1,12 +1,9 @@
-import 'dart:convert';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
 import 'package:expatroasters/widgets/backscreens/async_widget.dart';
 import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:expatroasters/widgets/backscreens/order_widget.dart';
-import 'package:expatroasters/widgets/backscreens/outlet_widget.dart';
-import 'package:expatroasters/widgets/backscreens/promotion_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -123,7 +120,7 @@ class _HomeViewState extends State<HomeView> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                "Hi",
+                                                "Hi,",
                                                 style: TextStyle(
                                                     color: Colors.white),
                                               ),
@@ -258,6 +255,6 @@ class _HomeViewState extends State<HomeView> {
             height: 5.h,
           )
         ]))),
-        bottomNavigationBar: const Expatnav());
+        bottomNavigationBar: const Expatnav(pos: 0));
   }
 }
