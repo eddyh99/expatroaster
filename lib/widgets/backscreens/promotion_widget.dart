@@ -32,7 +32,7 @@ class _PromotionViewState extends State<PromotionView> {
   Future _asyncMethod() async {
     //get user detail
     String body = '';
-    var url = Uri.parse("$urlapi/v1/promotion/get_allpromo");
+    var url = Uri.parse("$urlapi/v1/mobile/promotion/get_allpromo");
     resultData = jsonDecode(await expatAPI(url, body))['messages'];
     // printDebug(resultData);
     for (var isi in resultData) {

@@ -4,6 +4,7 @@ import 'package:expatroasters/view/frontscreen/benefit_view.dart';
 import 'package:expatroasters/view/frontscreen/complete_view.dart';
 import 'package:expatroasters/view/frontscreen/confirmation_view.dart';
 import 'package:expatroasters/view/frontscreen/createpin_view.dart';
+import 'package:expatroasters/view/frontscreen/enterpin_view.dart';
 import 'package:expatroasters/view/frontscreen/getstarted_view.dart';
 import 'package:expatroasters/view/frontscreen/home_view.dart';
 import 'package:expatroasters/view/frontscreen/list_outlet.dart';
@@ -85,6 +86,11 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: '/front-screen/createpin',
             page: () => const PinView(),
+            transition: Transition.noTransition,
+          ),
+          GetPage(
+            name: '/front-screen/enterpin',
+            page: () => const EnterpinView(),
             transition: Transition.noTransition,
           ),
           GetPage(

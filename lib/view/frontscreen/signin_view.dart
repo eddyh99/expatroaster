@@ -283,7 +283,7 @@ class _SigninViewState extends State<SigninView> {
                                 var url = Uri.parse("$urlapi/auth/signin");
                                 var result = jsonDecode(
                                     await expatAPI(url, jsonEncode(mdata)));
-                                printDebug(result["messages"]["pin"]);
+                                //printDebug(result["messages"]["pin"]);
                                 if (result["status"] == 200) {
                                   if (context.mounted) {
                                     Navigator.pop(context);
@@ -302,7 +302,7 @@ class _SigninViewState extends State<SigninView> {
                                     if (result["messages"]["pin"]?.isEmpty) {
                                       Get.toNamed("/front-screen/createpin");
                                     } else {
-                                      Get.toNamed("/front-screen/home");
+                                      Get.toNamed("/front-screen/enterpin");
                                       _signinFormKey.currentState?.reset();
                                       _emailTextController.clear();
                                       _passwordTextController.clear();

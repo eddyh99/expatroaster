@@ -84,6 +84,7 @@ showLoaderDialog(BuildContext context) {
           ],
         )),
   );
+
   showDialog(
     barrierDismissible: false,
     context: context,
@@ -91,4 +92,14 @@ showLoaderDialog(BuildContext context) {
       return alert;
     },
   );
+}
+
+showAlert(String value, BuildContext context) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Text(
+      value,
+      style: const TextStyle(color: Colors.white),
+    ),
+    backgroundColor: const Color.fromRGBO(114, 162, 138, 1),
+  ));
 }

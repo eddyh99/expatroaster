@@ -16,7 +16,7 @@ class AsyncTextWidget extends StatelessWidget {
         if (snapshot.hasData) {
           var data = snapshot.data as dynamic;
           return Text(
-            data[field],
+            data[field].isEmpty ? "00" : data[field],
             style: const TextStyle(
               color: Color.fromRGBO(114, 162, 138, 1),
             ),

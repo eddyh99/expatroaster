@@ -27,36 +27,11 @@ class _EnterpinViewState extends State<EnterpinView> {
   final TextEditingController pin5 = TextEditingController();
   final TextEditingController pin6 = TextEditingController();
 
-  Future<void> _checkpin() async {
-    if (_confirmFormKey.currentState!.validate()) {
-      showLoaderDialog(context);
-      Map<String, dynamic> mdata;
-      mdata = {
-        'pin': sha1
-            .convert(utf8.encode(pin1.text +
-                pin2.text +
-                pin3.text +
-                pin4.text +
-                pin5.text +
-                pin6.text))
-            .toString(),
-      };
-      var url = Uri.parse("$urlapi/v1/mobile/member/check_pin");
-      var result = jsonDecode(await expatAPI(url, jsonEncode(mdata)));
-      printDebug(result);
-      if (result["status"] == 200) {}
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () => Get.toNamed("/front-screen/signin"),
-        ),
         backgroundColor: Colors.black,
       ),
       body: SafeArea(
@@ -119,9 +94,9 @@ class _EnterpinViewState extends State<EnterpinView> {
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return "Please enter your PIN";
+                                  return;
                                 }
-                                return null;
+                                return;
                               },
                             )),
                         SizedBox(
@@ -171,7 +146,7 @@ class _EnterpinViewState extends State<EnterpinView> {
                                 if (value == null || value.isEmpty) {
                                   return;
                                 }
-                                return null;
+                                return;
                               },
                             )),
                         SizedBox(
@@ -221,7 +196,7 @@ class _EnterpinViewState extends State<EnterpinView> {
                                 if (value == null || value.isEmpty) {
                                   return;
                                 }
-                                return null;
+                                return;
                               },
                             )),
                         SizedBox(
@@ -271,7 +246,7 @@ class _EnterpinViewState extends State<EnterpinView> {
                                 if (value == null || value.isEmpty) {
                                   return;
                                 }
-                                return null;
+                                return;
                               },
                             )),
                         SizedBox(
@@ -321,7 +296,7 @@ class _EnterpinViewState extends State<EnterpinView> {
                                 if (value == null || value.isEmpty) {
                                   return;
                                 }
-                                return null;
+                                return;
                               },
                             )),
                         SizedBox(
@@ -371,7 +346,7 @@ class _EnterpinViewState extends State<EnterpinView> {
                                 if (value == null || value.isEmpty) {
                                   return;
                                 }
-                                return null;
+                                return;
                               },
                             )),
                       ],
@@ -397,6 +372,7 @@ class _EnterpinViewState extends State<EnterpinView> {
                               }
 
                               if (_confirmFormKey.currentState!.validate()) {
+                                showLoaderDialog(context);
                                 Map<String, dynamic> mdata;
                                 mdata = {
                                   'pin': sha1
@@ -409,47 +385,26 @@ class _EnterpinViewState extends State<EnterpinView> {
                                       .toString(),
                                 };
                                 var url = Uri.parse(
-                                    "$urlapi/v1/mobile/member/update_pin");
+                                    "$urlapi/v1/mobile/member/check_pin");
                                 var result = jsonDecode(
                                     await expatAPI(url, jsonEncode(mdata)));
                                 if (result["status"] == 200) {
                                   if (context.mounted) {
                                     Navigator.pop(context);
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(const SnackBar(
-                                      content: Text(
-                                        "Your PIN has been successfully created, please relogin again",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      backgroundColor:
-                                          Color.fromRGBO(114, 162, 138, 1),
-                                    ));
                                     _confirmFormKey.currentState?.reset();
-                                    SharedPreferences preferences =
-                                        await SharedPreferences.getInstance();
-                                    await preferences.clear();
-                                    Get.toNamed("/front-screen/signin");
+                                    Get.toNamed("/front-screen/home");
                                   }
                                 } else {
-                                  var psnerror = result["messages"]["error"];
+                                  var error = result["error"];
                                   if (context.mounted) {
                                     Navigator.pop(context);
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(SnackBar(
-                                      content: Text(
-                                        psnerror,
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                      ),
-                                      backgroundColor: const Color.fromRGBO(
-                                          114, 162, 138, 1),
-                                    ));
+                                    showAlert(error, context);
                                   }
                                 }
                               }
                             },
                             child: const Text(
-                              "Create PIN",
+                              "Submit PIN",
                               style: TextStyle(color: Colors.white),
                             ),
                           )))

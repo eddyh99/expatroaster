@@ -1,4 +1,3 @@
-import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
 // import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';

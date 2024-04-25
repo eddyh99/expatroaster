@@ -27,29 +27,15 @@ class _HomeViewState extends State<HomeView> {
   bool is_loading = true;
   String memberid = '';
 
-  Future _asyncMethod() async {
-    //get user detail
-    var url = Uri.parse("$urlapi/v1/member/get_userdetail");
-    var query = jsonDecode(await expatAPI(url, body))["messages"];
-    setState(() {
-      resultData = query;
-      is_loading = false;
-    });
-    //printDebug(localData);
-  }
-
-  Future<void> getUser() async {
-    var name = await readPrefStr("logged");
-    printDebug(name);
-    setState(() {
-      memberid = name["memberid"];
-    });
+  Future<dynamic> getData() async {
+    var data = await readPrefStr("logged");
+    printDebug(data);
   }
 
   @override
   void initState() {
     super.initState();
-    getUser();
+    getData();
   }
 
   @override
@@ -267,13 +253,7 @@ class _HomeViewState extends State<HomeView> {
                   ],
                 ),
               ])),
-          Padding(
-              padding: EdgeInsets.only(top: 2.h), child: const OutletView()),
-          SizedBox(height: 2.h),
           Padding(padding: EdgeInsets.only(top: 2.h), child: const OrderView()),
-          SizedBox(height: 2.h),
-          Padding(
-              padding: EdgeInsets.only(top: 2.h), child: const PromotionView()),
           SizedBox(
             height: 5.h,
           )
