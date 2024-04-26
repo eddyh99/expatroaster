@@ -116,12 +116,7 @@ class _SignupViewState extends State<SignupView> {
                             ),
                             hintText: 'Enter your email',
                           ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please enter your email address";
-                            }
-                            return null;
-                          },
+                          validator: validateEmail,
                         ),
                       ],
                     ),

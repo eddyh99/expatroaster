@@ -24,45 +24,6 @@ class _SigninViewState extends State<SigninView> {
   bool _rememberIsChecked = false;
   bool _passwordVisible = false;
 
-  showLoaderDialog(BuildContext context) {
-    AlertDialog alert = AlertDialog(
-      backgroundColor: const Color.fromRGBO(30, 30, 30, 1),
-      content: SizedBox(
-          height: 9.h,
-          child: const Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                      Color.fromRGBO(114, 162, 138, 1))),
-            ],
-          )),
-    );
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  String? validateEmail(String? email) {
-    RegExp emailRegex = RegExp(r'^[\w\.-]+@[\w-]+\.\w{2,3}(\.\w{2,3})?$');
-    final isEmailValid = emailRegex.hasMatch(email ?? '');
-
-    // Navigator.pop(context);
-    if (email == null || email.isEmpty) {
-      return "Please enter your email";
-    }
-    if (!isEmailValid) {
-      return "Please enter a valid email";
-    }
-
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

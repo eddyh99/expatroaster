@@ -6,20 +6,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:email_validator/email_validator.dart';
 
 void printDebug(Object object) {
   if (kDebugMode) {
     print(object);
   }
 }
-
-// Future<bool> openMailApp() async {
-//   var result = await OpenMailApp.openMailApp();
-//   if (!result.canOpen && !result.didOpen) {
-//     return false;
-//   }
-//   return true;
-// }
 
 int randomNumber() {
   int min = 1000;
@@ -102,4 +95,19 @@ showAlert(String value, BuildContext context) {
     ),
     backgroundColor: const Color.fromRGBO(114, 162, 138, 1),
   ));
+}
+
+String? validateEmail(String? email) {
+  dynamic isValid = EmailValidator.validate('$email');
+
+  // Navigator.pop(context);
+  if (email == null || email.isEmpty) {
+    return "Please enter your email";
+  }
+
+  if (!isValid) {
+    return "Please enter a valid email";
+  }
+
+  return null;
 }
