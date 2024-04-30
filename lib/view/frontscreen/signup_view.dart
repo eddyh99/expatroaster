@@ -3,8 +3,10 @@ import 'package:crypto/crypto.dart';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
+import 'package:expatroasters/widgets/backscreens/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SignupView extends StatefulWidget {
   const SignupView({super.key});
@@ -72,11 +74,32 @@ class _SignupViewState extends State<SignupView> {
                 child: Center(
                     child: Column(children: [
           Padding(
-              padding: EdgeInsets.all(30.sp),
-              child: SizedBox(
-                height: 10.h,
-                child: Image.asset("assets/images/logo.png"),
-              )),
+            padding: EdgeInsets.all(30.sp),
+            child: SizedBox(
+              height: 10.h,
+              child: Image.asset("assets/images/logo.png"),
+            ),
+          ),
+          SizedBox(
+            width: 80.w,
+            child: Divider(
+              color: Colors.white,
+            ),
+          ),
+          SizedBox(
+            height: 1.h,
+          ),
+          Text(
+            "Sign Up",
+            style: TextStyle(
+                fontFamily: GoogleFonts.lora().fontFamily,
+                color: Color.fromRGBO(114, 162, 138, 1),
+                fontSize: 26,
+                fontWeight: FontWeight.w800),
+          ),
+          SizedBox(
+            height: 3.h,
+          ),
           Form(
             key: _signupFormKey,
             child: Center(
@@ -93,7 +116,7 @@ class _SignupViewState extends State<SignupView> {
                           padding: EdgeInsets.symmetric(vertical: 0.5.h),
                           child: const Text(
                             "Email Address",
-                            style: TextStyle(color: Colors.white, fontSize: 10),
+                            style: TextStyle(color: Colors.white, fontSize: 12),
                           ),
                         ),
                         SizedBox(height: 1.h),
@@ -107,10 +130,10 @@ class _SignupViewState extends State<SignupView> {
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
                                   color: Colors.grey, width: 0.0),
-                              borderRadius: BorderRadius.circular(15.0),
+                              borderRadius: BorderRadius.circular(8.0),
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15.0),
+                              borderRadius: BorderRadius.circular(8.0),
                               borderSide: const BorderSide(
                                   color: Colors.grey, width: 0.0),
                             ),
@@ -133,7 +156,7 @@ class _SignupViewState extends State<SignupView> {
                               padding: EdgeInsets.symmetric(vertical: 0.5.h),
                               child: const Text("Password",
                                   style: TextStyle(
-                                      color: Colors.white, fontSize: 10)),
+                                      color: Colors.white, fontSize: 12)),
                             ),
                             SizedBox(height: 1.h),
                             TextFormField(
@@ -162,10 +185,10 @@ class _SignupViewState extends State<SignupView> {
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
                                       color: Colors.grey, width: 0.0),
-                                  borderRadius: BorderRadius.circular(15.0),
+                                  borderRadius: BorderRadius.circular(8.0),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
+                                  borderRadius: BorderRadius.circular(8.0),
                                   borderSide: const BorderSide(
                                       color: Colors.grey, width: 0.0),
                                 ),
@@ -208,116 +231,115 @@ class _SignupViewState extends State<SignupView> {
                     ),
                   ),
                   SizedBox(
-                    height: 5.h,
+                    height: 6.h,
                   ),
                   SizedBox(
-                    width: 80.w,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromRGBO(114, 162, 138, 1),
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                            )),
-                        onPressed: () async {
-                          showLoaderDialog(context);
-                          if (_signupFormKey.currentState!.validate()) {
-                            Map<String, dynamic> mdata;
-                            mdata = {
-                              'email': _emailTextController.text,
-                              'passwd': sha1
-                                  .convert(
-                                      utf8.encode(_passwordTextController.text))
-                                  .toString()
-                            };
-                            printDebug(jsonEncode(mdata));
-                            var url = Uri.parse("$urlapi/auth/register");
-                            var result = jsonDecode(
-                                await expatAPI(url, jsonEncode(mdata)));
-                            if (result["status"] == 200) {
-                              if (context.mounted) {
-                                Navigator.pop(context);
-                                _signupFormKey.currentState?.reset();
-                                Get.toNamed("/front-screen/completeregister",
-                                    arguments: [_emailTextController.text]);
-                              }
-                            } else {
-                              var psnerror = result["messages"]["error"];
-                              if (context.mounted) {
-                                Navigator.pop(context);
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
-                                  content: Text(
-                                    psnerror,
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                  backgroundColor:
-                                      const Color.fromRGBO(114, 162, 138, 1),
-                                ));
-                              }
+                    child: ButtonWidget(
+                      name: "btnPrimaryLigth",
+                      text: "Create Account",
+                      boxsize: '80',
+                      onTap: () async {
+                        showLoaderDialog(context);
+                        if (_signupFormKey.currentState!.validate()) {
+                          Map<String, dynamic> mdata;
+                          mdata = {
+                            'email': _emailTextController.text,
+                            'passwd': sha1
+                                .convert(
+                                    utf8.encode(_passwordTextController.text))
+                                .toString()
+                          };
+                          printDebug(jsonEncode(mdata));
+                          var url = Uri.parse("$urlapi/auth/register");
+                          var result = jsonDecode(
+                              await expatAPI(url, jsonEncode(mdata)));
+                          if (result["status"] == 200) {
+                            if (context.mounted) {
+                              Navigator.pop(context);
+                              _signupFormKey.currentState?.reset();
+                              Get.toNamed("/front-screen/completeregister",
+                                  arguments: [_emailTextController.text]);
+                            }
+                          } else {
+                            var psnerror = result["messages"]["error"];
+                            if (context.mounted) {
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text(
+                                  psnerror,
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                backgroundColor:
+                                    const Color.fromRGBO(114, 162, 138, 1),
+                              ));
                             }
                           }
-                        },
-                        child: const Text("Create Account")),
+                        }
+                      },
+                    ),
                   ),
                   SizedBox(
                     height: 1.h,
                   ),
                   SizedBox(
-                      child: Row(
-                    children: [
-                      Transform.scale(
-                          scale: 0.7,
-                          child: Checkbox(
-                              side: const BorderSide(
-                                color: Colors.grey,
-                                width: 1,
-                              ),
-                              value: _termIsChecked,
-                              checkColor: Colors.white,
-                              activeColor: Colors.red,
-                              onChanged: ((value) {
-                                setState(() {
-                                  _termIsChecked = value == true ? true : false;
-                                });
-                              }))),
-                      SizedBox(
-                        width: 80.w,
-                        child: const Text(
-                          "I would like to receive your newsletter and other promotional information.",
-                          style: TextStyle(fontSize: 10, color: Colors.white),
+                    width: 80.w,
+                    child: Row(
+                      children: [
+                        Transform.scale(
+                            scale: 0.7,
+                            child: Checkbox(
+                                side: const BorderSide(
+                                  color: Colors.grey,
+                                  width: 1,
+                                ),
+                                value: _termIsChecked,
+                                checkColor: Colors.white,
+                                activeColor: Colors.red,
+                                onChanged: ((value) {
+                                  setState(() {
+                                    _termIsChecked =
+                                        value == true ? true : false;
+                                  });
+                                }))),
+                        SizedBox(
+                          width: 60.w,
+                          child: const Text(
+                            "I would like to receive your newsletter and other promotional information.",
+                            style: TextStyle(fontSize: 10, color: Colors.white),
+                          ),
                         ),
-                      ),
-                    ],
-                  )),
+                      ],
+                    ),
+                  ),
                   SizedBox(
-                    height: 17.h,
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          const Text(
-                            "Do you have already an account?",
-                            style: TextStyle(color: Colors.white, fontSize: 10),
-                          ),
-                          SizedBox(
-                            width: 90.w,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      const Color.fromRGBO(25, 25, 25, 1),
-                                  foregroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18.0),
-                                  )),
-                              onPressed: () {
-                                Get.toNamed("/front-screen/signin");
-                              },
-                              child: const Text("Sign in"),
-                            ),
-                          ),
-                        ]),
-                  )
+                    height: 4.h,
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "Do you have already an account?",
+                          style: TextStyle(color: Colors.white, fontSize: 10),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 1.h,
+                  ),
+                  SizedBox(
+                    child: ButtonWidget(
+                      name: "btnSecondary",
+                      text: "Sign Up",
+                      boxsize: '80',
+                      onTap: () {
+                        Get.toNamed("/front-screen/register");
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
                 ],
               ),
             ),

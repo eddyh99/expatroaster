@@ -1,7 +1,11 @@
 import 'package:expatroasters/utils/extensions.dart';
+import 'package:expatroasters/utils/functions.dart';
+import 'package:expatroasters/utils/globalvar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class GetstartedView extends StatefulWidget {
@@ -13,14 +17,67 @@ class GetstartedView extends StatefulWidget {
   }
 }
 
-Future<void> _launchInWebViewOrVC(Uri url) async {
-  if (!await launchUrl(url, mode: LaunchMode.inAppWebView)) {
-    throw Exception('Could not launch $url');
-  }
-}
+// Future<void> _launchInWebViewOrVC(Uri url) async {
+//   if (!await launchUrl(url, mode: LaunchMode.inAppWebView)) {
+//     throw Exception('Could not launch $url');
+//   }
+// }
 
 class _GetstartedViewState extends State<GetstartedView> {
   late Uri toLaunch;
+
+  Future _asyncMethod() async {
+    final prefs = await SharedPreferences.getInstance();
+    var email = prefs.getString("email");
+    var passwd = prefs.getString("passwd");
+    var rememberme = prefs.getBool("_rememberme");
+    print(rememberme);
+    if (rememberme == true) {
+      showLoaderDialog(context);
+      Map<String, dynamic> mdata;
+      mdata = {'email': email, 'passwd': passwd};
+      var url = Uri.parse("$urlapi/auth/signin");
+      await expatAPI(url, jsonEncode(mdata)).then((ress) {
+        var result = jsonDecode(ress);
+        printDebug("MASUK THEN $result");
+        if (result["status"] == 200) {
+          Navigator.pop(context);
+          Get.toNamed("/front-screen/enterpin");
+        } else {
+          Navigator.pop(context);
+          showAlert(result["messages"]["error"], context);
+        }
+      }).catchError(
+        (err) {
+          Navigator.pop(context);
+          printDebug("100-$err");
+          showAlert(
+            "404 - Error, Please Contact Administrator",
+            context,
+          );
+        },
+      );
+      // printDebug(result);
+      // if (result["status"] == 200) {
+      //   Get.toNamed("/front-screen/home");
+      // } else {
+      //   var psnerror = result["message"];
+      //   if (context.mounted) {
+      //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //       content: Text(psnerror),
+      //       backgroundColor: Colors.deepOrange,
+      //     ));
+      //     Get.toNamed("/front-screen/signin");
+      //   }
+      // }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _asyncMethod();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,16 +177,16 @@ class _GetstartedViewState extends State<GetstartedView> {
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 10),
                               ),
-                              TextSpan(
-                                text: 'our Terms of Use.',
-                                style: const TextStyle(
-                                    color: Colors.blue, fontSize: 10),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    _launchInWebViewOrVC(Uri.parse(
-                                        'https://en.wikipedia.org/wiki/Terms_of_service'));
-                                  },
-                              ),
+                              // TextSpan(
+                              //   text: 'our Terms of Use.',
+                              //   style: const TextStyle(
+                              //       color: Colors.blue, fontSize: 10),
+                              //   recognizer: TapGestureRecognizer()
+                              //     ..onTap = () {
+                              //       _launchInWebViewOrVC(Uri.parse(
+                              //           'https://en.wikipedia.org/wiki/Terms_of_service'));
+                              //     },
+                              // ),
                               const TextSpan(
                                 text:
                                     ' Learn how we collect, use and share your data.',

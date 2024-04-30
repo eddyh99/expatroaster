@@ -64,7 +64,12 @@ class _QrcodeViewState extends State<QrcodeView> {
                       "Hi",
                       style: TextStyle(color: Colors.white),
                     ),
-                    const AsyncTextWidget(pref: "logged", field: "nama"),
+                    const AsyncTextWidget(
+                      pref: "logged",
+                      field: "nama",
+                      color: Colors.white,
+                      fontsize: '20.0',
+                    ),
                     SizedBox(
                       height: 2.h,
                     ),
@@ -108,6 +113,8 @@ class _QrcodeViewState extends State<QrcodeView> {
                 ),
               ),
             ])),
-        bottomNavigationBar: const Expatnav());
+        bottomNavigationBar: const Expatnav(
+          number: 1,
+        ));
   }
 }

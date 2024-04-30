@@ -29,7 +29,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     _asyncMethod();
-    printDebug(const AsyncTextWidget(pref: "logged", field: "nama"));
+    // printDebug(const AsyncTextWidget(pref: "logged", field: "nama"));
   }
 
   Future _asyncMethod() async {

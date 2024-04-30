@@ -106,7 +106,7 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: '/front-screen/profile',
             page: () => const ProfileView(),
-            transition: Transition.fadeIn,
+            transition: Transition.noTransition,
           ),
           GetPage(
             name: '/front-screen/about',
@@ -121,7 +121,7 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: '/front-screen/qrcode',
             page: () => const QrcodeView(),
-            transition: Transition.leftToRight,
+            transition: Transition.noTransition,
           ),
           GetPage(
             name: '/front-screen/singleoutlet',
