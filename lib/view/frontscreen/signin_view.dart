@@ -26,15 +26,15 @@ class _SigninViewState extends State<SigninView> {
   bool _rememberIsChecked = false;
   bool _passwordVisible = false;
 
-  Future<dynamic> getPrefer() async {
-    var data = await readPrefStr("logged");
-    printDebug(data);
-  }
+  // Future<dynamic> getPrefer() async {
+  //   var data = await readPrefStr("logged");
+  //   printDebug(data);
+  // }
 
   @override
   void initState() {
     super.initState();
-    getPrefer();
+    // getPrefer();
   }
 
   @override
@@ -283,15 +283,16 @@ class _SigninViewState extends State<SigninView> {
                                         .encode(_passwordTextController.text))
                                     .toString()
                               };
+                              // print(mdata);
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               var url = Uri.parse("$urlapi/auth/signin");
-                              var result = jsonDecode(
-                                  await expatAPI(url, jsonEncode(mdata)));
-                              //printDebug(result["messages"]["pin"]);
-                              if (result["status"] == 200) {
-                                if (context.mounted) {
-                                  Navigator.pop(context);
+
+                              await expatAPI(url, jsonEncode(mdata))
+                                  .then((ress) {
+                                var result = jsonDecode(ress);
+                                print(result);
+                                if (result['status'] == 200) {
                                   prefs.setString(
                                       "email", _emailTextController.text);
                                   prefs.setString(
@@ -304,7 +305,7 @@ class _SigninViewState extends State<SigninView> {
                                       "_rememberme", _rememberIsChecked);
                                   prefs.setString(
                                       "logged", jsonEncode(result["messages"]));
-                                  if (result["messages"]["pin"]?.isEmpty) {
+                                  if (result['messages']['pin']?.isEmpty) {
                                     Get.toNamed("/front-screen/createpin");
                                   } else {
                                     Get.toNamed("/front-screen/enterpin");
@@ -312,41 +313,78 @@ class _SigninViewState extends State<SigninView> {
                                     _emailTextController.clear();
                                     _passwordTextController.clear();
                                   }
-                                }
-                              } else {
-                                var psnerror = result["messages"]["error"];
-
-                                printDebug(
-                                    "100 - " + _emailTextController.text);
-                                if (result["error"] == "03") {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    content: Text(
-                                      psnerror,
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                    ),
-                                    backgroundColor:
-                                        const Color.fromRGBO(114, 162, 138, 1),
-                                  ));
-                                  Get.toNamed("/front-screen/confirm",
-                                      arguments: [_emailTextController.text]);
                                 } else {
-                                  if (context.mounted) {
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(SnackBar(
-                                      content: Text(
-                                        psnerror,
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                      ),
-                                      backgroundColor: const Color.fromRGBO(
-                                          114, 162, 138, 1),
-                                    ));
-                                  }
+                                  var psnerr = result['messages']['error'];
+                                  Navigator.pop(context);
+                                  showAlert(psnerr, context);
                                 }
-                              }
+                              }).catchError((err) {
+                                Navigator.pop(context);
+                                printDebug("100-$err");
+                                showAlert(
+                                  "100 - Something Wrong, Please Contact Administrator",
+                                  context,
+                                );
+                              });
+                              //printDebug(result["messages"]["pin"]);
+                              // if (result["status"] == 200) {
+                              //   if (context.mounted) {
+                              //     Navigator.pop(context);
+                              //     prefs.setString(
+                              //         "email", _emailTextController.text);
+                              //     prefs.setString(
+                              //         "passwd",
+                              //         sha1
+                              //             .convert(utf8.encode(
+                              //                 _passwordTextController.text))
+                              //             .toString());
+                              //     prefs.setBool(
+                              //         "_rememberme", _rememberIsChecked);
+                              //     prefs.setString(
+                              //         "logged", jsonEncode(result["messages"]));
+                              //     if (result["messages"]["pin"]?.isEmpty) {
+                              //       Get.toNamed("/front-screen/createpin");
+                              //     } else {
+                              //       Get.toNamed("/front-screen/enterpin");
+                              //       _signinFormKey.currentState?.reset();
+                              //       _emailTextController.clear();
+                              //       _passwordTextController.clear();
+                              //     }
+                              //   }
+                              // } else {
+                              //   var psnerror = result["messages"]["error"];
+
+                              //   printDebug(
+                              //       "100 - " + _emailTextController.text);
+                              //   if (result["error"] == "03") {
+                              //     ScaffoldMessenger.of(context)
+                              //         .showSnackBar(SnackBar(
+                              //       content: Text(
+                              //         psnerror,
+                              //         style:
+                              //             const TextStyle(color: Colors.white),
+                              //       ),
+                              //       backgroundColor:
+                              //           const Color.fromRGBO(114, 162, 138, 1),
+                              //     ));
+                              //     Get.toNamed("/front-screen/confirm",
+                              //         arguments: [_emailTextController.text]);
+                              //   } else {
+                              //     if (context.mounted) {
+                              //       Navigator.pop(context);
+                              //       ScaffoldMessenger.of(context)
+                              //           .showSnackBar(SnackBar(
+                              //         content: Text(
+                              //           psnerror,
+                              //           style: const TextStyle(
+                              //               color: Colors.white),
+                              //         ),
+                              //         backgroundColor: const Color.fromRGBO(
+                              //             114, 162, 138, 1),
+                              //       ));
+                              //     }
+                              //   }
+                              // }
                             }
                           },
                         ),
