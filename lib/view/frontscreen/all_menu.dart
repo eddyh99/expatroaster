@@ -5,7 +5,6 @@ import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:get/get.dart';
-import 'package:expatroasters/widgets/backscreens/async_widget.dart';
 
 class AllMenu extends StatefulWidget {
   const AllMenu({super.key});
@@ -108,7 +107,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                     ],
                   )
                 },
-                icon: Stack(
+                icon: const Stack(
                   children: [
                     Icon(
                       Icons.shopping_cart,
@@ -217,9 +216,6 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                     ListView(
                       scrollDirection: Axis.vertical,
                       children: [
-                        SizedBox(
-                          height: 3.h,
-                        ),
                         Column(
                           children: [
                             Container(
@@ -233,9 +229,9 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                   Padding(
                                     padding: EdgeInsets.only(
                                       top: 2.h,
-                                      right: 5.w,
+                                      right: 4.w,
                                       bottom: 0,
-                                      left: 5.w,
+                                      left: 4.w,
                                     ),
                                     child: Title(
                                       color: Colors.white,
@@ -256,23 +252,12 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                   ...drink.map((val) {
                                     return Column(
                                       children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 0,
-                                              right: 5.w,
-                                              bottom: 2.h,
-                                              left: 5.w),
-                                          child: const Divider(
-                                            color:
-                                                Color.fromRGBO(55, 55, 55, 1),
-                                          ),
+                                        SizedBox(
+                                          height: 2.h,
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(
-                                            top: 0,
-                                            right: 5.w,
-                                            bottom: 0,
-                                            left: 5.w,
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 4.w,
                                           ),
                                           child: GestureDetector(
                                             onTap: () {
@@ -286,27 +271,25 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                             child: Row(
                                               children: [
                                                 Image.network(val[1], scale: 3),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 10),
-                                                      child: Text(
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 2.w),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
                                                         val[3],
                                                         style: const TextStyle(
                                                             fontSize: 24,
                                                             color:
                                                                 Colors.white),
                                                       ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 10),
-                                                      child: SizedBox(
+                                                      SizedBox(
+                                                        height: 2.h,
+                                                      ),
+                                                      SizedBox(
                                                         width: 50.w,
                                                         child: Text(
                                                           val[2],
@@ -323,12 +306,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 10),
-                                                      child: RichText(
+                                                      RichText(
                                                         text:
                                                             TextSpan(children: [
                                                           const WidgetSpan(
@@ -368,27 +346,22 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                           ),
                                                         ]),
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
+                                                    ],
+                                                  ),
+                                                )
                                               ],
                                             ),
                                           ),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 2.h,
-                                              right: 5.w,
-                                              bottom: 2.h,
-                                              left: 5.w),
-                                          child: const Divider(
-                                            color:
-                                                Color.fromRGBO(55, 55, 55, 1),
-                                          ),
+                                        SizedBox(
+                                          height: 1.h,
+                                        ),
+                                        const Divider(
+                                          color: Color.fromRGBO(55, 55, 55, 1),
                                         ),
                                       ],
                                     );
-                                  }).toList(),
+                                  }),
                                 ],
                               ),
                             ),
@@ -400,9 +373,6 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                     ListView(
                       scrollDirection: Axis.vertical,
                       children: [
-                        SizedBox(
-                          height: 3.h,
-                        ),
                         Column(
                           children: [
                             Container(
@@ -416,9 +386,9 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                   Padding(
                                     padding: EdgeInsets.only(
                                       top: 2.h,
-                                      right: 5.w,
+                                      right: 4.w,
                                       bottom: 0,
-                                      left: 5.w,
+                                      left: 4.w,
                                     ),
                                     child: Title(
                                       color: Colors.white,
@@ -439,139 +409,125 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                   ...food.map((val) {
                                     return Column(
                                       children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 0,
-                                              right: 5.w,
-                                              bottom: 2.h,
-                                              left: 5.w),
-                                          child: const Divider(
-                                            color:
-                                                Color.fromRGBO(55, 55, 55, 1),
-                                          ),
+                                        SizedBox(
+                                          height: 2.h,
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(
-                                            top: 0,
-                                            right: 5.w,
-                                            bottom: 0,
-                                            left: 5.w,
-                                          ),
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              Get.toNamed(
-                                                  "/front-screen/orderdetail",
-                                                  arguments: [
-                                                    {'idcabang': idcabang},
-                                                    {'idproduk': val[0]}
-                                                  ]);
-                                            },
-                                            child: Row(
-                                              children: [
-                                                Image.network(val[1], scale: 3),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 10),
-                                                      child: Text(
-                                                        val[3],
-                                                        style: const TextStyle(
-                                                            fontSize: 24,
-                                                            color:
-                                                                Colors.white),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 10),
-                                                      child: SizedBox(
-                                                        width: 50.w,
-                                                        child: Text(
-                                                          val[2],
-                                                          overflow:
-                                                              TextOverflow.clip,
-                                                          style:
-                                                              const TextStyle(
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    255,
-                                                                    255,
-                                                                    255,
-                                                                    0.7),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 10),
-                                                      child: RichText(
-                                                        text:
-                                                            TextSpan(children: [
-                                                          const WidgetSpan(
-                                                            child: Text(
-                                                              'Rp',
-                                                              //superscript is usually smaller in size
-
-                                                              style: TextStyle(
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          114,
-                                                                          162,
-                                                                          138,
-                                                                          1)),
-                                                            ),
-                                                          ),
-                                                          WidgetSpan(
-                                                            child: SizedBox(
-                                                                width: 1.w),
-                                                          ),
-                                                          TextSpan(
-                                                            text: formatter
-                                                                .format(
-                                                                    int.parse(
-                                                              val[4],
-                                                            )),
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 4.w,
+                                            ),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Get.toNamed(
+                                                    "/front-screen/orderdetail",
+                                                    arguments: [
+                                                      {'idcabang': idcabang},
+                                                      {'idproduk': val[0]}
+                                                    ]);
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  Image.network(val[1],
+                                                      scale: 3),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 2.w),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  horizontal:
+                                                                      10),
+                                                          child: Text(
+                                                            val[3],
                                                             style:
                                                                 const TextStyle(
-                                                                    color: Color
-                                                                        .fromRGBO(
+                                                                    fontSize:
+                                                                        24,
+                                                                    color: Colors
+                                                                        .white),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 2.h,
+                                                        ),
+                                                        SizedBox(
+                                                          width: 50.w,
+                                                          child: Text(
+                                                            val[2],
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .clip,
+                                                            style:
+                                                                const TextStyle(
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      255,
+                                                                      255,
+                                                                      255,
+                                                                      0.7),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        RichText(
+                                                          text: TextSpan(
+                                                              children: [
+                                                                const WidgetSpan(
+                                                                  child: Text(
+                                                                    'Rp',
+                                                                    //superscript is usually smaller in size
+
+                                                                    style: TextStyle(
+                                                                        color: Color.fromRGBO(
                                                                             114,
                                                                             162,
                                                                             138,
-                                                                            1),
-                                                                    fontSize:
-                                                                        20),
-                                                          ),
-                                                        ]),
-                                                      ),
+                                                                            1)),
+                                                                  ),
+                                                                ),
+                                                                WidgetSpan(
+                                                                  child: SizedBox(
+                                                                      width:
+                                                                          1.w),
+                                                                ),
+                                                                TextSpan(
+                                                                  text: formatter
+                                                                      .format(int
+                                                                          .parse(
+                                                                    val[4],
+                                                                  )),
+                                                                  style: const TextStyle(
+                                                                      color: Color.fromRGBO(
+                                                                          114,
+                                                                          162,
+                                                                          138,
+                                                                          1),
+                                                                      fontSize:
+                                                                          20),
+                                                                ),
+                                                              ]),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
+                                                  )
+                                                ],
+                                              ),
+                                            )),
+                                        SizedBox(
+                                          height: 1.h,
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 2.h,
-                                              right: 5.w,
-                                              bottom: 2.h,
-                                              left: 5.w),
-                                          child: const Divider(
-                                            color:
-                                                Color.fromRGBO(55, 55, 55, 1),
-                                          ),
+                                        const Divider(
+                                          color: Color.fromRGBO(55, 55, 55, 1),
                                         ),
                                       ],
                                     );
-                                  }).toList(),
+                                  }),
                                 ],
                               ),
                             ),
@@ -582,9 +538,6 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                     ListView(
                       scrollDirection: Axis.vertical,
                       children: [
-                        SizedBox(
-                          height: 3.h,
-                        ),
                         Column(
                           children: [
                             Container(
@@ -598,9 +551,9 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                   Padding(
                                     padding: EdgeInsets.only(
                                       top: 2.h,
-                                      right: 5.w,
+                                      right: 4.w,
                                       bottom: 0,
-                                      left: 5.w,
+                                      left: 4.w,
                                     ),
                                     child: Title(
                                       color: Colors.white,
@@ -621,6 +574,9 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                   ...retail.map((val) {
                                     return Column(
                                       children: [
+                                        SizedBox(
+                                          height: 2.h,
+                                        ),
                                         Padding(
                                           padding: EdgeInsets.only(
                                               top: 0,
@@ -633,11 +589,8 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                           ),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(
-                                            top: 0,
-                                            right: 5.w,
-                                            bottom: 0,
-                                            left: 5.w,
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 4.w,
                                           ),
                                           child: GestureDetector(
                                             onTap: () {
@@ -651,109 +604,96 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                             child: Row(
                                               children: [
                                                 Image.network(val[1], scale: 3),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 10),
-                                                      child: Text(
-                                                        val[3],
-                                                        style: const TextStyle(
-                                                            fontSize: 24,
-                                                            color:
-                                                                Colors.white),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 10),
-                                                      child: SizedBox(
-                                                        width: 50.w,
-                                                        child: Text(
-                                                          val[2],
-                                                          overflow:
-                                                              TextOverflow.clip,
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 2.w),
+                                                  child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          val[3],
                                                           style:
                                                               const TextStyle(
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    255,
-                                                                    255,
-                                                                    255,
-                                                                    0.7),
-                                                          ),
+                                                                  fontSize: 24,
+                                                                  color: Colors
+                                                                      .white),
                                                         ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 10),
-                                                      child: RichText(
-                                                        text:
-                                                            TextSpan(children: [
-                                                          const WidgetSpan(
-                                                            child: Text(
-                                                              'Rp',
-                                                              //superscript is usually smaller in size
-
-                                                              style: TextStyle(
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          114,
-                                                                          162,
-                                                                          138,
-                                                                          1)),
-                                                            ),
-                                                          ),
-                                                          WidgetSpan(
-                                                            child: SizedBox(
-                                                                width: 1.w),
-                                                          ),
-                                                          TextSpan(
-                                                            text: formatter
-                                                                .format(
-                                                                    int.parse(
-                                                              val[4],
-                                                            )),
+                                                        SizedBox(
+                                                          height: 2.h,
+                                                        ),
+                                                        SizedBox(
+                                                          width: 50.w,
+                                                          child: Text(
+                                                            val[2],
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .clip,
                                                             style:
                                                                 const TextStyle(
-                                                                    color: Color
-                                                                        .fromRGBO(
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      255,
+                                                                      255,
+                                                                      255,
+                                                                      0.7),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        RichText(
+                                                          text: TextSpan(
+                                                              children: [
+                                                                const WidgetSpan(
+                                                                  child: Text(
+                                                                    'Rp',
+                                                                    //superscript is usually smaller in size
+
+                                                                    style: TextStyle(
+                                                                        color: Color.fromRGBO(
                                                                             114,
                                                                             162,
                                                                             138,
-                                                                            1),
-                                                                    fontSize:
-                                                                        20),
-                                                          ),
-                                                        ]),
-                                                      ),
-                                                    ),
-                                                  ],
+                                                                            1)),
+                                                                  ),
+                                                                ),
+                                                                WidgetSpan(
+                                                                  child: SizedBox(
+                                                                      width:
+                                                                          1.w),
+                                                                ),
+                                                                TextSpan(
+                                                                  text: formatter
+                                                                      .format(int
+                                                                          .parse(
+                                                                    val[4],
+                                                                  )),
+                                                                  style: const TextStyle(
+                                                                      color: Color.fromRGBO(
+                                                                          114,
+                                                                          162,
+                                                                          138,
+                                                                          1),
+                                                                      fontSize:
+                                                                          20),
+                                                                ),
+                                                              ]),
+                                                        ),
+                                                      ]),
                                                 ),
                                               ],
                                             ),
                                           ),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 2.h,
-                                              right: 5.w,
-                                              bottom: 2.h,
-                                              left: 5.w),
-                                          child: const Divider(
-                                            color:
-                                                Color.fromRGBO(55, 55, 55, 1),
-                                          ),
+                                        SizedBox(
+                                          height: 1.h,
+                                        ),
+                                        const Divider(
+                                          color: Color.fromRGBO(55, 55, 55, 1),
                                         ),
                                       ],
                                     );
-                                  }).toList(),
+                                  }),
                                 ],
                               ),
                             ),

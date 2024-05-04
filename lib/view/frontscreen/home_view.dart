@@ -1,12 +1,9 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
 import 'package:expatroasters/utils/utils.dart';
-// import 'package:expatroasters/widgets/backscreens/async_widget.dart';
 import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
-import 'package:expatroasters/widgets/backscreens/order_widget.dart';
 import 'package:expatroasters/widgets/backscreens/outlet_widget.dart';
 import 'package:expatroasters/widgets/backscreens/promotion_widget.dart';
 import 'package:expatroasters/widgets/backscreens/shimmer_widget.dart';
@@ -146,7 +143,7 @@ class _HomeViewState extends State<HomeView> {
                                                   fontWeight: FontWeight.w300),
                                             ),
                                             Text(
-                                              '$nama',
+                                              nama,
                                               style: const TextStyle(
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w800),
@@ -423,7 +420,7 @@ class _HomeViewState extends State<HomeView> {
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
                                                 children: [
-                                                  Text(
+                                                  const Text(
                                                     "You are in ",
                                                     style: TextStyle(
                                                         color: Colors.white),
@@ -431,7 +428,7 @@ class _HomeViewState extends State<HomeView> {
                                                   Text(
                                                     "$membership Member "
                                                         .toUpperCase(),
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         color: Color.fromRGBO(
                                                             114, 162, 138, 1),
                                                         fontWeight:
@@ -450,7 +447,7 @@ class _HomeViewState extends State<HomeView> {
                                                     height: 6.h,
                                                   ),
                                                   ShimmerWidget(
-                                                      tinggi: 3.h, lebar: 82.w),
+                                                      tinggi: 3.h, lebar: 72.w),
                                                 ],
                                               )
                                             : SliderTheme(
@@ -515,16 +512,16 @@ class _HomeViewState extends State<HomeView> {
 
   Widget buildSliderTopLabel() {
     final labels = ['0', '200', '400', '600', '800', '1k'];
-    final double _min = 0;
-    final double _max = 1000;
-    final _divisions = 1000;
+    const double _min = 0;
+    const double _max = 1000;
+    const _divisions = 1000;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
           width: 82.w,
           child: RangeSlider(
-            values: valuesBottom!,
+            values: valuesBottom,
             // activeColor: Color.fromRGBO(114, 162, 138, 1),
             // inactiveColor: Color.fromRGBO(217, 217, 217, 1),
             min: _min,
@@ -535,16 +532,16 @@ class _HomeViewState extends State<HomeView> {
         ),
         Container(
           width: 75.w,
-          margin: EdgeInsets.symmetric(horizontal: 1),
+          margin: const EdgeInsets.symmetric(horizontal: 1),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: Utils.modelBuilder(
               labels,
               (index, label) {
-                final selectedColor = Colors.white;
-                final unselectedColor = Color.fromARGB(70, 255, 255, 255);
+                const selectedColor = Colors.white;
+                const unselectedColor = Color.fromARGB(70, 255, 255, 255);
                 final isSelected =
-                    index >= valuesBottom!.start && index <= valuesBottom!.end;
+                    index >= valuesBottom.start && index <= valuesBottom.end;
                 final color = isSelected ? selectedColor : unselectedColor;
 
                 return buildLabel(label: label, color: color);
@@ -563,7 +560,7 @@ class _HomeViewState extends State<HomeView> {
       Text(
         label,
         textAlign: TextAlign.center,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.bold,
         ).copyWith(color: color),

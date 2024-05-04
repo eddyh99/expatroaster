@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
-import 'package:expatroasters/utils/functions.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:get/get.dart';

@@ -38,9 +38,9 @@ class _PromotionViewState extends State<PromotionView>
 
   Future _asyncMethod() async {
     //get user detail
-    var url = Uri.parse("$urlapi/v1/promotion/get_allinstore");
+    var url = Uri.parse("$urlapi/v1/mobile/promotion/get_allinstore");
     var query = jsonDecode(await expatAPI(url, body))["messages"];
-    var url2 = Uri.parse("$urlapi/v1/promotion/get_allonline");
+    var url2 = Uri.parse("$urlapi/v1/mobile/promotion/get_allonline");
     var query2 = jsonDecode(await expatAPI(url2, body))["messages"];
     setState(() {
       instoreData = query;

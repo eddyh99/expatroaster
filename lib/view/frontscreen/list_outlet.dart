@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ListOutlet extends StatefulWidget {
   const ListOutlet({super.key});
@@ -77,7 +76,7 @@ class _ListOutletState extends State<ListOutlet> {
                         // )
                         Container(
                           height: 28.h,
-                          color: Color.fromRGBO(131, 173, 152, 1),
+                          color: const Color.fromRGBO(131, 173, 152, 1),
                           margin: EdgeInsets.all(1.w),
                           // child: Center(child: Text('Entry ${imglst[index][0]}')),
                           child: ListimageView(
@@ -132,59 +131,65 @@ class _ListOutletState extends State<ListOutlet> {
 
   confirmOutlet(BuildContext context, String nama, String alamat, String id) {
     // set up the buttons
-    Widget cancelButton = DecoratedBox(
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(colors: [Colors.black, Colors.black87]),
-        borderRadius: BorderRadius.circular(999.0),
-        border: Border.all(color: const Color.fromARGB(255, 219, 219, 219)),
-      ),
-      child: TextButton(
-        child: Text("Change Outlet"),
-        style: TextButton.styleFrom(
-            foregroundColor: Colors.white,
-            padding: EdgeInsets.fromLTRB(5.w, 1.w, 5.w, 1.w)),
-        onPressed: () => Navigator.of(context).pop(),
-      ),
-    );
+    Widget cancelButton = SizedBox(
+        width: 30.w,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            gradient:
+                const LinearGradient(colors: [Colors.black, Colors.black87]),
+            borderRadius: BorderRadius.circular(999.0),
+            border: Border.all(color: const Color.fromARGB(255, 219, 219, 219)),
+          ),
+          child: TextButton(
+            style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h)),
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text("Change"),
+          ),
+        ));
 
-    Widget continueButton = DecoratedBox(
-      decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [
-              Color.fromRGBO(132, 173, 153, 1),
-              Color.fromRGBO(132, 173, 153, 1),
-              Color.fromRGBO(132, 173, 153, 1),
-            ],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
+    Widget continueButton = SizedBox(
+        width: 30.w,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [
+                  Color.fromRGBO(132, 173, 153, 1),
+                  Color.fromRGBO(132, 173, 153, 1),
+                  Color.fromRGBO(132, 173, 153, 1),
+                ],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(999.0),
+              ),
+              border:
+                  Border.all(color: const Color.fromARGB(255, 219, 219, 219)),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color.fromRGBO(141, 190, 165, 0.3),
+                  spreadRadius: 4,
+                  blurRadius: 10,
+                  offset: Offset(0, 3),
+                ),
+              ]),
+          child: TextButton(
+            style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h)),
+            onPressed: () {
+              Get.toNamed(
+                "/front-screen/allmenu",
+                arguments: [
+                  {"idcabang": id},
+                ],
+              );
+            },
+            child: const Text("Confirm"),
           ),
-          borderRadius: const BorderRadius.all(
-            Radius.circular(999.0),
-          ),
-          border: Border.all(color: const Color.fromARGB(255, 219, 219, 219)),
-          boxShadow: const [
-            BoxShadow(
-              color: Color.fromRGBO(141, 190, 165, 0.3),
-              spreadRadius: 4,
-              blurRadius: 10,
-              offset: Offset(0, 3),
-            ),
-          ]),
-      child: TextButton(
-        child: Text("Confirm"),
-        style: TextButton.styleFrom(
-            foregroundColor: Colors.white,
-            padding: EdgeInsets.fromLTRB(10.w, 1.w, 10.w, 1.w)),
-        onPressed: () {
-          Get.toNamed(
-            "/front-screen/allmenu",
-            arguments: [
-              {"idcabang": id},
-            ],
-          );
-        },
-      ),
-    );
+        ));
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       backgroundColor: Colors.black,
@@ -199,7 +204,7 @@ class _ListOutletState extends State<ListOutlet> {
               "Confirm Outlet",
               style: TextStyle(
                 fontFamily: GoogleFonts.lora().fontFamily,
-                color: Color.fromRGBO(114, 162, 138, 1),
+                color: const Color.fromRGBO(114, 162, 138, 1),
                 fontSize: 26,
                 fontWeight: FontWeight.w800,
               ),
@@ -208,18 +213,18 @@ class _ListOutletState extends State<ListOutlet> {
               height: 3.h,
             ),
             Text(
-              "$nama",
+              nama,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 18,
                 fontWeight: FontWeight.w800,
               ),
             ),
             Text(
-              "$alamat",
+              alamat,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 14,
               ),

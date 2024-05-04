@@ -69,7 +69,7 @@ class _ProfileViewState extends State<ProfileView> {
               ),
               SizedBox(
                   width: 80.w,
-                  height: 43.h,
+                  height: 44.h,
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(20), // Image border
                       child: SizedBox.fromSize(
@@ -118,7 +118,7 @@ class _ProfileViewState extends State<ProfileView> {
                                   ),
                                   Text(
                                     "EXPAT. ROASTERS POINTS".toUpperCase(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors.white, fontSize: 16),
                                   ),
                                   Text(
@@ -145,7 +145,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         borderRadius:
                                             BorderRadius.circular(18.0),
                                       ),
-                                      child: Align(
+                                      child: const Align(
                                         alignment: Alignment.center,
                                         child: AsyncTextWidget(
                                           pref: "logged",

@@ -1,15 +1,10 @@
-import 'dart:convert';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:expatroasters/utils/extensions.dart';
-import 'package:expatroasters/utils/functions.dart';
-import 'package:expatroasters/utils/globalvar.dart';
 import 'package:expatroasters/widgets/backscreens/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LandingView extends StatefulWidget {
   const LandingView({super.key});
