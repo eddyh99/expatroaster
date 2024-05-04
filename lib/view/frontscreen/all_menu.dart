@@ -29,13 +29,15 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     _asyncMethod();
+    print(idcabang);
     // printDebug(const AsyncTextWidget(pref: "logged", field: "nama"));
   }
 
   Future _asyncMethod() async {
     //get user detail
     String body = '';
-    var url = Uri.parse("$urlapi/v1/produk/getproduk_bycabang?id=$idcabang");
+    var url =
+        Uri.parse("$urlapi/v1/mobile/produk/getproduk_bycabang?id=$idcabang");
     resultData = jsonDecode(await expatAPI(url, body))["messages"];
     printDebug(resultData);
     for (var isi in resultData) {
@@ -106,7 +108,21 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                     ],
                   )
                 },
-                icon: const Icon(Icons.shopping_cart),
+                icon: Stack(
+                  children: [
+                    Icon(
+                      Icons.shopping_cart,
+                      color: Colors.white,
+                    ),
+                    Positioned(
+                        right: 1,
+                        child: Icon(
+                          Icons.brightness_1,
+                          color: Colors.green,
+                          size: 12.0,
+                        ))
+                  ],
+                ),
                 color: Colors.white,
                 iconSize: 6.5.w,
               ),
@@ -751,7 +767,9 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
             ]),
           ),
         ),
-        bottomNavigationBar: const Expatnav(),
+        bottomNavigationBar: const Expatnav(
+          number: 2,
+        ),
       ),
     );
   }

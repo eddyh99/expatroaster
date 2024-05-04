@@ -5,6 +5,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
+import 'package:expatroasters/widgets/backscreens/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -124,26 +125,19 @@ class _LandingViewState extends State<LandingView> {
               children: [
                 Text(
                   "Good Coffee All Around",
-                  style:
-                      GoogleFonts.robotoMono(color: Colors.white, fontSize: 14),
+                  style: GoogleFonts.lora(color: Colors.white, fontSize: 24),
                 ),
                 SizedBox(
                   height: 2.h,
                 ),
                 SizedBox(
-                  width: 80.w,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromRGBO(114, 162, 138, 1),
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                        )),
-                    onPressed: () {
-                      Get.toNamed("/front-screen/getstarted");
-                    },
-                    child: const Text("Get Started"),
-                  ),
+                  child: ButtonWidget(
+                      name: "btnPrimaryLight",
+                      text: "Get Started",
+                      boxsize: '80',
+                      onTap: () {
+                        Get.toNamed("/front-screen/getstarted");
+                      }),
                 ),
                 SizedBox(
                   height: 1.h,

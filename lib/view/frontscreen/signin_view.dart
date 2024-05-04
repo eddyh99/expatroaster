@@ -264,7 +264,7 @@ class _SigninViewState extends State<SigninView> {
                       ),
                       SizedBox(
                         child: ButtonWidget(
-                          name: "btnPrimaryLigth",
+                          name: "btnPrimaryLight",
                           text: "Sign in",
                           boxsize: '80',
                           onTap: () async {

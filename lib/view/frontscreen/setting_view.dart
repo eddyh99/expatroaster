@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:expatroasters/utils/extensions.dart';
+import 'package:expatroasters/utils/country.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
+import 'package:expatroasters/widgets/backscreens/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,10 +20,14 @@ class SettingView extends StatefulWidget {
   }
 }
 
+const List<String> gender = <String>['Male', 'Female'];
+
 class _SettingViewState extends State<SettingView> {
   final GlobalKey<FormState> _settingFormKey = GlobalKey<FormState>();
   final TextEditingController _nameTextController = TextEditingController();
   final TextEditingController _dobTextController = TextEditingController();
+  final TextEditingController _emailTextController = TextEditingController();
+
   final TextEditingController _currentTextController = TextEditingController();
   final TextEditingController _newpassTextController = TextEditingController();
   final TextEditingController _confirmTextController = TextEditingController();
@@ -45,20 +51,20 @@ class _SettingViewState extends State<SettingView> {
 
   Future _asyncMethod() async {
     //get user detail
-    var url = Uri.parse("$urlapi/v1/member/get_userdetail");
-    var query = jsonDecode(await expatAPI(url, body))["message"];
+    var url = Uri.parse("$urlapi/v1/mobile/member/get_userdetail");
+    var query = jsonDecode(await expatAPI(url, body))["messages"];
     //printDebug(query);
-    setState(() {
-      resultData = query;
-      _nameTextController.text = resultData["nama"];
-      _dobTextController.text = resultData["dob"];
-      if (resultData["gender"] == "female") {
-        selectedOption = 2;
-      } else {
-        selectedOption = 1;
-      }
-    });
-    printDebug(resultData);
+    // printDebug(resultData);
+    // setState(() {
+    //   resultData = query;
+    //   _nameTextController.text = resultData["nama"];
+    //   _dobTextController.text = resultData["dob"];
+    //   if (resultData["gender"] == "female") {
+    //     selectedOption = 2;
+    //   } else {
+    //     selectedOption = 1;
+    //   }
+    // });
   }
 
   void _checkPassword(String value) {
@@ -202,543 +208,395 @@ class _SettingViewState extends State<SettingView> {
   }
 
   int selectedOption = 1;
+
+  String selectedGender = gender.first;
+  String selectedCountry = country.first;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-            extendBodyBehindAppBar: true,
-            backgroundColor: Colors.black,
-            appBar: AppBar(
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              title: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  child: const Text(
-                    "SETTINGS",
-                    style: TextStyle(color: Colors.white),
-                  )),
-            ),
-            body: SafeArea(
-                child: SingleChildScrollView(
-                    child: Form(
-                        key: _settingFormKey,
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              width: 100.w,
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        extendBodyBehindAppBar: true,
+        backgroundColor: Colors.black,
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          centerTitle: true,
+          title: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              child: const Text(
+                "SETTINGS ACCOUNT",
+                style: TextStyle(color: Colors.white),
+              )),
+        ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Form(
+              key: _settingFormKey,
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: 90.w,
+                    height: 100,
+                    child: Row(
+                      children: [
+                        image != null
+                            ? Image.file(
+                                image!,
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset("assets/images/avatar.png",
+                                color: Colors.white),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.white,
+                          ),
+                          onPressed: () => pickgambar('gallery'),
+                          child: const Row(
+                            children: [
+                              Icon(Icons.folder),
+                              SizedBox(width: 10),
+                              Text("Choose Picture")
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 100.w,
+                    height: 3.h,
+                  ),
+                  SizedBox(
+                    width: 90.w,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          width: 100.w,
+                          child: TextFormField(
+                            style: const TextStyle(color: Colors.white),
+                            controller: _nameTextController,
+                            maxLines: 1,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 0.0),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 0.0),
+                              ),
+                              // hintText: 'Your Name',
+                              labelText: 'Full name',
+                              labelStyle: const TextStyle(color: Colors.white),
+                              hintStyle: const TextStyle(color: Colors.white),
                             ),
-                            SizedBox(
-                                width: 90.w,
-                                child: Column(children: [
-                                  SizedBox(
-                                    width: 100.w,
-                                    child: TextFormField(
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                      controller: _nameTextController,
-                                      maxLines: 1,
-                                      keyboardType: TextInputType.text,
-                                      decoration: InputDecoration(
-                                        isDense: true,
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              color: Colors.grey, width: 0.0),
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                          borderSide: const BorderSide(
-                                              color: Colors.grey, width: 0.0),
-                                        ),
-                                        hintText: 'Your Name',
-                                        hintStyle: const TextStyle(
-                                            color: Colors.white),
-                                      ),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return "Please enter your name";
-                                        }
-                                        return null;
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 2.h,
-                                  ),
-                                  SizedBox(
-                                    width: 100.w,
-                                    child: Row(
-                                      children: [
-                                        Radio<int>(
-                                          value: 1,
-                                          groupValue: selectedOption,
-                                          activeColor: Colors
-                                              .grey, // Change the active radio button color here
-                                          fillColor: MaterialStateProperty.all(
-                                              Colors
-                                                  .white), // Change the fill color when selected
-                                          splashRadius:
-                                              20, // Change the splash radius when clicked
-                                          onChanged: (value) {
-                                            setState(() {
-                                              selectedOption = value!;
-                                            });
-                                          },
-                                        ),
-                                        const Text("Male",
-                                            style:
-                                                TextStyle(color: Colors.white)),
-                                        SizedBox(
-                                          width: 2.w,
-                                        ),
-                                        Radio<int>(
-                                          value: 2,
-                                          groupValue: selectedOption,
-                                          activeColor: Colors
-                                              .grey, // Change the active radio button color here
-                                          fillColor: MaterialStateProperty.all(
-                                              Colors
-                                                  .white), // Change the fill color when selected
-                                          splashRadius:
-                                              25, // Change the splash radius when clicked
-                                          onChanged: (value) {
-                                            setState(() {
-                                              selectedOption = value!;
-                                            });
-                                          },
-                                        ),
-                                        const Text("Female",
-                                            style:
-                                                TextStyle(color: Colors.white)),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 2.h,
-                                  ),
-                                  SizedBox(
-                                    height: 1.h,
-                                  ),
-                                  const SizedBox(
-                                    child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          "Date of Birth",
-                                          style: TextStyle(color: Colors.white),
-                                        )),
-                                  ),
-                                  SizedBox(
-                                    height: 1.h,
-                                  ),
-                                  SizedBox(
-                                    width: 100.w,
-                                    child: TextFormField(
-                                      onTap: () {
-                                        showDatePicker(
-                                          context: context,
-                                          initialDate: DateTime.now(),
-                                          firstDate: DateTime(1900),
-                                          lastDate: DateTime.now(),
-                                        ).then((date) {
-                                          //tambahkan setState dan panggil variabel _dateTime.
-                                          _dobTextController.text =
-                                              (date == null)
-                                                  ? _dobTextController.text
-                                                  : dobformat
-                                                      .format(date)
-                                                      .toString();
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please enter your name";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        SizedBox(
+                          width: 100.w,
+                          child: TextFormField(
+                            onTap: () {
+                              showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1900),
+                                lastDate: DateTime.now(),
+                              ).then((date) {
+                                //tambahkan setState dan panggil variabel _dateTime.
+                                _dobTextController.text = (date == null)
+                                    ? _dobTextController.text
+                                    : dobformat.format(date).toString();
 
-                                          // setState(() {
-                                          // });
-                                        });
-                                      },
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                      controller: _dobTextController,
-                                      maxLines: 1,
-                                      keyboardType: TextInputType.text,
-                                      decoration: InputDecoration(
-                                        isDense: true,
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              color: Colors.grey, width: 0.0),
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                          borderSide: const BorderSide(
-                                              color: Colors.grey, width: 0.0),
-                                        ),
-                                        hintText: 'Date of Birth (mm/dd/yyyy)',
-                                        hintStyle: const TextStyle(
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 1.h,
-                                  ),
-                                  const SizedBox(
-                                    child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          "Phone Number",
-                                          style: TextStyle(color: Colors.white),
-                                        )),
-                                  ),
-                                  SizedBox(
-                                    height: 1.h,
-                                  ),
-                                  SizedBox(
-                                    width: 100.w,
-                                    child: TextFormField(
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                      controller: _phoneTextController,
-                                      maxLines: 1,
-                                      keyboardType: TextInputType.text,
-                                      decoration: InputDecoration(
-                                        isDense: true,
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              color: Colors.grey, width: 0.0),
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                          borderSide: const BorderSide(
-                                              color: Colors.grey, width: 0.0),
-                                        ),
-                                        hintText: 'Phone Number',
-                                        hintStyle: const TextStyle(
-                                            color: Colors.white),
-                                      ),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return "Please enter phone number";
-                                        }
-                                        return null;
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 2.h,
-                                  ),
-                                  SizedBox(
-                                    height: 100,
-                                    child: Row(
-                                      children: [
-                                        image != null
-                                            ? Image.file(
-                                                image!,
-                                                width: 100,
-                                                height: 100,
-                                                fit: BoxFit.cover,
-                                              )
-                                            : Image.asset(
-                                                "assets/images/avatar.png",
-                                                color: Colors.white),
-                                        TextButton(
-                                          style: TextButton.styleFrom(
-                                            foregroundColor: Colors.white,
-                                          ),
-                                          onPressed: () =>
-                                              pickgambar('gallery'),
-                                          child: const Row(
-                                            children: [
-                                              Icon(Icons.folder),
-                                              SizedBox(width: 10),
-                                              Text("Choose Picture")
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ])),
-                            SizedBox(
-                              height: 3.h,
+                                // setState(() {
+                                // });
+                              });
+                            },
+                            style: const TextStyle(color: Colors.white),
+                            controller: _dobTextController,
+                            maxLines: 1,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 0.0),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 0.0),
+                              ),
+                              hintText: 'Date of Birth (mm/dd/yyyy)',
+                              labelText: 'Date of Birth (mm/dd/yyyy)',
+                              hintStyle: const TextStyle(color: Colors.white),
                             ),
-                            Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5.w),
-                                child: Stack(
-                                  children: [
-                                    Padding(
-                                        padding: const EdgeInsets.only(top: 8),
-                                        child: SizedBox(
-                                            width: 100.w,
-                                            height: 270,
-                                            child: DecoratedBox(
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: Colors.grey,
-                                                    width: 1),
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                shape: BoxShape.rectangle,
-                                              ),
-                                            ))),
-                                    Positioned(
-                                      left: 15,
-                                      child: Container(
-                                        padding: const EdgeInsets.only(
-                                            bottom: 10, left: 10, right: 10),
-                                        color: Colors.black,
-                                        child: const Text(
-                                          'Security Account',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 5.w, vertical: 5.h),
-                                        child: SizedBox(
-                                            width: 80.w,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                const Text(
-                                                  "Old Password",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 10),
-                                                ),
-                                                SizedBox(
-                                                  height: 1.h,
-                                                ),
-                                                TextFormField(
-                                                  controller:
-                                                      _currentTextController,
-                                                  onChanged: (value) =>
-                                                      _checkPassword(value),
-                                                  obscureText:
-                                                      !_passwordVisible,
-                                                  maxLines: 1,
-                                                  keyboardType:
-                                                      TextInputType.text,
-                                                  style: const TextStyle(
-                                                      color: Colors.white),
-                                                  decoration: InputDecoration(
-                                                    suffixIcon: IconButton(
-                                                        icon: Icon(
-                                                          // Based on passwordVisible state choose the icon
-                                                          _passwordVisible
-                                                              ? Icons.visibility
-                                                              : Icons
-                                                                  .visibility_off,
-                                                          color: Theme.of(
-                                                                  context)
-                                                              .primaryColorDark,
-                                                        ),
-                                                        onPressed: () {
-                                                          // Update the state i.e. toogle the state of passwordVisible variable
-                                                          setState(() {
-                                                            _passwordVisible =
-                                                                !_passwordVisible;
-                                                          });
-                                                        }),
-                                                    isDense: true,
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide:
-                                                          const BorderSide(
-                                                              color:
-                                                                  Colors.grey,
-                                                              width: 0.0),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15.0),
-                                                    ),
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15.0),
-                                                      borderSide:
-                                                          const BorderSide(
-                                                              color:
-                                                                  Colors.grey,
-                                                              width: 0.0),
-                                                    ),
-                                                    hintText:
-                                                        'Enter your Password',
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 1.h,
-                                                ),
-                                                const Text(
-                                                  "New Password",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 10),
-                                                  textAlign: TextAlign.start,
-                                                ),
-                                                SizedBox(
-                                                  height: 1.h,
-                                                ),
-                                                TextFormField(
-                                                  controller:
-                                                      _newpassTextController,
-                                                  onChanged: (value) =>
-                                                      _checkPassword(value),
-                                                  obscureText:
-                                                      !_passwordVisible,
-                                                  maxLines: 1,
-                                                  keyboardType:
-                                                      TextInputType.text,
-                                                  style: const TextStyle(
-                                                      color: Colors.white),
-                                                  decoration: InputDecoration(
-                                                    suffixIcon: IconButton(
-                                                        icon: Icon(
-                                                          // Based on passwordVisible state choose the icon
-                                                          _passwordVisible
-                                                              ? Icons.visibility
-                                                              : Icons
-                                                                  .visibility_off,
-                                                          color: Theme.of(
-                                                                  context)
-                                                              .primaryColorDark,
-                                                        ),
-                                                        onPressed: () {
-                                                          // Update the state i.e. toogle the state of passwordVisible variable
-                                                          setState(() {
-                                                            _passwordVisible =
-                                                                !_passwordVisible;
-                                                          });
-                                                        }),
-                                                    isDense: true,
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide:
-                                                          const BorderSide(
-                                                              color:
-                                                                  Colors.grey,
-                                                              width: 0.0),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15.0),
-                                                    ),
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15.0),
-                                                      borderSide:
-                                                          const BorderSide(
-                                                              color:
-                                                                  Colors.grey,
-                                                              width: 0.0),
-                                                    ),
-                                                    hintText:
-                                                        'Enter your Password',
-                                                  ),
-                                                ),
-                                                SizedBox(height: 2.h),
-                                                const Text(
-                                                  "Confirm New Password",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 10),
-                                                  textAlign: TextAlign.start,
-                                                ),
-                                                SizedBox(
-                                                  height: 1.h,
-                                                ),
-                                                TextFormField(
-                                                  controller:
-                                                      _confirmTextController,
-                                                  onChanged: (value) =>
-                                                      _checkPassword(value),
-                                                  obscureText:
-                                                      !_passwordVisible,
-                                                  maxLines: 1,
-                                                  keyboardType:
-                                                      TextInputType.text,
-                                                  style: const TextStyle(
-                                                      color: Colors.white),
-                                                  decoration: InputDecoration(
-                                                    suffixIcon: IconButton(
-                                                        icon: Icon(
-                                                          // Based on passwordVisible state choose the icon
-                                                          _passwordVisible
-                                                              ? Icons.visibility
-                                                              : Icons
-                                                                  .visibility_off,
-                                                          color: Theme.of(
-                                                                  context)
-                                                              .primaryColorDark,
-                                                        ),
-                                                        onPressed: () {
-                                                          // Update the state i.e. toogle the state of passwordVisible variable
-                                                          setState(() {
-                                                            _passwordVisible =
-                                                                !_passwordVisible;
-                                                          });
-                                                        }),
-                                                    isDense: true,
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide:
-                                                          const BorderSide(
-                                                              color:
-                                                                  Colors.grey,
-                                                              width: 0.0),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15.0),
-                                                    ),
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15.0),
-                                                      borderSide:
-                                                          const BorderSide(
-                                                              color:
-                                                                  Colors.grey,
-                                                              width: 0.0),
-                                                    ),
-                                                    hintText:
-                                                        'Enter your Password',
-                                                  ),
-                                                ),
-                                              ],
-                                            )))
-                                  ],
-                                )),
-                            SizedBox(
-                              width: 40.w,
-                              child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color.fromRGBO(
-                                          114, 162, 138, 1),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(18.0),
-                                      )),
-                                  onPressed: () {
-                                    simpansettings();
-                                  },
-                                  child: const Text("Save Settings")),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        SizedBox(
+                          width: 100.w,
+                          child: TextFormField(
+                            style: const TextStyle(color: Colors.white),
+                            controller: _emailTextController,
+                            maxLines: 1,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 0.0),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 0.0),
+                              ),
+                              labelText: 'Email',
+                              hintStyle: const TextStyle(color: Colors.white),
+                              labelStyle: const TextStyle(color: Colors.white),
                             ),
-                          ],
-                        ))))));
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please enter phone number";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        SizedBox(
+                          width: 100.w,
+                          child: TextFormField(
+                            style: const TextStyle(color: Colors.white),
+                            controller: _phoneTextController,
+                            maxLines: 1,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 0.0),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 0.0),
+                              ),
+                              labelText: 'Phone Number',
+                              labelStyle: const TextStyle(color: Colors.white),
+                              hintStyle: const TextStyle(color: Colors.white),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please enter phone number";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        SizedBox(
+                          width: 90.w,
+                          child: DropdownMenu<String>(
+                            width: 90.w,
+                            initialSelection: selectedGender,
+                            onSelected: (String? value) {
+                              // This is called when the user selects an item.
+                              setState(() {
+                                selectedGender = value!;
+                              });
+                            },
+                            dropdownMenuEntries: gender
+                                .map<DropdownMenuEntry<String>>((String value) {
+                              return DropdownMenuEntry<String>(
+                                  value: value, label: value);
+                            }).toList(),
+                            inputDecorationTheme: InputDecorationTheme(
+                              isDense: true,
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 0.0),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 0.0),
+                              ),
+                              labelStyle: const TextStyle(color: Colors.white),
+                              hintStyle: const TextStyle(color: Colors.white),
+                            ),
+                            textStyle: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        SizedBox(
+                          width: 90.w,
+                          child: DropdownMenu<String>(
+                            width: 90.w,
+                            initialSelection: selectedCountry,
+                            onSelected: (String? value) {
+                              // This is called when the user selects an item.
+                              setState(() {
+                                selectedCountry = value!;
+                                print(selectedCountry);
+                              });
+                            },
+                            dropdownMenuEntries: country
+                                .map<DropdownMenuEntry<String>>((String value) {
+                              return DropdownMenuEntry<String>(
+                                  value: value, label: value);
+                            }).toList(),
+                            inputDecorationTheme: InputDecorationTheme(
+                              isDense: true,
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 0.0),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 0.0),
+                              ),
+                              labelStyle: const TextStyle(color: Colors.white),
+                              hintStyle: const TextStyle(color: Colors.white),
+                            ),
+                            textStyle: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Divider(
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        SizedBox(
+                          width: 100.w,
+                          child: TextFormField(
+                            style: const TextStyle(color: Colors.white),
+                            controller: _currentTextController,
+                            maxLines: 1,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 0.0),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 0.0),
+                              ),
+                              labelText: 'Change Password',
+                              labelStyle: const TextStyle(color: Colors.white),
+                              hintStyle: const TextStyle(color: Colors.white),
+                              suffixIcon: IconButton(
+                                padding: EdgeInsets.only(top: 0),
+                                icon: Icon(Icons.arrow_forward_ios),
+                                disabledColor: Colors.white,
+                                onPressed: null,
+                              ),
+                            ),
+                            onTap: () {
+                              print("PASSWORD");
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        SizedBox(
+                          width: 100.w,
+                          child: TextFormField(
+                            style: const TextStyle(color: Colors.white),
+                            controller: _currentTextController,
+                            maxLines: 1,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 0.0),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 0.0),
+                              ),
+                              labelText: 'Change PIN',
+                              labelStyle: const TextStyle(color: Colors.white),
+                              hintStyle: const TextStyle(color: Colors.white),
+                              suffixIcon: IconButton(
+                                padding: EdgeInsets.only(top: 0),
+                                icon: Icon(Icons.arrow_forward_ios),
+                                disabledColor: Colors.white,
+                                onPressed: null,
+                              ),
+                            ),
+                            onTap: () {
+                              print("PIN");
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5.h,
+                  ),
+                  SizedBox(
+                    child: ButtonWidget(
+                      name: 'btnPrimaryLight',
+                      text: 'Save',
+                      boxsize: '80',
+                      onTap: () {},
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

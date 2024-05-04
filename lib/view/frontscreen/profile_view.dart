@@ -36,6 +36,14 @@ class _ProfileViewState extends State<ProfileView> {
     if (query != null) {
       setState(() {
         resultData = query;
+        print(resultData);
+        bearerToken().then(
+          (value) => {
+            setState(() {
+              print(value);
+            })
+          },
+        );
       });
     }
   }
@@ -114,7 +122,8 @@ class _ProfileViewState extends State<ProfileView> {
                                         color: Colors.white, fontSize: 16),
                                   ),
                                   Text(
-                                    (resultData == null)
+                                    (resultData == null ||
+                                            resultData['poin'] == null)
                                         ? "0"
                                         : formatter.format(
                                             int.parse(resultData["poin"])),

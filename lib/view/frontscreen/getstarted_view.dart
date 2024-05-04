@@ -1,6 +1,7 @@
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
+import 'package:expatroasters/widgets/backscreens/button_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,7 +32,6 @@ class _GetstartedViewState extends State<GetstartedView> {
     var email = prefs.getString("email");
     var passwd = prefs.getString("passwd");
     var rememberme = prefs.getBool("_rememberme");
-    print(rememberme);
     if (rememberme == true) {
       showLoaderDialog(context);
       Map<String, dynamic> mdata;
@@ -39,7 +39,6 @@ class _GetstartedViewState extends State<GetstartedView> {
       var url = Uri.parse("$urlapi/auth/signin");
       await expatAPI(url, jsonEncode(mdata)).then((ress) {
         var result = jsonDecode(ress);
-        printDebug("MASUK THEN $result");
         if (result["status"] == 200) {
           Navigator.pop(context);
           Get.toNamed("/front-screen/enterpin");
@@ -57,19 +56,6 @@ class _GetstartedViewState extends State<GetstartedView> {
           );
         },
       );
-      // printDebug(result);
-      // if (result["status"] == 200) {
-      //   Get.toNamed("/front-screen/home");
-      // } else {
-      //   var psnerror = result["message"];
-      //   if (context.mounted) {
-      //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //       content: Text(psnerror),
-      //       backgroundColor: Colors.deepOrange,
-      //     ));
-      //     Get.toNamed("/front-screen/signin");
-      //   }
-      // }
     }
   }
 
@@ -98,48 +84,50 @@ class _GetstartedViewState extends State<GetstartedView> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     SizedBox(
-                      width: 90.w,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromRGBO(114, 162, 138, 1),
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                            )),
-                        onPressed: () {
-                          Get.toNamed("/front-screen/getstarted");
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset('assets/images/icon_google.png'),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            const Text("Sign up with Google")
-                          ],
-                        ),
-                      ),
+                      child: ButtonWidget(
+                          name: "btnPrimaryGoogle",
+                          text: "Sign up with Google",
+                          boxsize: '80',
+                          onTap: () {
+                            Get.toNamed("/front-screen/getstarted");
+                          }),
+                    ),
+                    // SizedBox(
+                    //   width: 90.w,
+                    //   child: ElevatedButton(
+                    //     style: ElevatedButton.styleFrom(
+                    //         backgroundColor:
+                    //             const Color.fromRGBO(114, 162, 138, 1),
+                    //         foregroundColor: Colors.white,
+                    //         shape: RoundedRectangleBorder(
+                    //           borderRadius: BorderRadius.circular(18.0),
+                    //         )),
+                    //     onPressed: () {
+                    //       Get.toNamed("/front-screen/getstarted");
+                    //     },
+                    //     child: Row(
+                    //       mainAxisAlignment: MainAxisAlignment.center,
+                    //       children: [
+                    //         Image.asset('assets/images/icon_google.png'),
+                    //         SizedBox(
+                    //           width: 2.w,
+                    //         ),
+                    //         const Text("Sign up with Google")
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+                    SizedBox(
+                      height: 2.h,
                     ),
                     SizedBox(
-                      height: 1.h,
-                    ),
-                    SizedBox(
-                      width: 90.w,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromRGBO(25, 25, 25, 1),
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                            )),
-                        onPressed: () {
-                          Get.toNamed("/front-screen/register");
-                        },
-                        child: const Text("Sign up with E-mail"),
-                      ),
+                      child: ButtonWidget(
+                          name: "btnSecondaryEmail",
+                          text: "Sign up with E-mail",
+                          boxsize: '80',
+                          onTap: () {
+                            Get.toNamed("/front-screen/register");
+                          }),
                     ),
                     SizedBox(
                       height: 2.h,
@@ -149,13 +137,13 @@ class _GetstartedViewState extends State<GetstartedView> {
                         children: [
                           const TextSpan(
                             text: 'Do you have already an account? ',
-                            style: TextStyle(color: Colors.white, fontSize: 10),
+                            style: TextStyle(color: Colors.white, fontSize: 14),
                           ),
                           TextSpan(
                             text: 'Login!',
                             style: const TextStyle(
                                 color: Color.fromRGBO(114, 162, 138, 1),
-                                fontSize: 12),
+                                fontSize: 14),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Get.toNamed("/front-screen/signin");
@@ -170,28 +158,19 @@ class _GetstartedViewState extends State<GetstartedView> {
                     SizedBox(
                         width: 90.w,
                         child: RichText(
-                          text: TextSpan(
+                          textAlign: TextAlign.center,
+                          text: const TextSpan(
                             children: [
-                              const TextSpan(
+                              TextSpan(
                                 text: 'By registering, you agree to ',
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 10),
+                                    color: Colors.white, fontSize: 14),
                               ),
-                              // TextSpan(
-                              //   text: 'our Terms of Use.',
-                              //   style: const TextStyle(
-                              //       color: Colors.blue, fontSize: 10),
-                              //   recognizer: TapGestureRecognizer()
-                              //     ..onTap = () {
-                              //       _launchInWebViewOrVC(Uri.parse(
-                              //           'https://en.wikipedia.org/wiki/Terms_of_service'));
-                              //     },
-                              // ),
-                              const TextSpan(
+                              TextSpan(
                                 text:
                                     ' Learn how we collect, use and share your data.',
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 10),
+                                    color: Colors.white, fontSize: 14),
                               ),
                             ],
                           ),

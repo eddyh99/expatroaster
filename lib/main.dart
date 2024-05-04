@@ -19,6 +19,7 @@ import 'package:expatroasters/view/frontscreen/signup_view.dart';
 import 'package:expatroasters/view/frontscreen/single_outlet.dart';
 import 'package:expatroasters/view/frontscreen/single_promo.dart';
 import 'package:expatroasters/view/frontscreen/topup_view.dart';
+import 'package:expatroasters/view/frontscreen/webviewexample.dart';
 import 'package:expatroasters/view/landing_view.dart';
 import 'package:expatroasters/view/splashscreen.dart';
 import 'package:flutter/material.dart';
@@ -171,6 +172,11 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: '/front-screen/order',
             page: () => const OrderView(),
+            transition: Transition.fadeIn,
+          ),
+          GetPage(
+            name: '/front-screen/webview',
+            page: () => const WebViewExample(),
             transition: Transition.fadeIn,
           ),
         ]);

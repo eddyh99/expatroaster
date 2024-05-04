@@ -58,6 +58,16 @@ Future<String> expatAPI(Uri url, String body) async {
   return response.body;
 }
 
+Future<dynamic> readAllPref() async {
+  final prefs = await SharedPreferences.getInstance();
+  final keys = prefs.getKeys();
+
+  final prefsMap = Map<String, dynamic>();
+  for (String key in keys) {
+    prefsMap[key] = prefs.get(key);
+  }
+}
+
 readPrefStr(String key) async {
   final SharedPreferences pref = await SharedPreferences.getInstance();
   return jsonDecode(pref.getString(key)!);
@@ -111,4 +121,11 @@ String? validateEmail(String? email) {
   }
 
   return null;
+}
+
+String capitalizeFirstLetter(String word) {
+  if (word.isEmpty) {
+    return word; // Return empty string if input is empty
+  }
+  return word[0].toUpperCase() + word.substring(1);
 }

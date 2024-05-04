@@ -28,7 +28,7 @@ class Expatnav extends StatelessWidget {
               else if (i == 1)
                 {Get.toNamed("/front-screen/qrcode")}
               else if (i == 2)
-                {Get.toNamed("/front-screen/menu")}
+                {Get.toNamed("/front-screen/list_outlet")}
               else if (i == 3)
                 {Get.toNamed("/front-screen/profile")}
               // else if (i == 4)

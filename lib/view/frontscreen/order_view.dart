@@ -19,6 +19,8 @@ class _OrderViewState extends State<OrderView> {
   var idcabang = Get.arguments[0]["idcabang"];
   String token = "";
   int value = 0;
+  String totalorder = '';
+  bool isDataReady = true;
 
   @override
   void initState() {
@@ -39,10 +41,26 @@ class _OrderViewState extends State<OrderView> {
             // Update loading bar.
           },
           onPageStarted: (String url) {},
-          onPageFinished: (String url) {},
+          onPageFinished: (String url) {
+            setState(() {
+              isDataReady = false;
+            });
+          },
           onWebResourceError: (WebResourceError error) {},
         ),
       );
+    // ..addJavaScriptChannel(
+    //   'Total',
+    //   onMessageReceived: (JavaScriptMessage message) {
+    //     print("--------Data Receive---------");
+    //     print(message.message);
+    //     totalorder = message.message;
+    //     isDataReady = false;
+    //     print("totalorder $totalorder");
+    //   },
+    // );
+    // ..loadRequest(Uri.parse(
+    //     "$urlbase/widget/order/ordersummary/$token?cabang=$idcabang"));
   }
 
   @override
@@ -69,14 +87,13 @@ class _OrderViewState extends State<OrderView> {
           },
           icon: const Icon(Icons.restaurant_menu),
           label: Text(
-            "Menu",
+            "All Menu",
             style: TextStyle(fontSize: 18),
           ),
           backgroundColor: Color.fromRGBO(131, 173, 152, 1),
           foregroundColor: Colors.white,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        // bottomNavigationBar: const Expatnav(),
       ),
     );
   }

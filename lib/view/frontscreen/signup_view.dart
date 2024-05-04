@@ -235,7 +235,7 @@ class _SignupViewState extends State<SignupView> {
                   ),
                   SizedBox(
                     child: ButtonWidget(
-                      name: "btnPrimaryLigth",
+                      name: "btnPrimaryLight",
                       text: "Create Account",
                       boxsize: '80',
                       onTap: () async {
@@ -330,10 +330,10 @@ class _SignupViewState extends State<SignupView> {
                   SizedBox(
                     child: ButtonWidget(
                       name: "btnSecondary",
-                      text: "Sign Up",
+                      text: "Sign in",
                       boxsize: '80',
                       onTap: () {
-                        Get.toNamed("/front-screen/register");
+                        Get.toNamed("/front-screen/signin");
                       },
                     ),
                   ),
