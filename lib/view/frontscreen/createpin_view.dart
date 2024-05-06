@@ -40,7 +40,7 @@ class _PinViewState extends State<PinView> {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Get.toNamed("/front-screen/signin"),
         ),
         backgroundColor: Colors.black,
       ),
@@ -102,7 +102,7 @@ class _PinViewState extends State<PinView> {
                           )),
                       child: Text("SAVE PIN"),
                       onPressed: () async {
-                        // showLoaderDialog(context);
+                        showLoaderDialog(context);
                         if (!_createpinFormKey.currentState!.validate()) {
                           Navigator.pop(context);
                         }
@@ -120,19 +120,14 @@ class _PinViewState extends State<PinView> {
                               var result = jsonDecode(ress);
                               printDebug(result);
                               if (result["status"] == 200) {
-                                Navigator.pop(context);
                                 showAlert(result["messages"], context);
                                 Get.toNamed("/front-screen/signin");
-                                printDebug(result["messages"]);
                               } else {
-                                Navigator.pop(context);
                                 showAlert(result["messages"]["error"], context);
                               }
-                              // printDebug(ress);
                             },
                           ).catchError(
                             (err) {
-                              Navigator.pop(context);
                               printDebug("100-$err");
                               showAlert(
                                 "404 - Error, Please Contact Administrator",
