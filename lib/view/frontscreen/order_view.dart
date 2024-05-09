@@ -29,7 +29,9 @@ class _OrderViewState extends State<OrderView> {
       (value) => {
         setState(() {
           token = value;
-        })
+          wvcontroller.loadRequest(Uri.parse(
+              "$urlbase/widget/order/ordersummary/$token?cabang=$idcabang"));
+        }),
       },
     );
     wvcontroller = WebViewController()
@@ -49,6 +51,8 @@ class _OrderViewState extends State<OrderView> {
           onWebResourceError: (WebResourceError error) {},
         ),
       );
+    // ..loadRequest(Uri.parse(
+    //     "$urlbase/widget/order/ordersummary/$token?cabang=$idcabang"));
     // ..addJavaScriptChannel(
     //   'Total',
     //   onMessageReceived: (JavaScriptMessage message) {
@@ -65,14 +69,14 @@ class _OrderViewState extends State<OrderView> {
 
   @override
   Widget build(BuildContext context) {
-    wvcontroller.loadRequest(Uri.parse(
-        "$urlbase/widget/order/ordersummary/$token?cabang=$idcabang"));
+    // wvcontroller.loadRequest(Uri.parse(
+    //     "$urlbase/widget/order/ordersummary/$token?cabang=$idcabang"));
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         extendBodyBehindAppBar: true,
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         body: SafeArea(
           child: WebViewWidget(controller: wvcontroller),
         ),

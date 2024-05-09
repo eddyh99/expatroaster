@@ -98,8 +98,8 @@ class _OrderDetailViewState extends State<OrderDetailView> {
   Widget favoriteButton() {
     return FloatingActionButton.extended(
       onPressed: () async {
-        // final String? url = await wvcontroller.currentUrl();
-
+        final String? url = await wvcontroller.getUserAgent();
+        print(url);
         if (mounted) {
           Get.toNamed(
             "/front-screen/order",

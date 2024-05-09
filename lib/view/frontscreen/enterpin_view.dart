@@ -38,7 +38,7 @@ class _EnterpinViewState extends State<EnterpinView> {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Get.toNamed("/front-screen/signin"),
         ),
         backgroundColor: Colors.black,
       ),
