@@ -18,6 +18,8 @@ class ListOutlet extends StatefulWidget {
   State<ListOutlet> createState() => _ListOutletState();
 }
 
+const List<String> provinsi = <String>['Bali', 'Surabaya'];
+
 class _ListOutletState extends State<ListOutlet> {
   dynamic resultData;
   dynamic lengthData;
@@ -40,6 +42,8 @@ class _ListOutletState extends State<ListOutlet> {
       isLoading = false;
     });
   }
+
+  String dropdownValue = provinsi.first;
 
   @override
   Widget build(BuildContext context) {
@@ -69,11 +73,33 @@ class _ListOutletState extends State<ListOutlet> {
                 : ListView(
                     padding: const EdgeInsets.all(8),
                     children: [
+                      SizedBox(
+                        width: 90.w,
+                        child: Center(
+                          child: DropdownMenu(
+                            width: 90.w,
+                            initialSelection: dropdownValue,
+                            onSelected: (String? value) {
+                              setState(() {
+                                dropdownValue = value!;
+                              });
+                              // Call API
+                            },
+                            dropdownMenuEntries: provinsi
+                                .map<DropdownMenuEntry<String>>((String value) {
+                              return DropdownMenuEntry<String>(
+                                  value: value, label: value);
+                            }).toList(),
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 2.h,
+                      ),
                       for (int i = 0; i < lengthData; i++)
-                        // Text(
-                        //   "$resultData",
-                        //   style: TextStyle(color: Colors.white),
-                        // )
                         Container(
                           height: 28.h,
                           color: const Color.fromRGBO(131, 173, 152, 1),
