@@ -62,7 +62,7 @@ Future<dynamic> readAllPref() async {
   final prefs = await SharedPreferences.getInstance();
   final keys = prefs.getKeys();
 
-  final prefsMap = Map<String, dynamic>();
+  final prefsMap = <String, dynamic>{};
   for (String key in keys) {
     prefsMap[key] = prefs.get(key);
   }

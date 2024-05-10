@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingView extends StatefulWidget {
   const SettingView({super.key});
@@ -27,10 +28,8 @@ class _SettingViewState extends State<SettingView> {
   final TextEditingController _nameTextController = TextEditingController();
   final TextEditingController _dobTextController = TextEditingController();
   final TextEditingController _emailTextController = TextEditingController();
-
-  final TextEditingController _currentTextController = TextEditingController();
+  final TextEditingController _pinTextController = TextEditingController();
   final TextEditingController _newpassTextController = TextEditingController();
-  final TextEditingController _confirmTextController = TextEditingController();
   final TextEditingController _phoneTextController = TextEditingController();
   var dobformat = DateFormat('MM/d/yyyy');
   late String _password;
@@ -51,20 +50,20 @@ class _SettingViewState extends State<SettingView> {
 
   Future _asyncMethod() async {
     //get user detail
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
     var url = Uri.parse("$urlapi/v1/mobile/member/get_userdetail");
     var query = jsonDecode(await expatAPI(url, body))["messages"];
-    //printDebug(query);
     // printDebug(resultData);
-    // setState(() {
-    //   resultData = query;
-    //   _nameTextController.text = resultData["nama"];
-    //   _dobTextController.text = resultData["dob"];
-    //   if (resultData["gender"] == "female") {
-    //     selectedOption = 2;
-    //   } else {
-    //     selectedOption = 1;
-    //   }
-    // });
+    setState(() {
+      resultData = query;
+      _nameTextController.text = resultData["nama"];
+      _emailTextController.text = prefs.getString("email")!;
+      _dobTextController.text = resultData["dob"];
+      selectedOption = (resultData["gender"] == "female") ? 2 : 1;
+      _phoneTextController.text = resultData["phone"];
+      selectedCountry = resultData["country"];
+    });
   }
 
   void _checkPassword(String value) {
@@ -91,97 +90,52 @@ class _SettingViewState extends State<SettingView> {
   }
 
   Future<void> simpansettings() async {
-    AlertDialog alert = AlertDialog(
-      backgroundColor: const Color.fromRGBO(30, 30, 30, 1),
-      content: SizedBox(
-          height: 9.h,
-          child: const Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                      Color.fromRGBO(114, 162, 138, 1))),
-            ],
-          )),
-    );
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-
-    var url = Uri.parse("$urlapi/v1/member/updatemember");
-    try {
-      String baseimage = "";
-      if (image != null) {
-        List<int> imageBytes = image!.readAsBytesSync();
-        String baseimage = base64Encode(imageBytes);
-        debugPrint(baseimage);
-      }
-
-      if (_newpassTextController.text.isNotEmpty) {
-        if (!_currentTextController.text.isNotEmpty) {
-          var snackBar =
-              const SnackBar(content: Text('Please enter your old password'));
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        }
-      }
-
-      if (_newpassTextController.text != _confirmTextController.text) {
-        var snackBar = const SnackBar(
-            content: Text('New password & Confirm password does not match'));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
-
-      var newpass = "";
-      if (_newpassTextController.text.isNotEmpty) {
-        newpass =
-            sha1.convert(utf8.encode(_newpassTextController.text)).toString();
-      }
-
-      Map<String, dynamic> mdata;
-      mdata = {
-        'name': _nameTextController.text,
-        'dob': _dobTextController.text,
-        'media': baseimage,
-        'gender': selectedOption,
-        'passwd': newpass
-      };
-
-      var result = jsonDecode(await expatAPI(url, jsonEncode(mdata)));
-      if (result["code"] == "200") {
-        if (context.mounted) {
-          var psnerror = "Settings successfully updated";
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(psnerror),
-              backgroundColor: Colors.deepOrange,
-            ),
-          );
-          Navigator.of(context, rootNavigator: true).pop();
-          Navigator.pop(context);
-          _settingFormKey.currentState?.reset();
-        }
-      } else {
-        if (context.mounted) {
-          var psnerror = result["message"];
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(psnerror),
-            backgroundColor: Colors.deepOrange,
-          ));
-          Navigator.of(context, rootNavigator: true).pop();
-          Navigator.pop(context);
-        }
-      }
-    } catch (e) {
-      debugPrint(e.toString());
-
-      // log(e.toString());
-      //there is error during converting file image to base64 encoding.
+    showLoaderDialog(context);
+    var url = Uri.parse("$urlapi/v1/mobile/member/updatemember");
+    String baseimage = "";
+    if (image != null) {
+      List<int> imageBytes = image!.readAsBytesSync();
+      baseimage = base64Encode(imageBytes);
+      //debugPrint(baseimage);
     }
+
+    var newpass = "";
+    if (_newpassTextController.text.isNotEmpty) {
+      newpass =
+          sha1.convert(utf8.encode(_newpassTextController.text)).toString();
+    }
+    var newpin = "";
+    if (_newpassTextController.text.isNotEmpty) {
+      newpin = sha1.convert(utf8.encode(_pinTextController.text)).toString();
+    }
+
+    Map<String, dynamic> mdata;
+    mdata = {
+      'nama': _nameTextController.text,
+      'dob': _dobTextController.text,
+      'media': baseimage,
+      'gender': selectedOption,
+      'phone': _phoneTextController.text,
+      'country': selectedCountry,
+      'passwd': newpass,
+      'pin': newpin
+    };
+    await expatAPI(url, jsonEncode(mdata)).then((ress) {
+      Navigator.pop(context);
+      Navigator.of(context, rootNavigator: true).pop();
+
+      showAlert(
+        "Profile successfully updated",
+        context,
+      );
+    }).catchError((err) {
+      Navigator.pop(context);
+      printDebug("100-$err");
+      showAlert(
+        "100 - Something Wrong, Please Contact Administrator",
+        context,
+      );
+    });
   }
 
   Future pickgambar(String sumber) async {
@@ -230,7 +184,7 @@ class _SettingViewState extends State<SettingView> {
           title: Padding(
               padding: EdgeInsets.symmetric(horizontal: 15.w),
               child: const Text(
-                "SETTINGS ACCOUNT",
+                "SETTINGS",
                 style: TextStyle(color: Colors.white),
               )),
         ),
@@ -348,8 +302,8 @@ class _SettingViewState extends State<SettingView> {
                                 borderSide: const BorderSide(
                                     color: Colors.grey, width: 0.0),
                               ),
-                              hintText: 'Date of Birth (mm/dd/yyyy)',
-                              labelText: 'Date of Birth (mm/dd/yyyy)',
+                              hintText: 'Date of Birth (yyyy/mm/dd)',
+                              labelText: 'Date of Birth (yyyy/mm/dd)',
                               hintStyle: const TextStyle(color: Colors.white),
                             ),
                           ),
@@ -362,6 +316,7 @@ class _SettingViewState extends State<SettingView> {
                           child: TextFormField(
                             style: const TextStyle(color: Colors.white),
                             controller: _emailTextController,
+                            readOnly: true,
                             maxLines: 1,
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
@@ -456,7 +411,7 @@ class _SettingViewState extends State<SettingView> {
                               labelStyle: const TextStyle(color: Colors.white),
                               hintStyle: const TextStyle(color: Colors.white),
                             ),
-                            textStyle: TextStyle(color: Colors.white),
+                            textStyle: const TextStyle(color: Colors.white),
                           ),
                         ),
                         SizedBox(
@@ -471,7 +426,6 @@ class _SettingViewState extends State<SettingView> {
                               // This is called when the user selects an item.
                               setState(() {
                                 selectedCountry = value!;
-                                print(selectedCountry);
                               });
                             },
                             dropdownMenuEntries: country
@@ -494,13 +448,13 @@ class _SettingViewState extends State<SettingView> {
                               labelStyle: const TextStyle(color: Colors.white),
                               hintStyle: const TextStyle(color: Colors.white),
                             ),
-                            textStyle: TextStyle(color: Colors.white),
+                            textStyle: const TextStyle(color: Colors.white),
                           ),
                         ),
                         SizedBox(
                           height: 5.h,
                         ),
-                        Divider(
+                        const Divider(
                           color: Colors.white,
                         ),
                         SizedBox(
@@ -510,7 +464,7 @@ class _SettingViewState extends State<SettingView> {
                           width: 100.w,
                           child: TextFormField(
                             style: const TextStyle(color: Colors.white),
-                            controller: _currentTextController,
+                            controller: _newpassTextController,
                             maxLines: 1,
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
@@ -528,7 +482,7 @@ class _SettingViewState extends State<SettingView> {
                               labelText: 'Change Password',
                               labelStyle: const TextStyle(color: Colors.white),
                               hintStyle: const TextStyle(color: Colors.white),
-                              suffixIcon: IconButton(
+                              suffixIcon: const IconButton(
                                 padding: EdgeInsets.only(top: 0),
                                 icon: Icon(Icons.arrow_forward_ios),
                                 disabledColor: Colors.white,
@@ -547,7 +501,7 @@ class _SettingViewState extends State<SettingView> {
                           width: 100.w,
                           child: TextFormField(
                             style: const TextStyle(color: Colors.white),
-                            controller: _currentTextController,
+                            controller: _pinTextController,
                             maxLines: 1,
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
@@ -565,7 +519,7 @@ class _SettingViewState extends State<SettingView> {
                               labelText: 'Change PIN',
                               labelStyle: const TextStyle(color: Colors.white),
                               hintStyle: const TextStyle(color: Colors.white),
-                              suffixIcon: IconButton(
+                              suffixIcon: const IconButton(
                                 padding: EdgeInsets.only(top: 0),
                                 icon: Icon(Icons.arrow_forward_ios),
                                 disabledColor: Colors.white,
@@ -577,6 +531,19 @@ class _SettingViewState extends State<SettingView> {
                             },
                           ),
                         ),
+                        SizedBox(
+                          height: 1.h,
+                        ),
+                        const Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "leave blank if you don't want to change it",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: Colors.white,
+                              ),
+                            )),
                       ],
                     ),
                   ),
@@ -588,7 +555,9 @@ class _SettingViewState extends State<SettingView> {
                       name: 'btnPrimaryLight',
                       text: 'Save',
                       boxsize: '80',
-                      onTap: () {},
+                      onTap: () {
+                        simpansettings();
+                      },
                     ),
                   ),
                 ],

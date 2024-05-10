@@ -114,7 +114,7 @@ class _ProfileViewState extends State<ProfileView> {
                                     fontsize: '26.0',
                                   ),
                                   SizedBox(
-                                    height: 6.h,
+                                    height: 2.h,
                                   ),
                                   Text(
                                     "EXPAT. ROASTERS POINTS".toUpperCase(),
