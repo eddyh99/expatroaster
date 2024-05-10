@@ -27,11 +27,15 @@ class _ListOutletState extends State<ListOutlet> {
   dynamic resultData;
   dynamic lengthData;
   bool isLoading = true;
+  String? _currentAddress;
+  Position? _currentPosition;
+  String? dropdownValue = provinsi.first;
 
   @override
   void initState() {
     super.initState();
     _asyncMethod();
+    _getCurrentPosition();
     // readAllPref();
   }
 
@@ -45,9 +49,6 @@ class _ListOutletState extends State<ListOutlet> {
       isLoading = false;
     });
   }
-
-  String? _currentAddress;
-  Position? _currentPosition;
 
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
@@ -90,25 +91,18 @@ class _ListOutletState extends State<ListOutlet> {
   }
 
   Future<void> _getAddressFromLatLng(Position position) async {
-    printDebug(_currentPosition!.latitude);
-    printDebug(_currentPosition!.longitude);
-    List<Placemark> placemarks = await placemarkFromCoordinates(
-        _currentPosition!.latitude, _currentPosition!.longitude);
-    printDebug(placemarks.toString());
-/*    await placemarkFromCoordinates(
+    await placemarkFromCoordinates(
             _currentPosition!.latitude, _currentPosition!.longitude)
         .then((List<Placemark> placemarks) {
       Placemark place = placemarks[0];
       setState(() {
-        _currentAddress =
-            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+        printDebug(place.administrativeArea.toString());
+        dropdownValue = place.administrativeArea;
       });
     }).catchError((e) {
       debugPrint(e);
-    });*/
+    });
   }
-
-  String dropdownValue = provinsi.first;
 
   @override
   Widget build(BuildContext context) {
@@ -138,17 +132,6 @@ class _ListOutletState extends State<ListOutlet> {
                 : ListView(
                     padding: const EdgeInsets.all(8),
                     children: [
-                      Text('LAT: ${_currentPosition?.latitude ?? ""}'),
-                      Text('LNG: ${_currentPosition?.longitude ?? ""}'),
-                      Text('ADDRESS: ${_currentAddress ?? ""}'),
-                      ButtonWidget(
-                        name: 'btnPrimaryLight',
-                        text: 'Save',
-                        boxsize: '80',
-                        onTap: () {
-                          _getCurrentPosition();
-                        },
-                      ),
                       SizedBox(
                         width: 90.w,
                         child: Center(
