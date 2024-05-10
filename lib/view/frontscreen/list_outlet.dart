@@ -4,10 +4,13 @@ import 'dart:convert';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
 import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
+import 'package:expatroasters/widgets/backscreens/button_widget.dart';
 import 'package:expatroasters/widgets/backscreens/shimmer_widget.dart';
 import 'package:expatroasters/widgets/frontscreens/listimage_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:expatroasters/utils/extensions.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -43,6 +46,68 @@ class _ListOutletState extends State<ListOutlet> {
     });
   }
 
+  String? _currentAddress;
+  Position? _currentPosition;
+
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      showAlert('Location services are disabled. Please enable the services',
+          context);
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        showAlert('Location permissions are denied', context);
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      showAlert(
+          'Location permissions are permanently denied, we cannot request permissions.',
+          context);
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> _getCurrentPosition() async {
+    final hasPermission = await _handleLocationPermission();
+
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() => _currentPosition = position);
+      _getAddressFromLatLng(_currentPosition!);
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
+  Future<void> _getAddressFromLatLng(Position position) async {
+    printDebug(_currentPosition!.latitude);
+    printDebug(_currentPosition!.longitude);
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+        _currentPosition!.latitude, _currentPosition!.longitude);
+    printDebug(placemarks.toString());
+/*    await placemarkFromCoordinates(
+            _currentPosition!.latitude, _currentPosition!.longitude)
+        .then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      setState(() {
+        _currentAddress =
+            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+      });
+    }).catchError((e) {
+      debugPrint(e);
+    });*/
+  }
+
   String dropdownValue = provinsi.first;
 
   @override
@@ -73,6 +138,17 @@ class _ListOutletState extends State<ListOutlet> {
                 : ListView(
                     padding: const EdgeInsets.all(8),
                     children: [
+                      Text('LAT: ${_currentPosition?.latitude ?? ""}'),
+                      Text('LNG: ${_currentPosition?.longitude ?? ""}'),
+                      Text('ADDRESS: ${_currentAddress ?? ""}'),
+                      ButtonWidget(
+                        name: 'btnPrimaryLight',
+                        text: 'Save',
+                        boxsize: '80',
+                        onTap: () {
+                          _getCurrentPosition();
+                        },
+                      ),
                       SizedBox(
                         width: 90.w,
                         child: Center(
@@ -90,7 +166,7 @@ class _ListOutletState extends State<ListOutlet> {
                               return DropdownMenuEntry<String>(
                                   value: value, label: value);
                             }).toList(),
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                               color: Colors.white,
                             ),
                           ),
@@ -100,52 +176,54 @@ class _ListOutletState extends State<ListOutlet> {
                         height: 2.h,
                       ),
                       for (int i = 0; i < lengthData; i++)
-                        Container(
-                          height: 28.h,
-                          color: const Color.fromRGBO(131, 173, 152, 1),
-                          margin: EdgeInsets.all(1.w),
-                          // child: Center(child: Text('Entry ${imglst[index][0]}')),
-                          child: ListimageView(
-                            image: NetworkImage(resultData[i]['picture']),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.transparent,
-                                  shadowColor: Colors.transparent),
-                              onPressed: () {
-                                // Navigator.of(context).pop();
-                                confirmOutlet(
-                                    context,
-                                    capitalizeFirstLetter(
-                                        resultData[i]['nama']),
-                                    capitalizeFirstLetter(
-                                        resultData[i]['alamat']),
-                                    resultData[i]['id']);
-                              },
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    resultData[i]['nama'],
-                                    style: const TextStyle(
-                                        color: Color.fromRGBO(131, 173, 152, 1),
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                  SizedBox(
-                                    width: 100.w,
-                                    child: Text(
-                                      resultData[i]['alamat'],
+                        if (resultData[i]["provinsi"] == dropdownValue)
+                          Container(
+                            height: 28.h,
+                            color: const Color.fromRGBO(131, 173, 152, 1),
+                            margin: EdgeInsets.all(1.w),
+                            // child: Center(child: Text('Entry ${imglst[index][0]}')),
+                            child: ListimageView(
+                              image: NetworkImage(resultData[i]['picture']),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.transparent,
+                                    shadowColor: Colors.transparent),
+                                onPressed: () {
+                                  // Navigator.of(context).pop();
+                                  confirmOutlet(
+                                      context,
+                                      capitalizeFirstLetter(
+                                          resultData[i]['nama']),
+                                      capitalizeFirstLetter(
+                                          resultData[i]['alamat']),
+                                      resultData[i]['id']);
+                                },
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      resultData[i]['nama'],
                                       style: const TextStyle(
-                                          color: Colors.white, fontSize: 14),
+                                          color:
+                                              Color.fromRGBO(131, 173, 152, 1),
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700),
                                     ),
-                                  ),
-                                  SizedBox(height: 0.5.h),
-                                ],
+                                    SizedBox(
+                                      width: 100.w,
+                                      child: Text(
+                                        resultData[i]['alamat'],
+                                        style: const TextStyle(
+                                            color: Colors.white, fontSize: 14),
+                                      ),
+                                    ),
+                                    SizedBox(height: 0.5.h),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
                     ],
                   ),
           ),

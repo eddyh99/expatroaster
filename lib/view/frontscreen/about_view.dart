@@ -57,6 +57,8 @@ class _AboutViewState extends State<AboutView> {
                 )
               ],
             )),
-            bottomNavigationBar: const Expatnav()));
+            bottomNavigationBar: const Expatnav(
+              number: 3,
+            )));
   }
 }

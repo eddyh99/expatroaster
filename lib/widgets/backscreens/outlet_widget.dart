@@ -52,7 +52,7 @@ class _OutletViewState extends State<OutletView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                height: 21.h,
+                height: 22.h,
                 width: 100.w,
                 child: (is_loading)
                     ? Row(

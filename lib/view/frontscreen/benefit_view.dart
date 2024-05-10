@@ -155,6 +155,8 @@ class _BenefitViewState extends State<BenefitView> {
                   child: const PromotionView()),
               SizedBox(height: 5.h)
             ]))),
-            bottomNavigationBar: const Expatnav()));
+            bottomNavigationBar: const Expatnav(
+              number: 3,
+            )));
   }
 }

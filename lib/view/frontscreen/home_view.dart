@@ -387,9 +387,6 @@ class _HomeViewState extends State<HomeView> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
-                                      height: 2.h,
-                                    ),
                                     const Divider(
                                       color: Colors.white,
                                     ),
