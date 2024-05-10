@@ -22,7 +22,7 @@ class _PromotionViewState extends State<PromotionView>
   var selectedTabIndex = 1;
   late TabController _tabController;
   String body = '';
-  dynamic instoreData, onlineData;
+  dynamic instoreData, onlineData, promotion;
   bool is_loading = true;
   @override
   void initState() {
@@ -38,170 +38,133 @@ class _PromotionViewState extends State<PromotionView>
 
   Future _asyncMethod() async {
     //get user detail
-    var url = Uri.parse("$urlapi/v1/mobile/promotion/get_allinstore");
-    var query = jsonDecode(await expatAPI(url, body))["messages"];
-    var url2 = Uri.parse("$urlapi/v1/mobile/promotion/get_allonline");
-    var query2 = jsonDecode(await expatAPI(url2, body))["messages"];
+    // var url = Uri.parse("$urlapi/v1/mobile/promotion/get_allinstore");
+    // var query = jsonDecode(await expatAPI(url, body))["messages"];
+    // var url2 = Uri.parse("$urlapi/v1/mobile/promotion/get_allonline");
+    // var query2 = jsonDecode(await expatAPI(url2, body))["messages"];
+
+    var url3 = Uri.parse("$urlapi/v1/mobile/promotion/get_allpromo");
+    var allpromotion = jsonDecode(await expatAPI(url3, body))["messages"];
+
     setState(() {
-      instoreData = query;
-      onlineData = query2;
+      // instoreData = query;
+      // onlineData = query2;
+      promotion = allpromotion;
       is_loading = false;
     });
-    printDebug(onlineData.length.toString());
-    printDebug(instoreData[0]["id"]);
   }
 
-  instorewidget(i) {
-    return SizedBox(
-        height: 150,
-        width: 100.w,
-        child: GestureDetector(
-            onTap: () async {
-              Get.toNamed("/front-screen/singlePromo", arguments: [
-                {"second": instoreData[i]["id"]}
-              ]);
-            },
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(5), // Image border
-                child: DecoratedBox(
-                    decoration: BoxDecoration(
-                  color: Colors.black,
-                  image: DecorationImage(
-                    image: NetworkImage(instoreData[i]["picture"]),
-                    fit: BoxFit.cover,
-                  ),
-                )))));
-  }
+  // instorewidget(i) {
+  //   return SizedBox(
+  //       height: 150,
+  //       width: 100.w,
+  //       child: GestureDetector(
+  //           onTap: () async {
+  //             Get.toNamed("/front-screen/singlePromo", arguments: [
+  //               {"second": instoreData[i]["id"]}
+  //             ]);
+  //           },
+  //           child: ClipRRect(
+  //               borderRadius: BorderRadius.circular(5), // Image border
+  //               child: DecoratedBox(
+  //                   decoration: BoxDecoration(
+  //                 color: Colors.black,
+  //                 image: DecorationImage(
+  //                   image: NetworkImage(instoreData[i]["picture"]),
+  //                   fit: BoxFit.cover,
+  //                 ),
+  //               )))));
+  // }
 
-  onlinewidget(i) {
-    return SizedBox(
-        height: 150,
-        child: GestureDetector(
-            onTap: () async {
-              Get.toNamed("/front-screen/singlePromo", arguments: [
-                {"second": onlineData[i]["id"]}
-              ]);
-            },
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(20), // Image border
-                child: DecoratedBox(
-                    decoration: BoxDecoration(
-                  color: Colors.black,
-                  image: DecorationImage(
-                    image: NetworkImage(onlineData[i]["picture"]),
-                    fit: BoxFit.cover,
-                  ),
-                )))));
-  }
+  // onlinewidget(i) {
+  //   return SizedBox(
+  //     height: 150,
+  //     child: GestureDetector(
+  //       onTap: () async {
+  //         Get.toNamed("/front-screen/singlePromo", arguments: [
+  //           {"second": onlineData[i]["id"]}
+  //         ]);
+  //       },
+  //       child: ClipRRect(
+  //         borderRadius: BorderRadius.circular(20), // Image border
+  //         child: DecoratedBox(
+  //           decoration: BoxDecoration(
+  //             color: Colors.black,
+  //             image: DecorationImage(
+  //               image: NetworkImage(onlineData[i]["picture"]),
+  //               fit: BoxFit.cover,
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-            extendBodyBehindAppBar: true,
-            backgroundColor: Colors.black,
-            appBar: AppBar(
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              title: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  child: const Text("PROMOTION")),
-              backgroundColor: Colors.transparent,
-              foregroundColor: Colors.white,
-              elevation: 0,
-            ),
-            body: SafeArea(
-              child: SingleChildScrollView(
-                  child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.w),
-                      child: Column(
-                        children: [
-                          // give the tab bar a height [can change hheight to preferred height]
-                          SizedBox(
-                              height: 45,
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        extendBodyBehindAppBar: true,
+        backgroundColor: Colors.black,
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          title: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              child: const Text("PROMOTION")),
+          backgroundColor: Colors.transparent,
+          foregroundColor: Colors.white,
+          elevation: 0,
+        ),
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 4.w),
+            child: (is_loading)
+                ? ShimmerWidget(tinggi: 80.h, lebar: 100.w)
+                : ListView.builder(
+                    itemCount: (promotion == null) ? 0 : promotion.length,
+                    itemBuilder: (context, i) {
+                      return Padding(
+                        padding: EdgeInsets.only(top: 2.h),
+                        child: SizedBox(
+                          width: 100.w,
+                          height: 25.h,
+                          child: GestureDetector(
+                            onTap: () async {
+                              Get.toNamed("/front-screen/singlePromo",
+                                  arguments: [
+                                    {"second": promotion[i]["id"]}
+                                  ]);
+                            },
+                            child: ClipRRect(
+                              borderRadius:
+                                  BorderRadius.circular(4), // Image border
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
-                                  color: const Color.fromRGBO(14, 14, 18, 1),
-                                  borderRadius: BorderRadius.circular(
-                                    10.0,
+                                  color: Colors.black,
+                                  image: DecorationImage(
+                                    image:
+                                        NetworkImage(promotion[i]["picture"]),
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                                child: TabBar(
-                                  controller: _tabController,
-                                  // give the indicator a decoration (color and border radius)
-                                  indicator: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(
-                                      10.0,
-                                    ),
-                                    color: const Color.fromRGBO(78, 78, 97, 1),
-                                  ),
-                                  labelColor: Colors.white,
-                                  unselectedLabelColor: Colors.white,
-                                  tabs: const [
-                                    // first tab [you can add an icon using the icon property]
-                                    Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 30),
-                                        child: Tab(
-                                          text: 'ONLINE',
-                                        )),
-
-                                    // second tab [you can add an icon using the icon property]
-                                    Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 25),
-                                        child: Tab(
-                                          text: 'IN-STORE',
-                                        )),
-                                  ],
-                                ),
-                              )),
-                          SizedBox(
-                            height: 2.h,
+                              ),
+                            ),
                           ),
-
-                          SizedBox(
-                              height: 65.h,
-                              width: 100.w,
-                              child: TabBarView(
-                                controller: _tabController,
-                                children: [
-                                  // first tab bar view widget
-                                  (is_loading)
-                                      ? ShimmerWidget(tinggi: 30, lebar: 100.w)
-                                      : ListView.builder(
-                                          itemCount: (onlineData == null)
-                                              ? 0
-                                              : onlineData.length,
-                                          itemBuilder: (context, i) {
-                                            return Padding(
-                                                padding:
-                                                    EdgeInsets.only(top: 2.h),
-                                                child: onlinewidget(i));
-                                          },
-                                        ),
-                                  (is_loading)
-                                      ? ShimmerWidget(tinggi: 30, lebar: 100.w)
-                                      : ListView.builder(
-                                          itemCount: (instoreData == null)
-                                              ? 0
-                                              : instoreData.length,
-                                          itemBuilder: (context, i) {
-                                            return Padding(
-                                                padding:
-                                                    EdgeInsets.only(top: 2.h),
-                                                child: instorewidget(i));
-                                          },
-                                        ),
-                                ],
-                              )),
-                          // tab bar view here
-                        ],
-                      ))),
-            ),
-            bottomNavigationBar: const Expatnav()));
+                        ),
+                      );
+                    },
+                  ),
+          ),
+        ),
+        bottomNavigationBar: const Expatnav(
+          number: 0,
+        ),
+      ),
+    );
   }
 }
