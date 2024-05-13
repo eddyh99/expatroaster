@@ -18,6 +18,7 @@ import 'package:expatroasters/view/frontscreen/signin_view.dart';
 import 'package:expatroasters/view/frontscreen/signup_view.dart';
 import 'package:expatroasters/view/frontscreen/single_outlet.dart';
 import 'package:expatroasters/view/frontscreen/single_promo.dart';
+import 'package:expatroasters/view/frontscreen/term_view.dart';
 import 'package:expatroasters/view/frontscreen/topup_view.dart';
 import 'package:expatroasters/view/frontscreen/webviewexample.dart';
 import 'package:expatroasters/view/landing_view.dart';
@@ -73,6 +74,11 @@ class MyApp extends StatelessWidget {
             name: '/front-screen/getstarted',
             page: () => const GetstartedView(),
             transition: Transition.leftToRight,
+          ),
+          GetPage(
+            name: '/front-screen/termcondition',
+            page: () => const TermView(),
+            transition: Transition.noTransition,
           ),
           GetPage(
             name: '/front-screen/register',

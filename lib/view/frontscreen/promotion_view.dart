@@ -1,4 +1,5 @@
 import 'dart:convert';
+// import 'dart:js_util';
 
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
@@ -51,6 +52,7 @@ class _PromotionViewState extends State<PromotionView>
       // onlineData = query2;
       promotion = allpromotion;
       is_loading = false;
+      printDebug(promotion);
     });
   }
 

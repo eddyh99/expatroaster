@@ -102,7 +102,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
         print(url);
         if (mounted) {
           Get.toNamed(
-            "/front-screen/order",
+            "/front-screen/allmenu",
             arguments: [
               {"idcabang": idcabang}
             ],

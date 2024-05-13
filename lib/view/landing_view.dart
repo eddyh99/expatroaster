@@ -60,34 +60,6 @@ class _LandingViewState extends State<LandingView> {
 
   int currentIndex = 0;
 
-  // Future _asyncMethod() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   var email = prefs.getString("email");
-  //   var passwd = prefs.getString("passwd");
-  //   var rememberme = prefs.getBool("_rememberme");
-  //   if (rememberme == true) {
-  //     Map<String, dynamic> mdata;
-  //     mdata = {'email': email, 'passwd': passwd};
-  //     var url = Uri.parse("$urlapi/auth/signin");
-  //     var result = jsonDecode(await expatAPI(url, jsonEncode(mdata)));
-  //     printDebug(result);
-  //     if (result["code"] == "200") {
-  //       Get.toNamed("/front-screen/home", arguments: [
-  //         {"first": result["message"]}
-  //       ]);
-  //     } else {
-  //       var psnerror = result["message"];
-  //       if (context.mounted) {
-  //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //           content: Text(psnerror),
-  //           backgroundColor: Colors.deepOrange,
-  //         ));
-  //         Get.toNamed("/front-screen/signin");
-  //       }
-  //     }
-  //   }
-  // }
-
   @override
   void initState() {
     super.initState();

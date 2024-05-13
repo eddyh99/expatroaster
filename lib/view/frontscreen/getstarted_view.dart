@@ -2,8 +2,10 @@ import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
 import 'package:expatroasters/widgets/backscreens/button_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,6 +33,7 @@ class _GetstartedViewState extends State<GetstartedView> {
     var email = prefs.getString("email");
     var passwd = prefs.getString("passwd");
     var rememberme = prefs.getBool("_rememberme");
+
     if (rememberme == true) {
       showLoaderDialog(context);
       Map<String, dynamic> mdata;
@@ -61,7 +64,13 @@ class _GetstartedViewState extends State<GetstartedView> {
   @override
   void initState() {
     super.initState();
+
     _asyncMethod();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -91,31 +100,6 @@ class _GetstartedViewState extends State<GetstartedView> {
                             Get.toNamed("/front-screen/getstarted");
                           }),
                     ),
-                    // SizedBox(
-                    //   width: 90.w,
-                    //   child: ElevatedButton(
-                    //     style: ElevatedButton.styleFrom(
-                    //         backgroundColor:
-                    //             const Color.fromRGBO(114, 162, 138, 1),
-                    //         foregroundColor: Colors.white,
-                    //         shape: RoundedRectangleBorder(
-                    //           borderRadius: BorderRadius.circular(18.0),
-                    //         )),
-                    //     onPressed: () {
-                    //       Get.toNamed("/front-screen/getstarted");
-                    //     },
-                    //     child: Row(
-                    //       mainAxisAlignment: MainAxisAlignment.center,
-                    //       children: [
-                    //         Image.asset('assets/images/icon_google.png'),
-                    //         SizedBox(
-                    //           width: 2.w,
-                    //         ),
-                    //         const Text("Sign up with Google")
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
                     SizedBox(
                       height: 2.h,
                     ),
@@ -136,13 +120,13 @@ class _GetstartedViewState extends State<GetstartedView> {
                         children: [
                           const TextSpan(
                             text: 'Do you have already an account? ',
-                            style: TextStyle(color: Colors.white, fontSize: 14),
+                            style: TextStyle(color: Colors.white, fontSize: 12),
                           ),
                           TextSpan(
                             text: 'Login!',
                             style: const TextStyle(
                                 color: Color.fromRGBO(114, 162, 138, 1),
-                                fontSize: 14),
+                                fontSize: 12),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Get.toNamed("/front-screen/signin");
@@ -158,18 +142,32 @@ class _GetstartedViewState extends State<GetstartedView> {
                         width: 90.w,
                         child: RichText(
                           textAlign: TextAlign.center,
-                          text: const TextSpan(
+                          text: TextSpan(
                             children: [
                               TextSpan(
-                                text: 'By registering, you agree to ',
+                                text: 'By registering, you agree to our ',
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 14),
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "Terms of Use",
+                                style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Get.toNamed("/front-screen/termcondition");
+                                  },
                               ),
                               TextSpan(
                                 text:
                                     ' Learn how we collect, use and share your data.',
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 14),
+                                    color: Colors.white, fontSize: 12),
                               ),
                             ],
                           ),
