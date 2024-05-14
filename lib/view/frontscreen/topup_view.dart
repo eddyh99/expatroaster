@@ -23,11 +23,15 @@ class _TopupViewState extends State<TopupView> {
   @override
   void initState() {
     super.initState();
-    bearerToken().then((value) => {
-          setState(() {
-            token = value;
-          })
-        });
+    bearerToken().then(
+      (value) => {
+        setState(() {
+          token = value;
+          wvcontroller.loadRequest(
+              Uri.parse("$urlbase/widget/topup/membertopup/$token"));
+        })
+      },
+    );
     wvcontroller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
@@ -45,9 +49,6 @@ class _TopupViewState extends State<TopupView> {
 
   @override
   Widget build(BuildContext context) {
-    wvcontroller
-        .loadRequest(Uri.parse("$urlbase/widget/topup/membertopup/$token"));
-
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
@@ -68,10 +69,12 @@ class _TopupViewState extends State<TopupView> {
             ),
             body: SafeArea(
                 child: SingleChildScrollView(
-                    child: SizedBox(
-                        height: 100.h,
-                        width: 100.w,
-                        child: WebViewWidget(controller: wvcontroller)))),
+                    child: Center(
+              child: SizedBox(
+                  height: 200.h,
+                  width: 100.w,
+                  child: WebViewWidget(controller: wvcontroller)),
+            ))),
             bottomNavigationBar: const Expatnav()));
   }
 }

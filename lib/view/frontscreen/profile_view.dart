@@ -101,14 +101,23 @@ class _ProfileViewState extends State<ProfileView> {
                                           radius: 30, // Image radius
                                           backgroundColor: Colors.white,
                                           backgroundImage: (resultData[
-                                                      "picture"] ==
-                                                  null)
+                                                          "picture"] ==
+                                                      null &&
+                                                  resultData["gender"] ==
+                                                      "male")
                                               ? const AssetImage(
-                                                      "assets/images/avatar.png")
+                                                      "assets/images/men-default.png")
                                                   as ImageProvider
-                                              : NetworkImage(
-                                                  resultData["picture"],
-                                                ),
+                                              : (resultData["picture"] ==
+                                                          null &&
+                                                      resultData["gender"] ==
+                                                          "female")
+                                                  ? const AssetImage(
+                                                          "assets/images/women-default.png")
+                                                      as ImageProvider
+                                                  : NetworkImage(
+                                                      resultData["picture"],
+                                                    ),
                                         ),
                                   SizedBox(
                                     height: 2.h,
