@@ -71,7 +71,7 @@ class _TopupViewState extends State<TopupView> {
                 child: SingleChildScrollView(
                     child: Center(
               child: SizedBox(
-                  height: 200.h,
+                  height: 500.h,
                   width: 100.w,
                   child: WebViewWidget(controller: wvcontroller)),
             ))),

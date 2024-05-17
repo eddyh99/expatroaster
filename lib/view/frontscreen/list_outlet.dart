@@ -13,6 +13,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class ListOutlet extends StatefulWidget {
   const ListOutlet({super.key});
@@ -42,6 +43,7 @@ class _ListOutletState extends State<ListOutlet> {
   String? _currentDistrict;
   Position? _currentPosition;
   String? dropdownValue = provinsi.first;
+  late final WebViewController wvcontroller;
 
   @override
   void initState() {
@@ -160,7 +162,7 @@ class _ListOutletState extends State<ListOutlet> {
           appBar: AppBar(
             leading: IconButton(
               icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => Get.toNamed('front-screen/home'),
             ),
             centerTitle: true,
             title: Padding(
@@ -316,6 +318,9 @@ class _ListOutletState extends State<ListOutlet> {
                 foregroundColor: Colors.white,
                 padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h)),
             onPressed: () {
+              wvcontroller = WebViewController();
+              wvcontroller
+                  .loadRequest(Uri.parse("$urlbase/widget/order/removecookie"));
               Get.toNamed(
                 "/front-screen/allmenu",
                 arguments: [
