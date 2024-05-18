@@ -10,6 +10,7 @@ import 'package:expatroasters/view/frontscreen/home_view.dart';
 import 'package:expatroasters/view/frontscreen/list_outlet.dart';
 import 'package:expatroasters/view/frontscreen/orderdetail_view.dart';
 import 'package:expatroasters/view/frontscreen/order_view.dart';
+import 'package:expatroasters/view/frontscreen/history_view.dart';
 import 'package:expatroasters/view/frontscreen/profile_view.dart';
 import 'package:expatroasters/view/frontscreen/promotion_view.dart';
 import 'package:expatroasters/view/frontscreen/qrcode_view.dart';
@@ -183,6 +184,11 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: '/front-screen/webview',
             page: () => const WebViewExample(),
+            transition: Transition.fadeIn,
+          ),
+          GetPage(
+            name: '/front-screen/history',
+            page: () => const HistoryView(),
             transition: Transition.fadeIn,
           ),
         ]);

@@ -138,788 +138,790 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
         body: SafeArea(
           child: DefaultTabController(
             length: 3,
-            child: Column(children: [
-              SizedBox(
-                height: 3.h,
-              ),
-              Container(
-                height: 7.5.h,
-                color: Colors.black,
-                child: TabBar(
-                  physics: const ClampingScrollPhysics(),
-                  padding: const EdgeInsets.all(10),
-                  unselectedLabelColor: Colors.white,
-                  indicatorSize: TabBarIndicatorSize.label,
-                  indicator: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: const Color.fromRGBO(73, 116, 95, 1),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 3.h,
+                ),
+                Container(
+                  height: 7.5.h,
+                  color: Colors.black,
+                  child: TabBar(
+                    physics: const ClampingScrollPhysics(),
+                    padding: const EdgeInsets.all(10),
+                    unselectedLabelColor: Colors.white,
+                    indicatorSize: TabBarIndicatorSize.label,
+                    indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: const Color.fromRGBO(73, 116, 95, 1),
+                    ),
+                    dividerColor: Colors.transparent,
+                    tabs: [
+                      Tab(
+                        child: Container(
+                          height: 35.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            border: Border.all(
+                              color: const Color.fromRGBO(114, 162, 138, 1),
+                            ),
+                          ),
+                          child: const Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              "DRINKS",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Tab(
+                        child: Container(
+                          height: 35.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            border: Border.all(
+                                color: const Color.fromRGBO(114, 162, 138, 1)),
+                          ),
+                          child: const Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              "FOOD",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Tab(
+                        child: Container(
+                          height: 35.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            border: Border.all(
+                                color: const Color.fromRGBO(114, 162, 138, 1)),
+                          ),
+                          child: const Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              "RETAIL",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  dividerColor: Colors.transparent,
-                  tabs: [
-                    Tab(
-                      child: Container(
-                        height: 35.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(
-                            color: const Color.fromRGBO(114, 162, 138, 1),
-                          ),
-                        ),
-                        child: const Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "DRINKS",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Tab(
-                      child: Container(
-                        height: 35.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(
-                              color: const Color.fromRGBO(114, 162, 138, 1)),
-                        ),
-                        child: const Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "FOOD",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Tab(
-                      child: Container(
-                        height: 35.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(
-                              color: const Color.fromRGBO(114, 162, 138, 1)),
-                        ),
-                        child: const Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "RETAIL",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
-              ),
-              Expanded(
-                child: TabBarView(
-                  children: [
-                    Container(
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(25, 25, 25, 1),
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(25),
-                            topLeft: Radius.circular(25)),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          SizedBox(
-                            width: 90.w,
-                            // height: 2.h,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 12.0),
-                              child: Title(
-                                color: Colors.white,
-                                child: const Text(
-                                  'Coffee Drink',
-                                  style: TextStyle(
-                                    fontSize: 30,
-                                    color: Color.fromRGBO(
-                                      114,
-                                      162,
-                                      138,
-                                      1,
+                Expanded(
+                  child: TabBarView(
+                    children: [
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: Color.fromRGBO(25, 25, 25, 1),
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(25),
+                              topLeft: Radius.circular(25)),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            SizedBox(
+                              width: 90.w,
+                              // height: 2.h,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 12.0),
+                                child: Title(
+                                  color: Colors.white,
+                                  child: const Text(
+                                    'Coffee Drink',
+                                    style: TextStyle(
+                                      fontSize: 30,
+                                      color: Color.fromRGBO(
+                                        114,
+                                        162,
+                                        138,
+                                        1,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 100.w,
-                            height: 60.h,
-                            child: ListView.builder(
-                              itemCount: (is_loading) ? 5 : drink.length,
-                              itemBuilder: (context, i) {
-                                return (is_loading)
-                                    ? Column(
-                                        children: [
-                                          ShimmerWidget(
-                                              tinggi: 20.h, lebar: 90.w),
-                                          SizedBox(
-                                            height: 2.h,
-                                          )
-                                        ],
-                                      )
-                                    : GestureDetector(
-                                        onTap: () {
-                                          Get.toNamed(
-                                            "/front-screen/orderdetail",
-                                            arguments: [
-                                              {'idcabang': idcabang},
-                                              {'idproduk': drink[i][0]}
-                                            ],
-                                          );
-                                        },
-                                        child: SizedBox(
-                                          // height: 30.h,
-                                          width: 100.w,
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                width: 100.w,
-                                                child: Card(
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            0.0),
-                                                  ),
-                                                  color: Colors.transparent,
-                                                  shadowColor:
-                                                      Colors.transparent,
-                                                  surfaceTintColor:
-                                                      Colors.transparent,
-                                                  elevation: 10,
-                                                  child: Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(2.0),
-                                                        child: ConstrainedBox(
-                                                          constraints:
-                                                              BoxConstraints(
-                                                            maxWidth: 35.w,
-                                                            maxHeight: 35.h,
-                                                          ),
-                                                          child: Image.network(
-                                                            drink[i][1],
-                                                            fit: BoxFit.fill,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Container(
-                                                            width: 50.w,
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .fromLTRB(
-                                                                      10,
-                                                                      0,
-                                                                      0,
-                                                                      0),
-                                                              child: Text(
-                                                                drink[i][3],
-                                                                style: const TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        18,
-                                                                    color: Colors
-                                                                        .white),
-                                                              ),
+                            SizedBox(
+                              width: 100.w,
+                              height: 60.h,
+                              child: ListView.builder(
+                                itemCount: (is_loading) ? 5 : drink.length,
+                                itemBuilder: (context, i) {
+                                  return (is_loading)
+                                      ? Column(
+                                          children: [
+                                            ShimmerWidget(
+                                                tinggi: 20.h, lebar: 90.w),
+                                            SizedBox(
+                                              height: 2.h,
+                                            )
+                                          ],
+                                        )
+                                      : GestureDetector(
+                                          onTap: () {
+                                            Get.toNamed(
+                                              "/front-screen/orderdetail",
+                                              arguments: [
+                                                {'idcabang': idcabang},
+                                                {'idproduk': drink[i][0]}
+                                              ],
+                                            );
+                                          },
+                                          child: SizedBox(
+                                            // height: 30.h,
+                                            width: 100.w,
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  width: 100.w,
+                                                  child: Card(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              0.0),
+                                                    ),
+                                                    color: Colors.transparent,
+                                                    shadowColor:
+                                                        Colors.transparent,
+                                                    surfaceTintColor:
+                                                        Colors.transparent,
+                                                    elevation: 10,
+                                                    child: Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(2.0),
+                                                          child: ConstrainedBox(
+                                                            constraints:
+                                                                BoxConstraints(
+                                                              maxWidth: 35.w,
+                                                              maxHeight: 35.h,
+                                                            ),
+                                                            child:
+                                                                Image.network(
+                                                              drink[i][1],
+                                                              fit: BoxFit.fill,
                                                             ),
                                                           ),
-                                                          Container(
-                                                            width: 60.w,
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .fromLTRB(
-                                                                      10,
-                                                                      2,
-                                                                      0,
-                                                                      0),
-                                                              child: Text(
-                                                                drink[i][2],
-                                                                style:
-                                                                    const TextStyle(
-                                                                  fontSize: 12,
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          255,
-                                                                          255,
-                                                                          255,
-                                                                          0.7),
+                                                        ),
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Container(
+                                                              width: 50.w,
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .fromLTRB(
+                                                                        10,
+                                                                        0,
+                                                                        0,
+                                                                        0),
+                                                                child: Text(
+                                                                  drink[i][3],
+                                                                  style: const TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          18,
+                                                                      color: Colors
+                                                                          .white),
                                                                 ),
                                                               ),
                                                             ),
-                                                          ),
-                                                          Container(
-                                                            width: 60.w,
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .fromLTRB(
-                                                                      10,
-                                                                      5,
-                                                                      0,
-                                                                      0),
-                                                              child: RichText(
-                                                                text: TextSpan(
-                                                                  children: [
-                                                                    const WidgetSpan(
-                                                                      child:
-                                                                          Text(
-                                                                        'Rp',
-                                                                        style: TextStyle(
+                                                            Container(
+                                                              width: 60.w,
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .fromLTRB(
+                                                                        10,
+                                                                        2,
+                                                                        0,
+                                                                        0),
+                                                                child: Text(
+                                                                  drink[i][2],
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            255,
+                                                                            255,
+                                                                            255,
+                                                                            0.7),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              width: 60.w,
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .fromLTRB(
+                                                                        10,
+                                                                        5,
+                                                                        0,
+                                                                        0),
+                                                                child: RichText(
+                                                                  text:
+                                                                      TextSpan(
+                                                                    children: [
+                                                                      const WidgetSpan(
+                                                                        child:
+                                                                            Text(
+                                                                          'Rp',
+                                                                          style:
+                                                                              TextStyle(color: Color.fromRGBO(114, 162, 138, 1)),
+                                                                        ),
+                                                                      ),
+                                                                      WidgetSpan(
+                                                                        child: SizedBox(
+                                                                            width:
+                                                                                1.w),
+                                                                      ),
+                                                                      TextSpan(
+                                                                        text: formatter
+                                                                            .format(int.parse(
+                                                                          drink[i]
+                                                                              [
+                                                                              4],
+                                                                        )),
+                                                                        style: const TextStyle(
                                                                             color: Color.fromRGBO(
                                                                                 114,
                                                                                 162,
                                                                                 138,
-                                                                                1)),
+                                                                                1),
+                                                                            fontSize:
+                                                                                20),
                                                                       ),
-                                                                    ),
-                                                                    WidgetSpan(
-                                                                      child: SizedBox(
-                                                                          width:
-                                                                              1.w),
-                                                                    ),
-                                                                    TextSpan(
-                                                                      text: formatter
-                                                                          .format(
-                                                                              int.parse(
-                                                                        drink[i]
-                                                                            [4],
-                                                                      )),
-                                                                      style: const TextStyle(
-                                                                          color: Color.fromRGBO(
-                                                                              114,
-                                                                              162,
-                                                                              138,
-                                                                              1),
-                                                                          fontSize:
-                                                                              20),
-                                                                    ),
-                                                                  ],
+                                                                    ],
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              Container(
-                                                width: 90.w,
-                                                child: const Divider(
-                                                  color: Color.fromRGBO(
-                                                      55, 55, 55, 1),
+                                                Container(
+                                                  width: 90.w,
+                                                  child: const Divider(
+                                                    color: Color.fromRGBO(
+                                                        55, 55, 55, 1),
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      );
-                              },
+                                        );
+                                },
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(25, 25, 25, 1),
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(25),
-                            topLeft: Radius.circular(25)),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          SizedBox(
-                            width: 90.w,
-                            // height: 2.h,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 12.0),
-                              child: Title(
-                                color: Colors.white,
-                                child: const Text(
-                                  'Sweets',
-                                  style: TextStyle(
-                                    fontSize: 30,
-                                    color: Color.fromRGBO(
-                                      114,
-                                      162,
-                                      138,
-                                      1,
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: Color.fromRGBO(25, 25, 25, 1),
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(25),
+                              topLeft: Radius.circular(25)),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            SizedBox(
+                              width: 90.w,
+                              // height: 2.h,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 12.0),
+                                child: Title(
+                                  color: Colors.white,
+                                  child: const Text(
+                                    'Sweets',
+                                    style: TextStyle(
+                                      fontSize: 30,
+                                      color: Color.fromRGBO(
+                                        114,
+                                        162,
+                                        138,
+                                        1,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 100.w,
-                            height: 60.h,
-                            child: ListView.builder(
-                              itemCount: (is_loading) ? 5 : food.length,
-                              itemBuilder: (context, i) {
-                                return (is_loading)
-                                    ? Column(
-                                        children: [
-                                          ShimmerWidget(
-                                              tinggi: 20.h, lebar: 90.w),
-                                          SizedBox(
-                                            height: 2.h,
-                                          )
-                                        ],
-                                      )
-                                    : GestureDetector(
-                                        onTap: () {
-                                          Get.toNamed(
-                                            "/front-screen/orderdetail",
-                                            arguments: [
-                                              {'idcabang': idcabang},
-                                              {'idproduk': food[i][0]}
-                                            ],
-                                          );
-                                        },
-                                        child: SizedBox(
-                                          // height: 30.h,
-                                          width: 100.w,
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                width: 100.w,
-                                                child: Card(
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            0.0),
-                                                  ),
-                                                  color: Colors.transparent,
-                                                  shadowColor:
-                                                      Colors.transparent,
-                                                  surfaceTintColor:
-                                                      Colors.transparent,
-                                                  elevation: 10,
-                                                  child: Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(2.0),
-                                                        child: ConstrainedBox(
-                                                          constraints:
-                                                              BoxConstraints(
-                                                            maxWidth: 35.w,
-                                                            maxHeight: 35.h,
-                                                          ),
-                                                          child: Image.network(
-                                                            food[i][1],
-                                                            fit: BoxFit.fill,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Container(
-                                                            width: 50.w,
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .fromLTRB(
-                                                                      10,
-                                                                      0,
-                                                                      0,
-                                                                      0),
-                                                              child: Text(
-                                                                food[i][3],
-                                                                style: const TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        18,
-                                                                    color: Colors
-                                                                        .white),
-                                                              ),
+                            SizedBox(
+                              width: 100.w,
+                              height: 60.h,
+                              child: ListView.builder(
+                                itemCount: (is_loading) ? 5 : food.length,
+                                itemBuilder: (context, i) {
+                                  return (is_loading)
+                                      ? Column(
+                                          children: [
+                                            ShimmerWidget(
+                                                tinggi: 20.h, lebar: 90.w),
+                                            SizedBox(
+                                              height: 2.h,
+                                            )
+                                          ],
+                                        )
+                                      : GestureDetector(
+                                          onTap: () {
+                                            Get.toNamed(
+                                              "/front-screen/orderdetail",
+                                              arguments: [
+                                                {'idcabang': idcabang},
+                                                {'idproduk': food[i][0]}
+                                              ],
+                                            );
+                                          },
+                                          child: SizedBox(
+                                            // height: 30.h,
+                                            width: 100.w,
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  width: 100.w,
+                                                  child: Card(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              0.0),
+                                                    ),
+                                                    color: Colors.transparent,
+                                                    shadowColor:
+                                                        Colors.transparent,
+                                                    surfaceTintColor:
+                                                        Colors.transparent,
+                                                    elevation: 10,
+                                                    child: Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(2.0),
+                                                          child: ConstrainedBox(
+                                                            constraints:
+                                                                BoxConstraints(
+                                                              maxWidth: 35.w,
+                                                              maxHeight: 35.h,
+                                                            ),
+                                                            child:
+                                                                Image.network(
+                                                              food[i][1],
+                                                              fit: BoxFit.fill,
                                                             ),
                                                           ),
-                                                          Container(
-                                                            width: 60.w,
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .fromLTRB(
-                                                                      10,
-                                                                      2,
-                                                                      0,
-                                                                      0),
-                                                              child: Text(
-                                                                food[i][2],
-                                                                style:
-                                                                    const TextStyle(
-                                                                  fontSize: 12,
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          255,
-                                                                          255,
-                                                                          255,
-                                                                          0.7),
+                                                        ),
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Container(
+                                                              width: 50.w,
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .fromLTRB(
+                                                                        10,
+                                                                        0,
+                                                                        0,
+                                                                        0),
+                                                                child: Text(
+                                                                  food[i][3],
+                                                                  style: const TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          18,
+                                                                      color: Colors
+                                                                          .white),
                                                                 ),
                                                               ),
                                                             ),
-                                                          ),
-                                                          Container(
-                                                            width: 60.w,
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .fromLTRB(
-                                                                      10,
-                                                                      5,
-                                                                      0,
-                                                                      0),
-                                                              child: RichText(
-                                                                text: TextSpan(
-                                                                  children: [
-                                                                    const WidgetSpan(
-                                                                      child:
-                                                                          Text(
-                                                                        'Rp',
-                                                                        style: TextStyle(
+                                                            Container(
+                                                              width: 60.w,
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .fromLTRB(
+                                                                        10,
+                                                                        2,
+                                                                        0,
+                                                                        0),
+                                                                child: Text(
+                                                                  food[i][2],
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            255,
+                                                                            255,
+                                                                            255,
+                                                                            0.7),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              width: 60.w,
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .fromLTRB(
+                                                                        10,
+                                                                        5,
+                                                                        0,
+                                                                        0),
+                                                                child: RichText(
+                                                                  text:
+                                                                      TextSpan(
+                                                                    children: [
+                                                                      const WidgetSpan(
+                                                                        child:
+                                                                            Text(
+                                                                          'Rp',
+                                                                          style:
+                                                                              TextStyle(color: Color.fromRGBO(114, 162, 138, 1)),
+                                                                        ),
+                                                                      ),
+                                                                      WidgetSpan(
+                                                                        child: SizedBox(
+                                                                            width:
+                                                                                1.w),
+                                                                      ),
+                                                                      TextSpan(
+                                                                        text: formatter
+                                                                            .format(int.parse(
+                                                                          food[i]
+                                                                              [
+                                                                              4],
+                                                                        )),
+                                                                        style: const TextStyle(
                                                                             color: Color.fromRGBO(
                                                                                 114,
                                                                                 162,
                                                                                 138,
-                                                                                1)),
+                                                                                1),
+                                                                            fontSize:
+                                                                                20),
                                                                       ),
-                                                                    ),
-                                                                    WidgetSpan(
-                                                                      child: SizedBox(
-                                                                          width:
-                                                                              1.w),
-                                                                    ),
-                                                                    TextSpan(
-                                                                      text: formatter
-                                                                          .format(
-                                                                              int.parse(
-                                                                        food[i]
-                                                                            [4],
-                                                                      )),
-                                                                      style: const TextStyle(
-                                                                          color: Color.fromRGBO(
-                                                                              114,
-                                                                              162,
-                                                                              138,
-                                                                              1),
-                                                                          fontSize:
-                                                                              20),
-                                                                    ),
-                                                                  ],
+                                                                    ],
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              Container(
-                                                width: 90.w,
-                                                child: const Divider(
-                                                  color: Color.fromRGBO(
-                                                      55, 55, 55, 1),
+                                                Container(
+                                                  width: 90.w,
+                                                  child: const Divider(
+                                                    color: Color.fromRGBO(
+                                                        55, 55, 55, 1),
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      );
-                              },
+                                        );
+                                },
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(25, 25, 25, 1),
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(25),
-                            topLeft: Radius.circular(25)),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          SizedBox(
-                            width: 90.w,
-                            // height: 2.h,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 12.0),
-                              child: Title(
-                                color: Colors.white,
-                                child: const Text(
-                                  'Tin 200g',
-                                  style: TextStyle(
-                                    fontSize: 30,
-                                    color: Color.fromRGBO(
-                                      114,
-                                      162,
-                                      138,
-                                      1,
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: Color.fromRGBO(25, 25, 25, 1),
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(25),
+                              topLeft: Radius.circular(25)),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            SizedBox(
+                              width: 90.w,
+                              // height: 2.h,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 12.0),
+                                child: Title(
+                                  color: Colors.white,
+                                  child: const Text(
+                                    'Tin 200g',
+                                    style: TextStyle(
+                                      fontSize: 30,
+                                      color: Color.fromRGBO(
+                                        114,
+                                        162,
+                                        138,
+                                        1,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 100.w,
-                            height: 60.h,
-                            child: ListView.builder(
-                              itemCount: (is_loading) ? 5 : retail.length,
-                              itemBuilder: (context, i) {
-                                return (is_loading)
-                                    ? Column(
-                                        children: [
-                                          ShimmerWidget(
-                                              tinggi: 20.h, lebar: 90.w),
-                                          SizedBox(
-                                            height: 2.h,
-                                          )
-                                        ],
-                                      )
-                                    : GestureDetector(
-                                        onTap: () {
-                                          Get.toNamed(
-                                            "/front-screen/orderdetail",
-                                            arguments: [
-                                              {'idcabang': idcabang},
-                                              {'idproduk': retail[i][0]}
-                                            ],
-                                          );
-                                        },
-                                        child: SizedBox(
-                                          // height: 30.h,
-                                          width: 100.w,
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                width: 100.w,
-                                                child: Card(
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            0.0),
-                                                  ),
-                                                  color: Colors.transparent,
-                                                  shadowColor:
-                                                      Colors.transparent,
-                                                  surfaceTintColor:
-                                                      Colors.transparent,
-                                                  elevation: 10,
-                                                  child: Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(2.0),
-                                                        child: ConstrainedBox(
-                                                          constraints:
-                                                              BoxConstraints(
-                                                            maxWidth: 35.w,
-                                                            maxHeight: 35.h,
-                                                          ),
-                                                          child: Image.network(
-                                                            retail[i][1],
-                                                            fit: BoxFit.fill,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Container(
-                                                            width: 50.w,
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .fromLTRB(
-                                                                      10,
-                                                                      0,
-                                                                      0,
-                                                                      0),
-                                                              child: Text(
-                                                                retail[i][3],
-                                                                style: const TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        18,
-                                                                    color: Colors
-                                                                        .white),
-                                                              ),
+                            SizedBox(
+                              width: 100.w,
+                              height: 60.h,
+                              child: ListView.builder(
+                                itemCount: (is_loading) ? 5 : retail.length,
+                                itemBuilder: (context, i) {
+                                  return (is_loading)
+                                      ? Column(
+                                          children: [
+                                            ShimmerWidget(
+                                                tinggi: 20.h, lebar: 90.w),
+                                            SizedBox(
+                                              height: 2.h,
+                                            )
+                                          ],
+                                        )
+                                      : GestureDetector(
+                                          onTap: () {
+                                            Get.toNamed(
+                                              "/front-screen/orderdetail",
+                                              arguments: [
+                                                {'idcabang': idcabang},
+                                                {'idproduk': retail[i][0]}
+                                              ],
+                                            );
+                                          },
+                                          child: SizedBox(
+                                            // height: 30.h,
+                                            width: 100.w,
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  width: 100.w,
+                                                  child: Card(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              0.0),
+                                                    ),
+                                                    color: Colors.transparent,
+                                                    shadowColor:
+                                                        Colors.transparent,
+                                                    surfaceTintColor:
+                                                        Colors.transparent,
+                                                    elevation: 10,
+                                                    child: Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(2.0),
+                                                          child: ConstrainedBox(
+                                                            constraints:
+                                                                BoxConstraints(
+                                                              maxWidth: 35.w,
+                                                              maxHeight: 35.h,
+                                                            ),
+                                                            child:
+                                                                Image.network(
+                                                              retail[i][1],
+                                                              fit: BoxFit.fill,
                                                             ),
                                                           ),
-                                                          Container(
-                                                            width: 60.w,
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .fromLTRB(
-                                                                      10,
-                                                                      2,
-                                                                      0,
-                                                                      0),
-                                                              child: Text(
-                                                                retail[i][2],
-                                                                style:
-                                                                    const TextStyle(
-                                                                  fontSize: 12,
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          255,
-                                                                          255,
-                                                                          255,
-                                                                          0.7),
+                                                        ),
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Container(
+                                                              width: 50.w,
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .fromLTRB(
+                                                                        10,
+                                                                        0,
+                                                                        0,
+                                                                        0),
+                                                                child: Text(
+                                                                  retail[i][3],
+                                                                  style: const TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          18,
+                                                                      color: Colors
+                                                                          .white),
                                                                 ),
                                                               ),
                                                             ),
-                                                          ),
-                                                          Container(
-                                                            width: 60.w,
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .fromLTRB(
-                                                                      10,
-                                                                      5,
-                                                                      0,
-                                                                      0),
-                                                              child: RichText(
-                                                                text: TextSpan(
-                                                                  children: [
-                                                                    const WidgetSpan(
-                                                                      child:
-                                                                          Text(
-                                                                        'Rp',
-                                                                        style: TextStyle(
+                                                            Container(
+                                                              width: 60.w,
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .fromLTRB(
+                                                                        10,
+                                                                        2,
+                                                                        0,
+                                                                        0),
+                                                                child: Text(
+                                                                  retail[i][2],
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            255,
+                                                                            255,
+                                                                            255,
+                                                                            0.7),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              width: 60.w,
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .fromLTRB(
+                                                                        10,
+                                                                        5,
+                                                                        0,
+                                                                        0),
+                                                                child: RichText(
+                                                                  text:
+                                                                      TextSpan(
+                                                                    children: [
+                                                                      const WidgetSpan(
+                                                                        child:
+                                                                            Text(
+                                                                          'Rp',
+                                                                          style:
+                                                                              TextStyle(color: Color.fromRGBO(114, 162, 138, 1)),
+                                                                        ),
+                                                                      ),
+                                                                      WidgetSpan(
+                                                                        child: SizedBox(
+                                                                            width:
+                                                                                1.w),
+                                                                      ),
+                                                                      TextSpan(
+                                                                        text: formatter
+                                                                            .format(int.parse(
+                                                                          retail[i]
+                                                                              [
+                                                                              4],
+                                                                        )),
+                                                                        style: const TextStyle(
                                                                             color: Color.fromRGBO(
                                                                                 114,
                                                                                 162,
                                                                                 138,
-                                                                                1)),
+                                                                                1),
+                                                                            fontSize:
+                                                                                20),
                                                                       ),
-                                                                    ),
-                                                                    WidgetSpan(
-                                                                      child: SizedBox(
-                                                                          width:
-                                                                              1.w),
-                                                                    ),
-                                                                    TextSpan(
-                                                                      text: formatter
-                                                                          .format(
-                                                                              int.parse(
-                                                                        retail[i]
-                                                                            [4],
-                                                                      )),
-                                                                      style: const TextStyle(
-                                                                          color: Color.fromRGBO(
-                                                                              114,
-                                                                              162,
-                                                                              138,
-                                                                              1),
-                                                                          fontSize:
-                                                                              20),
-                                                                    ),
-                                                                  ],
+                                                                    ],
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              Container(
-                                                width: 90.w,
-                                                child: const Divider(
-                                                  color: Color.fromRGBO(
-                                                      55, 55, 55, 1),
+                                                Container(
+                                                  width: 90.w,
+                                                  child: const Divider(
+                                                    color: Color.fromRGBO(
+                                                        55, 55, 55, 1),
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      );
-                              },
+                                        );
+                                },
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              )
-            ]),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: const Expatnav(
