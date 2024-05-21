@@ -31,7 +31,7 @@ class _SettingViewState extends State<SettingView> {
   final TextEditingController _pinTextController = TextEditingController();
   final TextEditingController _newpassTextController = TextEditingController();
   final TextEditingController _phoneTextController = TextEditingController();
-  var dobformat = DateFormat('MM/d/yyyy');
+  var dobformat = DateFormat('yyyy-MM-dd');
   late String _password;
 
   bool _passwordVisible = false;
@@ -41,6 +41,8 @@ class _SettingViewState extends State<SettingView> {
   File? image;
   dynamic resultData;
   String body = '';
+  String selectedGender = gender.first;
+  String selectedCountry = country.first;
 
   @override
   void initState() {
@@ -60,7 +62,7 @@ class _SettingViewState extends State<SettingView> {
       _nameTextController.text = resultData["nama"];
       _emailTextController.text = prefs.getString("email")!;
       _dobTextController.text = resultData["dob"];
-      selectedOption = (resultData["gender"] == "female") ? 2 : 1;
+      selectedGender = toBeginningOfSentenceCase(resultData["gender"]);
       _phoneTextController.text = resultData["phone"];
       selectedCountry = resultData["country"];
     });
@@ -114,7 +116,7 @@ class _SettingViewState extends State<SettingView> {
       'nama': _nameTextController.text,
       'dob': _dobTextController.text,
       'media': baseimage,
-      'gender': selectedOption,
+      'gender': selectedGender.toLowerCase(),
       'phone': _phoneTextController.text,
       'country': selectedCountry,
       'passwd': newpass,
@@ -130,9 +132,8 @@ class _SettingViewState extends State<SettingView> {
       );
     }).catchError((err) {
       Navigator.pop(context);
-      printDebug("100-$err");
       showAlert(
-        "100 - Something Wrong, Please Contact Administrator",
+        "Something Wrong, Please Contact Administrator",
         context,
       );
     });
@@ -160,11 +161,6 @@ class _SettingViewState extends State<SettingView> {
       debugPrint("gagal");
     }
   }
-
-  int selectedOption = 1;
-
-  String selectedGender = gender.first;
-  String selectedCountry = country.first;
 
   @override
   Widget build(BuildContext context) {
@@ -302,8 +298,8 @@ class _SettingViewState extends State<SettingView> {
                                 borderSide: const BorderSide(
                                     color: Colors.grey, width: 0.0),
                               ),
-                              hintText: 'Date of Birth (yyyy/mm/dd)',
-                              labelText: 'Date of Birth (yyyy/mm/dd)',
+                              hintText: 'Date of Birth (yyyy-mm-dd)',
+                              labelText: 'Date of Birth (yyyy-mm-dd)',
                               hintStyle: const TextStyle(color: Colors.white),
                             ),
                           ),
