@@ -3,6 +3,7 @@ import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
 import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class TopupView extends StatefulWidget {
@@ -23,11 +24,15 @@ class _TopupViewState extends State<TopupView> {
   @override
   void initState() {
     super.initState();
-    bearerToken().then((value) => {
-          setState(() {
-            token = value;
-          })
-        });
+    bearerToken().then(
+      (value) => {
+        setState(() {
+          token = value;
+          wvcontroller.loadRequest(
+              Uri.parse("$urlbase/widget/topup/membertopup/$token"));
+        })
+      },
+    );
     wvcontroller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
@@ -45,9 +50,6 @@ class _TopupViewState extends State<TopupView> {
 
   @override
   Widget build(BuildContext context) {
-    wvcontroller
-        .loadRequest(Uri.parse("$urlbase/widget/topup/membertopup/$token"));
-
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
@@ -56,7 +58,7 @@ class _TopupViewState extends State<TopupView> {
             appBar: AppBar(
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => Get.toNamed("/front-screen/home"),
               ),
               centerTitle: true,
               title: Padding(
@@ -68,10 +70,12 @@ class _TopupViewState extends State<TopupView> {
             ),
             body: SafeArea(
                 child: SingleChildScrollView(
-                    child: SizedBox(
-                        height: 100.h,
-                        width: 100.w,
-                        child: WebViewWidget(controller: wvcontroller)))),
+                    child: Center(
+              child: SizedBox(
+                  height: 500.h,
+                  width: 100.w,
+                  child: WebViewWidget(controller: wvcontroller)),
+            ))),
             bottomNavigationBar: const Expatnav()));
   }
 }

@@ -54,7 +54,7 @@ class ButtonWidget extends StatelessWidget {
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       fontWeight: FontWeight.w600,
-                      fontSize: 16,
+                      fontSize: 14,
                       letterSpacing: 0.0,
                       color: Colors.white,
                     ),
@@ -94,7 +94,7 @@ class ButtonWidget extends StatelessWidget {
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       fontWeight: FontWeight.w600,
-                      fontSize: 16,
+                      fontSize: 14,
                       letterSpacing: 0.0,
                       color: Colors.white,
                     ),
@@ -147,7 +147,7 @@ class ButtonWidget extends StatelessWidget {
                         textAlign: TextAlign.left,
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
-                          fontSize: 16,
+                          fontSize: 14,
                           letterSpacing: 0.0,
                           color: Colors.white,
                         ),
@@ -194,7 +194,7 @@ class ButtonWidget extends StatelessWidget {
                         textAlign: TextAlign.left,
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
-                          fontSize: 16,
+                          fontSize: 14,
                           letterSpacing: 0.0,
                           color: Colors.white,
                         ),

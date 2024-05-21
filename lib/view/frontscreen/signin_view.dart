@@ -416,6 +416,9 @@ class _SigninViewState extends State<SigninView> {
                           },
                         ),
                       ),
+                      SizedBox(
+                        height: 3.h,
+                      ),
                     ],
                   ),
                 ),

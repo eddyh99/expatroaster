@@ -76,7 +76,7 @@ class _OrderViewState extends State<OrderView> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         extendBodyBehindAppBar: true,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
         body: SafeArea(
           child: WebViewWidget(controller: wvcontroller),
         ),

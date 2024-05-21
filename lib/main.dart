@@ -4,12 +4,14 @@ import 'package:expatroasters/view/frontscreen/benefit_view.dart';
 import 'package:expatroasters/view/frontscreen/complete_view.dart';
 import 'package:expatroasters/view/frontscreen/confirmation_view.dart';
 import 'package:expatroasters/view/frontscreen/createpin_view.dart';
+import 'package:expatroasters/view/frontscreen/detail_history_order.dart';
 import 'package:expatroasters/view/frontscreen/enterpin_view.dart';
 import 'package:expatroasters/view/frontscreen/getstarted_view.dart';
 import 'package:expatroasters/view/frontscreen/home_view.dart';
 import 'package:expatroasters/view/frontscreen/list_outlet.dart';
 import 'package:expatroasters/view/frontscreen/orderdetail_view.dart';
 import 'package:expatroasters/view/frontscreen/order_view.dart';
+import 'package:expatroasters/view/frontscreen/history_view.dart';
 import 'package:expatroasters/view/frontscreen/profile_view.dart';
 import 'package:expatroasters/view/frontscreen/promotion_view.dart';
 import 'package:expatroasters/view/frontscreen/qrcode_view.dart';
@@ -18,6 +20,7 @@ import 'package:expatroasters/view/frontscreen/signin_view.dart';
 import 'package:expatroasters/view/frontscreen/signup_view.dart';
 import 'package:expatroasters/view/frontscreen/single_outlet.dart';
 import 'package:expatroasters/view/frontscreen/single_promo.dart';
+import 'package:expatroasters/view/frontscreen/term_view.dart';
 import 'package:expatroasters/view/frontscreen/topup_view.dart';
 import 'package:expatroasters/view/frontscreen/webviewexample.dart';
 import 'package:expatroasters/view/landing_view.dart';
@@ -73,6 +76,11 @@ class MyApp extends StatelessWidget {
             name: '/front-screen/getstarted',
             page: () => const GetstartedView(),
             transition: Transition.leftToRight,
+          ),
+          GetPage(
+            name: '/front-screen/termcondition',
+            page: () => const TermView(),
+            transition: Transition.noTransition,
           ),
           GetPage(
             name: '/front-screen/register',
@@ -177,6 +185,16 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: '/front-screen/webview',
             page: () => const WebViewExample(),
+            transition: Transition.fadeIn,
+          ),
+          GetPage(
+            name: '/front-screen/history',
+            page: () => const HistoryView(),
+            transition: Transition.fadeIn,
+          ),
+          GetPage(
+            name: '/front-screen/historyorder',
+            page: () => const DetailHistoryOrder(),
             transition: Transition.fadeIn,
           ),
         ]);

@@ -3,6 +3,7 @@ import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/widgets/backscreens/async_widget.dart';
 import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QrcodeView extends StatefulWidget {
@@ -36,7 +37,7 @@ class _QrcodeViewState extends State<QrcodeView> {
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => Get.toNamed('front-screen/home'),
           ),
           backgroundColor: Colors.black,
         ),

@@ -373,10 +373,13 @@ class _HomeViewState extends State<HomeView> {
                                                                           color:
                                                                               Colors.white,
                                                                           size:
-                                                                              16,
+                                                                              14,
                                                                         ))),
                                                             TextSpan(
                                                               text: 'Top Up',
+                                                              style: TextStyle(
+                                                                fontSize: 10,
+                                                              ),
                                                             ),
                                                           ],
                                                         ),

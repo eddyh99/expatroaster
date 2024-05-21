@@ -13,6 +13,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class ListOutlet extends StatefulWidget {
   const ListOutlet({super.key});
@@ -21,21 +22,35 @@ class ListOutlet extends StatefulWidget {
   State<ListOutlet> createState() => _ListOutletState();
 }
 
-const List<String> provinsi = <String>['Bali', 'Surabaya'];
+const List<String> provinsi = <String>[
+  'Bali',
+  'Surabaya',
+  'Jakarta',
+  'Yogyakarta',
+  'Makassar',
+  'Semarang',
+  'Medan',
+  'Bandung',
+  'Tanggerang',
+  'Balikpapan',
+];
 
 class _ListOutletState extends State<ListOutlet> {
   dynamic resultData;
   dynamic lengthData;
   bool isLoading = true;
   String? _currentAddress;
+  String? _currentDistrict;
   Position? _currentPosition;
   String? dropdownValue = provinsi.first;
+  late final WebViewController wvcontroller;
 
   @override
   void initState() {
     super.initState();
     _asyncMethod();
     _getCurrentPosition();
+    // _getAddress();
     // readAllPref();
   }
 
@@ -83,7 +98,10 @@ class _ListOutletState extends State<ListOutlet> {
     if (!hasPermission) return;
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) {
-      setState(() => _currentPosition = position);
+      setState(() {
+        _currentPosition = position;
+      });
+      print(_currentPosition);
       _getAddressFromLatLng(_currentPosition!);
     }).catchError((e) {
       debugPrint(e);
@@ -96,13 +114,43 @@ class _ListOutletState extends State<ListOutlet> {
         .then((List<Placemark> placemarks) {
       Placemark place = placemarks[0];
       setState(() {
-        printDebug(place.administrativeArea.toString());
-        dropdownValue = place.administrativeArea;
+        _currentDistrict = place.administrativeArea;
+        if (_currentDistrict == 'Bali') {
+          _currentDistrict = "Bali";
+        } else if (_currentDistrict == 'Daerah Khusus Ibukota Jakarta') {
+          _currentDistrict = "Jakarta";
+        } else if (_currentDistrict == 'Daerah Istimewa Yogyakarta') {
+          _currentDistrict = "Yogyakarta";
+        } else {
+          _currentDistrict = place.subAdministrativeArea;
+          if (_currentDistrict == "Kota Makassar") {
+            _currentDistrict = "Makassar";
+          } else if (_currentDistrict == "Kota Semarang") {
+            _currentDistrict = "Semarang";
+          } else if (_currentDistrict == "Kota Medan") {
+            _currentDistrict = "Medan";
+          } else if (_currentDistrict == "Kota Bandung") {
+            _currentDistrict = "Bandung";
+          } else if (_currentDistrict == "Kota Tanggerang") {
+            _currentDistrict = "Tanggerang";
+          } else if (_currentDistrict == "Balikpapan City") {
+            _currentDistrict = "Balikpapan";
+          }
+        }
+        dropdownValue = _currentDistrict;
+        // print(_currentDistrict);
+        // print(place);
       });
     }).catchError((e) {
       debugPrint(e);
     });
   }
+
+  // Future _getAddress() async {
+  //   List<Placemark> placemarks =
+  //       await placemarkFromCoordinates(-8.118064, 115.0843402);
+  //   print(placemarks.toString());
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +162,7 @@ class _ListOutletState extends State<ListOutlet> {
           appBar: AppBar(
             leading: IconButton(
               icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => Get.toNamed('front-screen/home'),
             ),
             centerTitle: true,
             title: Padding(
@@ -210,6 +258,9 @@ class _ListOutletState extends State<ListOutlet> {
                     ],
                   ),
           ),
+          // floatingActionButton: favoriteButton(),
+          // floatingActionButtonLocation:
+          //     FloatingActionButtonLocation.centerFloat,
           bottomNavigationBar: const Expatnav(
             number: 2,
           )),
@@ -267,6 +318,9 @@ class _ListOutletState extends State<ListOutlet> {
                 foregroundColor: Colors.white,
                 padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h)),
             onPressed: () {
+              wvcontroller = WebViewController();
+              wvcontroller
+                  .loadRequest(Uri.parse("$urlbase/widget/order/removecookie"));
               Get.toNamed(
                 "/front-screen/allmenu",
                 arguments: [
@@ -342,4 +396,24 @@ class _ListOutletState extends State<ListOutlet> {
       },
     );
   }
+
+  // Widget favoriteButton() {
+  //   return FloatingActionButton.extended(
+  //     onPressed: () async {
+  //       // final String? url = await wvcontroller.getUserAgent();
+  //       if (mounted) {
+  //         Get.toNamed(
+  //           "/front-screen/allmenu",
+  //         );
+  //       }
+  //     },
+  //     icon: const Icon(Icons.restaurant_menu),
+  //     label: Text(
+  //       " $_currentDistrict Lokasi",
+  //       style: const TextStyle(fontSize: 18),
+  //     ),
+  //     backgroundColor: Color.fromRGBO(131, 173, 152, 1),
+  //     foregroundColor: Colors.white,
+  //   );
+  // }
 }
