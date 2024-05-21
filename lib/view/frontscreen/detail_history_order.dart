@@ -317,7 +317,7 @@ class _DetailHistoryOrderState extends State<DetailHistoryOrder> {
                                     child: Row(
                                       children: [
                                         SizedBox(
-                                          width: 35.w,
+                                          width: 55.w,
                                           child: Container(
                                             child: Column(
                                               mainAxisAlignment:
@@ -335,7 +335,12 @@ class _DetailHistoryOrderState extends State<DetailHistoryOrder> {
                                                 Row(
                                                   children: [
                                                     Text(
-                                                      resultData[i]['optional'],
+                                                      (resultData[i][
+                                                                  'optional'] ==
+                                                              null)
+                                                          ? ""
+                                                          : resultData[i]
+                                                              ['optional'],
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       style: TextStyle(
@@ -347,8 +352,12 @@ class _DetailHistoryOrderState extends State<DetailHistoryOrder> {
                                                       width: 2.w,
                                                     ),
                                                     Text(
-                                                      resultData[i]
-                                                          ['additional'],
+                                                      (resultData[i][
+                                                                  'additional'] ==
+                                                              null)
+                                                          ? ""
+                                                          : resultData[i]
+                                                              ['additional'],
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       style: TextStyle(
@@ -359,7 +368,10 @@ class _DetailHistoryOrderState extends State<DetailHistoryOrder> {
                                                   ],
                                                 ),
                                                 Text(
-                                                  resultData[i]['satuan'],
+                                                  (resultData[i]['satuan'] ==
+                                                          null)
+                                                      ? ""
+                                                      : resultData[i]['satuan'],
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   style: TextStyle(
@@ -372,7 +384,7 @@ class _DetailHistoryOrderState extends State<DetailHistoryOrder> {
                                           ),
                                         ),
                                         SizedBox(
-                                          width: 45.w,
+                                          width: 25.w,
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,

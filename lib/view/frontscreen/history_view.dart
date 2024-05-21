@@ -372,6 +372,7 @@ class _HistoryViewState extends State<HistoryView> {
                         child: TabBarView(
                           children: [
                             Container(
+                              height: 100.h,
                               padding: EdgeInsets.all(20),
                               child: ListView.builder(
                                 itemCount:
@@ -488,6 +489,7 @@ class _HistoryViewState extends State<HistoryView> {
                               ),
                             ),
                             Container(
+                              height: 100.h,
                               padding: EdgeInsets.all(20),
                               child: ListView.builder(
                                 itemCount: resultTopup == null
@@ -610,6 +612,7 @@ class _HistoryViewState extends State<HistoryView> {
                             ),
                             // Display Purchase
                             Container(
+                              height: 100.h,
                               padding: EdgeInsets.all(20),
                               child: ListView.builder(
                                 itemCount: resultOrder == null
