@@ -40,7 +40,6 @@ class _ProfileViewState extends State<ProfileView> {
     if (query != null) {
       setState(() {
         resultData = query;
-        print(resultData);
         bearerToken().then(
           (value) => {
             setState(() {
@@ -181,35 +180,6 @@ class _ProfileViewState extends State<ProfileView> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                        width: 100.w,
-                        height: 6.h,
-                        child: DecoratedBox(
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                top: BorderSide(
-                                  //
-                                  color: Colors.white,
-                                  width: 1.0,
-                                ),
-                                bottom: BorderSide(
-                                  //
-                                  color: Colors.white,
-                                  width: 1.0,
-                                ),
-                              ),
-                            ),
-                            child: Align(
-                                alignment: Alignment.center,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Get.toNamed("/front-screen/about");
-                                  },
-                                  child: const Text("ABOUT EXPAT. ROASTERS",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 18),
-                                      textAlign: TextAlign.center),
-                                )))),
-                    SizedBox(
                       width: 100.w,
                       height: 6.h,
                       child: DecoratedBox(
@@ -230,8 +200,10 @@ class _ProfileViewState extends State<ProfileView> {
                         child: Align(
                           alignment: Alignment.center,
                           child: GestureDetector(
-                            onTap: () => {},
-                            child: const Text("POINTS HISTORY",
+                            onTap: () {
+                              Get.toNamed("/front-screen/about");
+                            },
+                            child: const Text("ABOUT EXPAT. ROASTERS",
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 18),
                                 textAlign: TextAlign.center),

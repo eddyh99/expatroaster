@@ -80,6 +80,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
       }
       is_loading = false;
     });
+    print(drink);
   }
 
   @override
@@ -341,6 +342,9 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                         0),
                                                                 child: Text(
                                                                   drink[i][3],
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
                                                                   style: const TextStyle(
                                                                       fontWeight:
                                                                           FontWeight
@@ -364,6 +368,9 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                         0),
                                                                 child: Text(
                                                                   drink[i][2],
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
                                                                   style:
                                                                       const TextStyle(
                                                                     fontSize:
@@ -575,6 +582,9 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                         0),
                                                                 child: Text(
                                                                   food[i][3],
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
                                                                   style: const TextStyle(
                                                                       fontWeight:
                                                                           FontWeight
@@ -598,6 +608,9 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                         0),
                                                                 child: Text(
                                                                   food[i][2],
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
                                                                   style:
                                                                       const TextStyle(
                                                                     fontSize:
@@ -809,6 +822,9 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                         0),
                                                                 child: Text(
                                                                   retail[i][3],
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
                                                                   style: const TextStyle(
                                                                       fontWeight:
                                                                           FontWeight
@@ -832,6 +848,9 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                         0),
                                                                 child: Text(
                                                                   retail[i][2],
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
                                                                   style:
                                                                       const TextStyle(
                                                                     fontSize:

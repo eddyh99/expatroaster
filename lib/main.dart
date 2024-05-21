@@ -4,6 +4,7 @@ import 'package:expatroasters/view/frontscreen/benefit_view.dart';
 import 'package:expatroasters/view/frontscreen/complete_view.dart';
 import 'package:expatroasters/view/frontscreen/confirmation_view.dart';
 import 'package:expatroasters/view/frontscreen/createpin_view.dart';
+import 'package:expatroasters/view/frontscreen/detail_history_order.dart';
 import 'package:expatroasters/view/frontscreen/enterpin_view.dart';
 import 'package:expatroasters/view/frontscreen/getstarted_view.dart';
 import 'package:expatroasters/view/frontscreen/home_view.dart';
@@ -189,6 +190,11 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: '/front-screen/history',
             page: () => const HistoryView(),
+            transition: Transition.fadeIn,
+          ),
+          GetPage(
+            name: '/front-screen/historyorder',
+            page: () => const DetailHistoryOrder(),
             transition: Transition.fadeIn,
           ),
         ]);

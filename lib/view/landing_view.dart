@@ -70,6 +70,7 @@ class _LandingViewState extends State<LandingView> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Stack(
           children: [
