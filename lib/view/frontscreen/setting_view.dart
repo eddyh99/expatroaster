@@ -8,6 +8,7 @@ import 'package:expatroasters/utils/globalvar.dart';
 import 'package:expatroasters/widgets/backscreens/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -41,6 +42,7 @@ class _SettingViewState extends State<SettingView> {
   File? image;
   dynamic resultData;
   String body = '';
+  String _oldimage = '';
   String selectedGender = gender.first;
   String selectedCountry = country.first;
 
@@ -65,30 +67,8 @@ class _SettingViewState extends State<SettingView> {
       selectedGender = toBeginningOfSentenceCase(resultData["gender"]);
       _phoneTextController.text = resultData["phone"];
       selectedCountry = resultData["country"];
+      _oldimage = resultData["picture"];
     });
-  }
-
-  void _checkPassword(String value) {
-    _password = value.trim();
-
-    if (_password.isEmpty) {
-      setState(() {});
-    } else if (_password.length < 8) {
-      setState(() {});
-    } else if (!charReg.hasMatch(_password)) {
-      setState(() {});
-    } else {
-      if (!letterReg.hasMatch(_password) || !numReg.hasMatch(_password)) {
-        setState(() {
-          // Password length >= 8
-          // But doesn't contain both letter and digit characters
-        });
-      } else {
-        // Password length >= 8
-        // Password contains both letter and digit characters
-        setState(() {});
-      }
-    }
   }
 
   Future<void> simpansettings() async {
@@ -172,7 +152,7 @@ class _SettingViewState extends State<SettingView> {
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => Get.toNamed("/front-screen/profile"),
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -202,8 +182,19 @@ class _SettingViewState extends State<SettingView> {
                                 height: 100,
                                 fit: BoxFit.cover,
                               )
-                            : Image.asset("assets/images/avatar.png",
-                                color: Colors.white),
+                            : (selectedGender == 'male')
+                                ? Image.asset(
+                                    "assets/images/men-default.png",
+                                    width: 80,
+                                    height: 80,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(
+                                    "assets/images/women-default.png",
+                                    width: 80,
+                                    height: 80,
+                                    fit: BoxFit.cover,
+                                  ),
                         TextButton(
                           style: TextButton.styleFrom(
                             foregroundColor: Colors.white,
@@ -486,7 +477,7 @@ class _SettingViewState extends State<SettingView> {
                               ),
                             ),
                             onTap: () {
-                              print("PASSWORD");
+                              Get.toNamed('/front-screen/settingPassword');
                             },
                           ),
                         ),
@@ -523,7 +514,7 @@ class _SettingViewState extends State<SettingView> {
                               ),
                             ),
                             onTap: () {
-                              print("PIN");
+                              Get.toNamed('front-screen/settingNewPin');
                             },
                           ),
                         ),

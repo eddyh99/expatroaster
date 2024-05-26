@@ -22,7 +22,7 @@ class ListOutlet extends StatefulWidget {
   State<ListOutlet> createState() => _ListOutletState();
 }
 
-const List<String> provinsi = <String>[
+const List<String> provinsi = [
   'Bali',
   'Surabaya',
   'Jakarta',
@@ -39,19 +39,17 @@ class _ListOutletState extends State<ListOutlet> {
   dynamic resultData;
   dynamic lengthData;
   bool isLoading = true;
-  String? _currentAddress;
   String? _currentDistrict;
   Position? _currentPosition;
   String? dropdownValue = provinsi.first;
   late final WebViewController wvcontroller;
+  final List<String> kota = [];
 
   @override
   void initState() {
     super.initState();
     _asyncMethod();
     _getCurrentPosition();
-    // _getAddress();
-    // readAllPref();
   }
 
   Future _asyncMethod() async {
@@ -61,6 +59,11 @@ class _ListOutletState extends State<ListOutlet> {
     resultData = jsonDecode(await expatAPI(url, body))["messages"];
     lengthData = resultData.length;
     setState(() {
+      for (var dt in resultData) {
+        if (!kota.contains(dt['provinsi'])) {
+          kota.add(dt['provinsi']);
+        }
+      }
       isLoading = false;
     });
   }
@@ -96,16 +99,16 @@ class _ListOutletState extends State<ListOutlet> {
     final hasPermission = await _handleLocationPermission();
 
     if (!hasPermission) return;
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-      print(_currentPosition);
-      _getAddressFromLatLng(_currentPosition!);
-    }).catchError((e) {
-      debugPrint(e);
-    });
+    // await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+    //     .then((Position position) {
+    //   setState(() {
+    //     _currentPosition = position;
+    //   });
+    //   print(_currentPosition);
+    //   _getAddressFromLatLng(_currentPosition!);
+    // }).catchError((e) {
+    //   debugPrint(e);
+    // });
   }
 
   Future<void> _getAddressFromLatLng(Position position) async {
@@ -192,7 +195,7 @@ class _ListOutletState extends State<ListOutlet> {
                               });
                               // Call API
                             },
-                            dropdownMenuEntries: provinsi
+                            dropdownMenuEntries: kota
                                 .map<DropdownMenuEntry<String>>((String value) {
                               return DropdownMenuEntry<String>(
                                   value: value, label: value);
