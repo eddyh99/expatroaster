@@ -15,6 +15,9 @@ import 'package:expatroasters/view/frontscreen/history_view.dart';
 import 'package:expatroasters/view/frontscreen/profile_view.dart';
 import 'package:expatroasters/view/frontscreen/promotion_view.dart';
 import 'package:expatroasters/view/frontscreen/qrcode_view.dart';
+import 'package:expatroasters/view/frontscreen/settings/setting_confirmpin.dart';
+import 'package:expatroasters/view/frontscreen/settings/setting_newpin.dart';
+import 'package:expatroasters/view/frontscreen/settings/setting_password.dart';
 import 'package:expatroasters/view/frontscreen/setting_view.dart';
 import 'package:expatroasters/view/frontscreen/signin_view.dart';
 import 'package:expatroasters/view/frontscreen/signup_view.dart';
@@ -156,6 +159,21 @@ class MyApp extends StatelessWidget {
             name: '/front-screen/settings',
             page: () => const SettingView(),
             transition: Transition.rightToLeft,
+          ),
+          GetPage(
+            name: '/front-screen/settingPassword',
+            page: () => const SettingPasswordView(),
+            transition: Transition.noTransition,
+          ),
+          GetPage(
+            name: '/front-screen/settingNewPin',
+            page: () => const SettingNewPinView(),
+            transition: Transition.noTransition,
+          ),
+          GetPage(
+            name: '/front-screen/settingConfirmPin',
+            page: () => const SettingConfirmPinView(),
+            transition: Transition.noTransition,
           ),
           GetPage(
             name: '/front-screen/topup',
