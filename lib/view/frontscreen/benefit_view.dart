@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
+import 'package:expatroasters/utils/globalvar.dart';
 import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:expatroasters/widgets/backscreens/promotion_widget.dart';
+import 'package:expatroasters/widgets/backscreens/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 
 class BenefitView extends StatefulWidget {
@@ -16,6 +20,33 @@ class BenefitView extends StatefulWidget {
 }
 
 class _BenefitViewState extends State<BenefitView> {
+  bool isLoading = true;
+  dynamic result;
+  final List<dynamic> benefits = [];
+
+  Future _benefit() async {
+    //get user detail
+    String body = '';
+    var url = Uri.parse("$urlapi/v1/settings/get_setting");
+    result = jsonDecode(await expatAPI(url, body))["messages"];
+    setState(() {
+      for (var dt in result) {
+        if (dt['content'] == 'Bronze' ||
+            dt['content'] == 'Silver' ||
+            dt['content'] == 'Gold' ||
+            dt['content'] == 'Platinum') {
+          benefits.add([
+            dt["id"],
+            dt["content"],
+            dt["value"],
+          ]);
+        }
+      }
+      isLoading = false;
+    });
+    print(benefits[0]);
+  }
+
   final items = [
     //1st Image of Slider
     SizedBox(
@@ -68,95 +99,103 @@ class _BenefitViewState extends State<BenefitView> {
   benefit(index) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       if (index == 0) ...[
-        const Text("Benefit Bronze Member",
-            style: TextStyle(color: Colors.white, fontSize: 16)),
-        SizedBox(height: 1.h),
-        const Text("Ini benefit Bronze member",
-            style: TextStyle(color: Colors.white))
+        Text(benefits[0][2], style: TextStyle(color: Colors.white))
       ] else if (index == 1) ...[
-        const Text("Benefit Silver Member",
-            style: TextStyle(color: Colors.white, fontSize: 16)),
-        SizedBox(height: 1.h),
-        const Text("Ini benefit silver member",
-            style: TextStyle(color: Colors.white))
+        Text(benefits[1][2], style: TextStyle(color: Colors.white))
       ] else if (index == 2) ...[
-        const Text("Benefit Gold Member",
-            style: TextStyle(color: Colors.white, fontSize: 16)),
-        SizedBox(height: 1.h),
-        const Text("Ini benefit Gold member",
-            style: TextStyle(color: Colors.white))
+        Text(benefits[2][2], style: TextStyle(color: Colors.white))
       ] else if (index == 3) ...[
-        const Text("Benefit Platinum Member",
-            style: TextStyle(color: Colors.white, fontSize: 16)),
-        SizedBox(height: 1.h),
-        const Text("Ini benefit Platinum member",
-            style: TextStyle(color: Colors.white))
+        Text(benefits[3][2], style: TextStyle(color: Colors.white))
       ]
     ]);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _benefit();
   }
 
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-            extendBodyBehindAppBar: true,
-            backgroundColor: Colors.black,
-            appBar: AppBar(
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              title: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  child: const Text(
-                    "BENEFIT",
-                    style: TextStyle(color: Colors.white),
-                  )),
-            ),
-            body: SafeArea(
-                child: SingleChildScrollView(
-                    child: Column(children: [
-              SizedBox(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        extendBodyBehindAppBar: true,
+        backgroundColor: Colors.black,
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              child: const Text(
+                "BENEFIT",
+                style: TextStyle(color: Colors.white),
+              )),
+        ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
                   width: 100.w,
-                  child: Column(children: [
-                    CarouselSlider(
-                      items: items,
-                      options: CarouselOptions(
-                        enlargeCenterPage: true,
-                        autoPlay: false,
-                        aspectRatio: 16 / 9,
-                        autoPlayCurve: Curves.fastOutSlowIn,
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            currentIndex = index;
-                            printDebug(currentIndex);
-                          });
-                        },
-                        viewportFraction: 0.8,
+                  child: Column(
+                    children: [
+                      CarouselSlider(
+                        items: items,
+                        options: CarouselOptions(
+                          enlargeCenterPage: true,
+                          autoPlay: false,
+                          aspectRatio: 16 / 9,
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              currentIndex = index;
+                              printDebug(currentIndex);
+                            });
+                          },
+                          viewportFraction: 0.8,
+                        ),
                       ),
-                    ),
-                    DotsIndicator(
-                        dotsCount: items.length, position: currentIndex),
-                  ])),
-              SizedBox(
-                height: 50.h,
-                width: 100.w,
-                child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 5.w, vertical: 5.h),
-                    child: benefit(currentIndex)),
-              ),
-              Padding(
-                  padding: EdgeInsets.only(top: 2.h),
-                  child: const PromotionView()),
-              SizedBox(height: 5.h)
-            ]))),
-            bottomNavigationBar: const Expatnav(
-              number: 3,
-            )));
+                      DotsIndicator(
+                          dotsCount: items.length, position: currentIndex),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 50.h,
+                  width: 100.w,
+                  child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 5.w, vertical: 5.h),
+                      child: (isLoading)
+                          ? Column(
+                              children: [
+                                ShimmerWidget(tinggi: 16.h, lebar: 90.w),
+                                SizedBox(
+                                  height: 2.h,
+                                )
+                              ],
+                            )
+                          : benefit(currentIndex)),
+                ),
+                Padding(
+                    padding: EdgeInsets.only(top: 2.h),
+                    child: const PromotionView()),
+                SizedBox(height: 5.h)
+              ],
+            ),
+          ),
+        ),
+        bottomNavigationBar: const Expatnav(
+          number: 3,
+        ),
+      ),
+    );
   }
 }
