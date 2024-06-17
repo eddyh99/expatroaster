@@ -89,7 +89,6 @@ class _EnterpinViewState extends State<EnterpinView> {
                     }
 
                     if (_enterpinFormKey.currentState!.validate()) {
-                      debugPrint('onComplate: $value');
                       Map<String, dynamic> mdata;
                       mdata = {
                         'pin': sha1.convert(utf8.encode(value)).toString(),

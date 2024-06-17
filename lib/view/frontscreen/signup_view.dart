@@ -127,6 +127,20 @@ class _SignupViewState extends State<SignupView> {
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
                             isDense: true,
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: const BorderSide(
+                                color: Colors.red,
+                                width: 0.0,
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: const BorderSide(
+                                color: Colors.red,
+                                width: 0.0,
+                              ),
+                            ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
                                   color: Colors.grey, width: 0.0),
@@ -192,11 +206,21 @@ class _SignupViewState extends State<SignupView> {
                                   borderSide: const BorderSide(
                                       color: Colors.grey, width: 0.0),
                                 ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  borderSide: const BorderSide(
+                                    color: Colors.red,
+                                    width: 0.0,
+                                  ),
+                                ),
                                 hintText: 'Enter your Password',
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return "Please enter your password";
+                                }
+                                if (_strength != 1) {
+                                  return "Your password must Unique";
                                 }
                                 return null;
                               },
@@ -240,6 +264,9 @@ class _SignupViewState extends State<SignupView> {
                       boxsize: '80',
                       onTap: () async {
                         showLoaderDialog(context);
+                        if (!_signupFormKey.currentState!.validate()) {
+                          Navigator.pop(context);
+                        }
                         if (_signupFormKey.currentState!.validate()) {
                           Map<String, dynamic> mdata;
                           mdata = {
