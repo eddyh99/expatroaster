@@ -7,6 +7,7 @@ import 'package:expatroasters/widgets/backscreens/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class SignupView extends StatefulWidget {
   const SignupView({super.key});
@@ -21,9 +22,13 @@ class _SignupViewState extends State<SignupView> {
   final GlobalKey<FormState> _signupFormKey = GlobalKey<FormState>();
   final TextEditingController _emailTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
+  final TextEditingController _password2TextController =
+      TextEditingController();
+  late final WebViewController wvcontroller;
 
   bool _termIsChecked = false;
   bool _passwordVisible = false;
+  bool _password2Visible = false;
 
   late String _password;
   double _strength = 0;
@@ -94,7 +99,7 @@ class _SignupViewState extends State<SignupView> {
             style: TextStyle(
                 fontFamily: GoogleFonts.lora().fontFamily,
                 color: Color.fromRGBO(114, 162, 138, 1),
-                fontSize: 26,
+                fontSize: 20,
                 fontWeight: FontWeight.w800),
           ),
           SizedBox(
@@ -115,27 +120,28 @@ class _SignupViewState extends State<SignupView> {
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 0.5.h),
                           child: const Text(
-                            "Email Address",
+                            "Email",
                             style: TextStyle(color: Colors.white, fontSize: 12),
                           ),
                         ),
                         SizedBox(height: 1.h),
                         TextFormField(
-                          style: const TextStyle(color: Colors.white),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 12),
                           controller: _emailTextController,
                           maxLines: 1,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
                             isDense: true,
                             focusedErrorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
+                              borderRadius: BorderRadius.circular(5.0),
                               borderSide: const BorderSide(
                                 color: Colors.red,
                                 width: 0.0,
                               ),
                             ),
                             errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
+                              borderRadius: BorderRadius.circular(5.0),
                               borderSide: const BorderSide(
                                 color: Colors.red,
                                 width: 0.0,
@@ -144,14 +150,19 @@ class _SignupViewState extends State<SignupView> {
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
                                   color: Colors.grey, width: 0.0),
-                              borderRadius: BorderRadius.circular(8.0),
+                              borderRadius: BorderRadius.circular(5.0),
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
+                              borderRadius: BorderRadius.circular(5.0),
                               borderSide: const BorderSide(
                                   color: Colors.grey, width: 0.0),
                             ),
-                            hintText: 'Enter your email',
+                            contentPadding: const EdgeInsets.only(
+                                left: 20, bottom: 15, right: 13, top: 15),
+                            hintStyle: TextStyle(
+                                fontSize: 12,
+                                color: Color.fromRGBO(163, 163, 163, 1)),
+                            hintText: 'example@gmail.com',
                           ),
                           validator: validateEmail,
                         ),
@@ -162,70 +173,170 @@ class _SignupViewState extends State<SignupView> {
                     height: 2.h,
                   ),
                   SizedBox(
-                      width: 80.w,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 0.5.h),
-                              child: const Text("Password",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 12)),
-                            ),
-                            SizedBox(height: 1.h),
-                            TextFormField(
-                              controller: _passwordTextController,
-                              onChanged: (value) => _checkPassword(value),
-                              obscureText: !_passwordVisible,
-                              maxLines: 1,
-                              keyboardType: TextInputType.text,
-                              style: const TextStyle(color: Colors.white),
-                              decoration: InputDecoration(
-                                suffixIcon: IconButton(
-                                    icon: Icon(
-                                      // Based on passwordVisible state choose the icon
-                                      _passwordVisible
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
-                                      color: Theme.of(context).primaryColorDark,
-                                    ),
-                                    onPressed: () {
-                                      // Update the state i.e. toogle the state of passwordVisible variable
-                                      setState(() {
-                                        _passwordVisible = !_passwordVisible;
-                                      });
-                                    }),
-                                isDense: true,
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Colors.grey, width: 0.0),
-                                  borderRadius: BorderRadius.circular(8.0),
+                    width: 80.w,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 0.5.h),
+                          child: const Text("Create a password",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 12)),
+                        ),
+                        SizedBox(height: 1.h),
+                        TextFormField(
+                          controller: _passwordTextController,
+                          onChanged: (value) => _checkPassword(value),
+                          obscureText: !_passwordVisible,
+                          maxLines: 1,
+                          keyboardType: TextInputType.text,
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 12),
+                          decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                                icon: Icon(
+                                  // Based on passwordVisible state choose the icon
+                                  _passwordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Colors.white,
+                                  size: 16,
                                 ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: const BorderSide(
-                                      color: Colors.grey, width: 0.0),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: const BorderSide(
-                                    color: Colors.red,
-                                    width: 0.0,
-                                  ),
-                                ),
-                                hintText: 'Enter your Password',
+                                onPressed: () {
+                                  // Update the state i.e. toogle the state of passwordVisible variable
+                                  setState(() {
+                                    _passwordVisible = !_passwordVisible;
+                                  });
+                                }),
+                            isDense: true,
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: const BorderSide(
+                                color: Colors.red,
+                                width: 0.0,
                               ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Please enter your password";
-                                }
-                                if (_strength != 1) {
-                                  return "Your password must Unique";
-                                }
-                                return null;
-                              },
                             ),
-                          ])),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: const BorderSide(
+                                color: Colors.red,
+                                width: 0.0,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 0.0),
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 0.0),
+                            ),
+                            contentPadding: const EdgeInsets.only(
+                                left: 20, bottom: 11, right: 13, top: 11),
+                            hintStyle: TextStyle(
+                                fontSize: 12,
+                                color: Color.fromRGBO(163, 163, 163, 1)),
+                            hintText: 'must be at least 8 characters',
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please enter your password";
+                            }
+                            if (_strength != 1) {
+                              return "Your password must Unique";
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  SizedBox(
+                    width: 80.w,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 0.5.h),
+                          child: const Text("Confirm password",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 12)),
+                        ),
+                        SizedBox(height: 1.h),
+                        TextFormField(
+                          controller: _password2TextController,
+                          // onChanged: (value) => _checkPassword(value),
+                          obscureText: !_password2Visible,
+                          maxLines: 1,
+                          keyboardType: TextInputType.text,
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 12),
+                          decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                                icon: Icon(
+                                  // Based on passwordVisible state choose the icon
+                                  _password2Visible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Colors.white,
+                                  size: 16,
+                                ),
+                                onPressed: () {
+                                  // Update the state i.e. toogle the state of passwordVisible variable
+                                  setState(() {
+                                    _password2Visible = !_password2Visible;
+                                  });
+                                }),
+                            isDense: true,
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: const BorderSide(
+                                color: Colors.red,
+                                width: 0.0,
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: const BorderSide(
+                                color: Colors.red,
+                                width: 0.0,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 0.0),
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 0.0),
+                            ),
+                            contentPadding: const EdgeInsets.only(
+                                left: 20, bottom: 11, right: 13, top: 11),
+                            hintStyle: TextStyle(
+                                fontSize: 12,
+                                color: Color.fromRGBO(163, 163, 163, 1)),
+                            hintText: 'repeat password',
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please enter your confirm password";
+                            }
+                            if (value != _passwordTextController.text) {
+                              return "Password doesn't match";
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                   SizedBox(
                     height: 2.h,
                   ),
@@ -276,7 +387,6 @@ class _SignupViewState extends State<SignupView> {
                                     utf8.encode(_passwordTextController.text))
                                 .toString()
                           };
-                          printDebug(jsonEncode(mdata));
                           var url = Uri.parse("$urlapi/auth/register");
                           var result = jsonDecode(
                               await expatAPI(url, jsonEncode(mdata)));
@@ -284,8 +394,17 @@ class _SignupViewState extends State<SignupView> {
                             if (context.mounted) {
                               Navigator.pop(context);
                               _signupFormKey.currentState?.reset();
+
+                              dynamic email = _emailTextController.text;
+                              wvcontroller = WebViewController();
+                              wvcontroller.loadRequest(
+                                Uri.parse(
+                                    "$urlbase/auth/send_activation/${Uri.encodeComponent(email)}?otp=${result['messages']}"),
+                              );
                               Get.toNamed("/front-screen/completeregister",
-                                  arguments: [_emailTextController.text]);
+                                  arguments: [
+                                    {"email": email}
+                                  ]);
                             }
                           } else {
                             var psnerror = result["messages"]["error"];
@@ -363,6 +482,16 @@ class _SignupViewState extends State<SignupView> {
                         Get.toNamed("/front-screen/signin");
                       },
                     ),
+                  ),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  SizedBox(
+                    child: ButtonWidget(
+                        name: "btnSecondary",
+                        text: "Sign in with Google",
+                        boxsize: '80',
+                        onTap: () {}),
                   ),
                   SizedBox(
                     height: 10.h,

@@ -42,16 +42,20 @@ class _AboutViewState extends State<AboutView> {
                       ),
                     )),
                 Padding(
-                    padding: EdgeInsets.fromLTRB(5.h, 5.h, 5.h, 0),
-                    child: SizedBox(
-                      width: 100.w,
-                      height: 45.h,
-                      child: const Text(
-                        'Expat. Roasters is a specialty coffee producer driven by desire to produce an exceptional, unpretentious brew, from the ground up. As residents of "the island", Expat. Roasters works closely and respectfully with Balinese farmers and producers to source finest local product to compliment their nomadic collections of beans around the globe.Expat. Roasters strive to foster the burgeoning coffee & barista community of Indonesia. Introducing the culture of making a good brew across the island, our mission is to give access to education and training to coffee professionals and coffee lovers!',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    )),
-                SizedBox(height: 27.h, width: 100.w, child: const OutletView()),
+                  padding: EdgeInsets.fromLTRB(5.h, 5.h, 5.h, 0),
+                  child: SizedBox(
+                    width: 100.w,
+                    // height: 45.h,
+                    child: const Text(
+                      'Expat. Roasters is a specialty coffee producer driven by desire to produce an exceptional, unpretentious brew, from the ground up. As residents of "the island", Expat. Roasters works closely and respectfully with Balinese farmers and producers to source finest local product to compliment their nomadic collections of beans around the globe.Expat. Roasters strive to foster the burgeoning coffee & barista community of Indonesia. Introducing the culture of making a good brew across the island, our mission is to give access to education and training to coffee professionals and coffee lovers!',
+                      style: TextStyle(color: Colors.white, fontSize: 12),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 5.h,
+                ),
+                SizedBox(height: 34.h, width: 100.w, child: const OutletView()),
                 SizedBox(
                   height: 5.h,
                 )

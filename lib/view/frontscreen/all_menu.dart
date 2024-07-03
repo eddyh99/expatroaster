@@ -6,6 +6,7 @@ import 'package:expatroasters/widgets/backscreens/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AllMenu extends StatefulWidget {
   const AllMenu({super.key});
@@ -236,16 +237,18 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                 padding: const EdgeInsets.only(left: 12.0),
                                 child: Title(
                                   color: Colors.white,
-                                  child: const Text(
+                                  child: Text(
                                     'Coffee Drink',
                                     style: TextStyle(
-                                      fontSize: 30,
+                                      fontSize: 24,
                                       color: Color.fromRGBO(
                                         114,
                                         162,
                                         138,
                                         1,
                                       ),
+                                      fontFamily: GoogleFonts.lora().fontFamily,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
                                 ),
@@ -289,7 +292,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                         RoundedRectangleBorder(
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              0.0),
+                                                              10.0),
                                                     ),
                                                     color: Colors.transparent,
                                                     shadowColor:
@@ -315,10 +318,17 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                               maxWidth: 35.w,
                                                               maxHeight: 35.h,
                                                             ),
-                                                            child:
-                                                                Image.network(
-                                                              drink[i][1],
-                                                              fit: BoxFit.fill,
+                                                            child: ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          12),
+                                                              child:
+                                                                  Image.network(
+                                                                drink[i][1],
+                                                                fit:
+                                                                    BoxFit.fill,
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
@@ -476,16 +486,18 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                 padding: const EdgeInsets.only(left: 12.0),
                                 child: Title(
                                   color: Colors.white,
-                                  child: const Text(
+                                  child: Text(
                                     'Sweets',
                                     style: TextStyle(
-                                      fontSize: 30,
+                                      fontSize: 24,
                                       color: Color.fromRGBO(
                                         114,
                                         162,
                                         138,
                                         1,
                                       ),
+                                      fontFamily: GoogleFonts.lora().fontFamily,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
                                 ),
@@ -555,10 +567,17 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                               maxWidth: 35.w,
                                                               maxHeight: 35.h,
                                                             ),
-                                                            child:
-                                                                Image.network(
-                                                              food[i][1],
-                                                              fit: BoxFit.fill,
+                                                            child: ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          12),
+                                                              child:
+                                                                  Image.network(
+                                                                food[i][1],
+                                                                fit:
+                                                                    BoxFit.fill,
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
@@ -716,16 +735,18 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                 padding: const EdgeInsets.only(left: 12.0),
                                 child: Title(
                                   color: Colors.white,
-                                  child: const Text(
-                                    'Tin 200g',
+                                  child: Text(
+                                    'Retail',
                                     style: TextStyle(
-                                      fontSize: 30,
+                                      fontSize: 24,
                                       color: Color.fromRGBO(
                                         114,
                                         162,
                                         138,
                                         1,
                                       ),
+                                      fontFamily: GoogleFonts.lora().fontFamily,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
                                 ),
@@ -795,10 +816,17 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                               maxWidth: 35.w,
                                                               maxHeight: 35.h,
                                                             ),
-                                                            child:
-                                                                Image.network(
-                                                              retail[i][1],
-                                                              fit: BoxFit.fill,
+                                                            child: ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          12),
+                                                              child:
+                                                                  Image.network(
+                                                                retail[i][1],
+                                                                fit:
+                                                                    BoxFit.fill,
+                                                              ),
                                                             ),
                                                           ),
                                                         ),

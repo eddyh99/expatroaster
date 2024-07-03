@@ -58,6 +58,7 @@ class _ListOutletState extends State<ListOutlet> {
     var url = Uri.parse("$urlapi/v1/outlet/get_allcabang");
     resultData = jsonDecode(await expatAPI(url, body))["messages"];
     lengthData = resultData.length;
+    printDebug(resultData);
     setState(() {
       for (var dt in resultData) {
         if (!kota.contains(dt['provinsi'])) {
@@ -99,16 +100,16 @@ class _ListOutletState extends State<ListOutlet> {
     final hasPermission = await _handleLocationPermission();
 
     if (!hasPermission) return;
-    // await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-    //     .then((Position position) {
-    //   setState(() {
-    //     _currentPosition = position;
-    //   });
-    //   print(_currentPosition);
-    //   _getAddressFromLatLng(_currentPosition!);
-    // }).catchError((e) {
-    //   debugPrint(e);
-    // });
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+      });
+      print(_currentPosition);
+      _getAddressFromLatLng(_currentPosition!);
+    }).catchError((e) {
+      debugPrint(e);
+    });
   }
 
   Future<void> _getAddressFromLatLng(Position position) async {
@@ -141,19 +142,11 @@ class _ListOutletState extends State<ListOutlet> {
           }
         }
         dropdownValue = _currentDistrict;
-        // print(_currentDistrict);
-        // print(place);
       });
     }).catchError((e) {
       debugPrint(e);
     });
   }
-
-  // Future _getAddress() async {
-  //   List<Placemark> placemarks =
-  //       await placemarkFromCoordinates(-8.118064, 115.0843402);
-  //   print(placemarks.toString());
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -168,9 +161,10 @@ class _ListOutletState extends State<ListOutlet> {
               onPressed: () => Get.toNamed('front-screen/home'),
             ),
             centerTitle: true,
-            title: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                child: const Text("OUTLET")),
+            title: Text(
+              "SELECT OUTLET",
+              style: TextStyle(fontSize: 20),
+            ),
             backgroundColor: Colors.transparent,
             foregroundColor: Colors.white,
             elevation: 0,
@@ -185,8 +179,16 @@ class _ListOutletState extends State<ListOutlet> {
                     children: [
                       SizedBox(
                         width: 90.w,
+                        height: 12.h,
                         child: Center(
                           child: DropdownMenu(
+                            menuStyle: MenuStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.resolveWith((states) {
+                                return Colors
+                                    .white; //your desired selected background color
+                              }),
+                            ),
                             width: 90.w,
                             initialSelection: dropdownValue,
                             onSelected: (String? value) {
@@ -198,8 +200,21 @@ class _ListOutletState extends State<ListOutlet> {
                             dropdownMenuEntries: kota
                                 .map<DropdownMenuEntry<String>>((String value) {
                               return DropdownMenuEntry<String>(
-                                  value: value, label: value);
+                                  value: value,
+                                  label: value,
+                                  style: MenuItemButton.styleFrom(
+                                    foregroundColor:
+                                        Color.fromRGBO(47, 47, 47, 1),
+                                    //text color
+                                  ));
                             }).toList(),
+                            inputDecorationTheme: InputDecorationTheme(
+                              constraints: BoxConstraints(maxHeight: 10.h),
+                              isDense: true,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
                             textStyle: const TextStyle(
                               color: Colors.white,
                             ),
@@ -211,52 +226,102 @@ class _ListOutletState extends State<ListOutlet> {
                       ),
                       for (int i = 0; i < lengthData; i++)
                         if (resultData[i]["provinsi"] == dropdownValue)
-                          Container(
-                            height: 28.h,
-                            color: const Color.fromRGBO(131, 173, 152, 1),
-                            margin: EdgeInsets.all(1.w),
-                            // child: Center(child: Text('Entry ${imglst[index][0]}')),
-                            child: ListimageView(
-                              image: NetworkImage(resultData[i]['picture']),
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.transparent,
-                                    shadowColor: Colors.transparent),
-                                onPressed: () {
-                                  // Navigator.of(context).pop();
-                                  confirmOutlet(
-                                      context,
-                                      capitalizeFirstLetter(
-                                          resultData[i]['nama']),
-                                      capitalizeFirstLetter(
-                                          resultData[i]['alamat']),
-                                      resultData[i]['id']);
-                                },
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      resultData[i]['nama'],
-                                      style: const TextStyle(
-                                          color:
-                                              Color.fromRGBO(131, 173, 152, 1),
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                    SizedBox(
-                                      width: 100.w,
-                                      child: Text(
-                                        resultData[i]['alamat'],
-                                        style: const TextStyle(
-                                            color: Colors.white, fontSize: 14),
+                          Column(
+                            children: [
+                              SizedBox(
+                                height: 2.h,
+                              ),
+                              Container(
+                                height: 28.h,
+                                // color: Color.fromRGBO(131, 173, 152, 1),
+                                margin: EdgeInsets.all(1.w),
+                                decoration: BoxDecoration(
+                                    color:
+                                        const Color.fromARGB(25, 255, 255, 255),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: ListimageView(
+                                    image:
+                                        NetworkImage(resultData[i]['picture']),
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(0),
+                                        ),
+                                        backgroundColor:
+                                            Color.fromARGB(55, 0, 0, 0),
+                                        shadowColor:
+                                            const Color.fromARGB(182, 0, 0, 0),
+                                      ),
+                                      // backgroundColor: Colors.transparent,
+                                      // shadowColor: Colors.transparent),
+                                      onPressed: () {
+                                        // Navigator.of(context).pop();
+                                        confirmOutlet(
+                                            context,
+                                            capitalizeFirstLetter(
+                                                resultData[i]['nama']),
+                                            capitalizeFirstLetter(
+                                                resultData[i]['alamat']),
+                                            resultData[i]['id']);
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            resultData[i]['nama'],
+                                            style: const TextStyle(
+                                                color: Color.fromRGBO(
+                                                    131, 173, 152, 1),
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                          SizedBox(
+                                            width: 100.w,
+                                            child: Text(
+                                              resultData[i]['alamat'],
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 8,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                          ),
+                                          SizedBox(height: 0.5.h),
+                                          SizedBox(
+                                            width: 100.w,
+                                            child: Text(
+                                              "OPERATIONAL HOUR",
+                                              style: const TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      131, 173, 152, 1),
+                                                  fontSize: 8,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                          ),
+                                          SizedBox(height: 0.5.h),
+                                          SizedBox(
+                                            width: 100.w,
+                                            child: Text(
+                                              resultData[i]['opening'],
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 8,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                          ),
+                                          SizedBox(height: 0.5.h),
+                                        ],
                                       ),
                                     ),
-                                    SizedBox(height: 0.5.h),
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
                     ],
                   ),
@@ -399,24 +464,4 @@ class _ListOutletState extends State<ListOutlet> {
       },
     );
   }
-
-  // Widget favoriteButton() {
-  //   return FloatingActionButton.extended(
-  //     onPressed: () async {
-  //       // final String? url = await wvcontroller.getUserAgent();
-  //       if (mounted) {
-  //         Get.toNamed(
-  //           "/front-screen/allmenu",
-  //         );
-  //       }
-  //     },
-  //     icon: const Icon(Icons.restaurant_menu),
-  //     label: Text(
-  //       " $_currentDistrict Lokasi",
-  //       style: const TextStyle(fontSize: 18),
-  //     ),
-  //     backgroundColor: Color.fromRGBO(131, 173, 152, 1),
-  //     foregroundColor: Colors.white,
-  //   );
-  // }
 }

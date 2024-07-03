@@ -81,16 +81,6 @@ class _SettingViewState extends State<SettingView> {
       //debugPrint(baseimage);
     }
 
-    var newpass = "";
-    if (_newpassTextController.text.isNotEmpty) {
-      newpass =
-          sha1.convert(utf8.encode(_newpassTextController.text)).toString();
-    }
-    var newpin = "";
-    if (_newpassTextController.text.isNotEmpty) {
-      newpin = sha1.convert(utf8.encode(_pinTextController.text)).toString();
-    }
-
     Map<String, dynamic> mdata;
     mdata = {
       'nama': _nameTextController.text,
@@ -99,13 +89,14 @@ class _SettingViewState extends State<SettingView> {
       'gender': selectedGender.toLowerCase(),
       'phone': _phoneTextController.text,
       'country': selectedCountry,
-      'passwd': newpass,
-      'pin': newpin
     };
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     await expatAPI(url, jsonEncode(mdata)).then((ress) {
       Navigator.pop(context);
       Navigator.of(context, rootNavigator: true).pop();
+      print(ress);
 
+      // prefs.setString("logged", jsonEncode({"nama": _nameTextController.text}));
       showAlert(
         "Profile successfully updated",
         context,
@@ -222,6 +213,9 @@ class _SettingViewState extends State<SettingView> {
                         SizedBox(
                           width: 100.w,
                           child: TextFormField(
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(100),
+                            ],
                             style: const TextStyle(color: Colors.white),
                             controller: _nameTextController,
                             maxLines: 1,

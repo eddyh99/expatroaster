@@ -1,15 +1,12 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
-import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:expatroasters/widgets/backscreens/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingPasswordView extends StatefulWidget {
@@ -20,8 +17,6 @@ class SettingPasswordView extends StatefulWidget {
     return _SettingPasswordViewState();
   }
 }
-
-const List<String> gender = <String>['Male', 'Female'];
 
 class _SettingPasswordViewState extends State<SettingPasswordView> {
   final GlobalKey<FormState> _settingFormKey = GlobalKey<FormState>();

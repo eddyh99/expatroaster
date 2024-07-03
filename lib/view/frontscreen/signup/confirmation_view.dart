@@ -122,59 +122,6 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                   ]),
             ),
           ),
-          // SizedBox(
-          //   width: 80.w,
-          //   child: ElevatedButton(
-          //     style: ElevatedButton.styleFrom(
-          //         backgroundColor: const Color.fromRGBO(114, 162, 138, 1),
-          //         foregroundColor: Colors.white,
-          //         shape: RoundedRectangleBorder(
-          //           borderRadius: BorderRadius.circular(18.0),
-          //         )),
-          //     onPressed: () async {
-          //       showLoaderDialog(context);
-          //       // printDebug(context.mounted);
-          //       if (!_confirmFormKey.currentState!.validate()) {
-          //         Navigator.pop(context);
-          //       }
-
-          //       if (_confirmFormKey.currentState!.validate()) {
-          //         var url = Uri.parse("$urlapi/auth/activate?token=");
-          //         var result = jsonDecode(await expatAPI(url, ""));
-          //         if (result["status"] == 200) {
-          //           if (context.mounted) {
-          //             Navigator.pop(context);
-          //             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          //               content: Text(
-          //                 result["messages"],
-          //                 style: const TextStyle(color: Colors.white),
-          //               ),
-          //               backgroundColor: const Color.fromRGBO(114, 162, 138, 1),
-          //             ));
-          //             _confirmFormKey.currentState?.reset();
-          //             Get.toNamed("/front-screen/signin");
-          //           }
-          //         } else {
-          //           var psnerror = result["messages"]["error"];
-          //           if (context.mounted) {
-          //             Navigator.pop(context);
-          //             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          //               content: Text(
-          //                 psnerror,
-          //                 style: const TextStyle(color: Colors.white),
-          //               ),
-          //               backgroundColor: const Color.fromRGBO(114, 162, 138, 1),
-          //             ));
-          //           }
-          //         }
-          //       }
-          //     },
-          //     child: const Text(
-          //       "Verify",
-          //       style: TextStyle(color: Colors.white),
-          //     ),
-          //   ),
-          // ),
         ),
       ),
     );

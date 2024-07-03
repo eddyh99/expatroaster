@@ -53,6 +53,7 @@ dependencies:
   email_validator: '^2.1.16'
   geolocator: ^11.0.0
   geocoding: ^3.0.0
+  flutter_svg: ^2.0.10+1
   syncfusion_flutter_datepicker: 25.2.4
 
 dev_dependencies:

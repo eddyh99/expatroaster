@@ -25,8 +25,6 @@ class _OrderDetailViewState extends State<OrderDetailView> {
   @override
   void initState() {
     super.initState();
-    printDebug(idcabang);
-    printDebug(idproduk);
 
     wvcontroller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -64,11 +62,6 @@ class _OrderDetailViewState extends State<OrderDetailView> {
 
   @override
   Widget build(BuildContext context) {
-    // wvcontroller.loadRequest(
-    //   Uri.parse(
-    //       "$urlbase/widget/order/detail?cabang=$idcabang&product=$idproduk"),
-    // );
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
