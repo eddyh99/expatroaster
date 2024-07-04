@@ -3,14 +3,12 @@ import 'dart:convert';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
-import 'package:expatroasters/widgets/backscreens/async_widget.dart';
 import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:expatroasters/widgets/backscreens/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class ProfileView extends StatefulWidget {
@@ -25,8 +23,9 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   dynamic resultData;
   String body = '';
-  String token = "";
+  String token = '';
   String nama = '';
+  String membership = '';
   bool isLoadingPref = true;
   late final WebViewController wvcontroller;
 
@@ -35,12 +34,15 @@ class _ProfileViewState extends State<ProfileView> {
     super.initState();
     _asyncMethod();
     getPrefer();
+    // _loadAllPreferences();
   }
 
   Future<dynamic> getPrefer() async {
-    var data = await readPrefStr("logged");
-    print(data);
-    nama = data['nama'];
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var getNama = prefs.getString("nama");
+    nama = getNama!;
+    var getMembership = prefs.getString("membership");
+    membership = getMembership!;
     setState(() {
       isLoadingPref = false;
     });
@@ -164,19 +166,19 @@ class _ProfileViewState extends State<ProfileView> {
                             ),
                             SizedBox(
                               width: 70.w,
-                              height: 5.h,
+                              height: 6.h,
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
                                   color: const Color.fromRGBO(114, 162, 138, 1),
                                   borderRadius: BorderRadius.circular(18.0),
                                 ),
-                                child: const Align(
-                                  alignment: Alignment.center,
-                                  child: AsyncTextWidget(
-                                    pref: "logged",
-                                    field: "membership",
-                                    color: Colors.white,
-                                    fontsize: '24.0',
+                                child: Center(
+                                  child: Text(
+                                    membership.toUpperCase(),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.w800),
                                   ),
                                 ),
                               ),
@@ -221,7 +223,7 @@ class _ProfileViewState extends State<ProfileView> {
                             onTap: () {
                               Get.toNamed("/front-screen/about");
                             },
-                            child: const Text("ABOUT EXPAT. ROASTERS",
+                            child: const Text("ABOUT",
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 20),
                                 textAlign: TextAlign.center),
@@ -262,62 +264,37 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                     SizedBox(
-                        width: 100.w,
-                        height: 8.h,
-                        child: DecoratedBox(
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                top: BorderSide(
-                                  //
-                                  color: Colors.white,
-                                  width: 1.0,
-                                ),
-                                bottom: BorderSide(
-                                  //
-                                  color: Colors.white,
-                                  width: 1.0,
-                                ),
-                              ),
+                      width: 100.w,
+                      height: 8.h,
+                      child: DecoratedBox(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            top: BorderSide(
+                              //
+                              color: Colors.white,
+                              width: 1.0,
                             ),
-                            child: Align(
-                                alignment: Alignment.center,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Get.toNamed("/front-screen/benefit");
-                                  },
-                                  child: const Text("BENEFIT",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 20),
-                                      textAlign: TextAlign.center),
-                                )))),
-                    SizedBox(
-                        width: 100.w,
-                        height: 8.h,
-                        child: DecoratedBox(
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                top: BorderSide(
-                                  //
-                                  color: Colors.white,
-                                  width: 1.0,
-                                ),
-                                bottom: BorderSide(
-                                  //
-                                  color: Colors.white,
-                                  width: 1.0,
-                                ),
-                              ),
+                            bottom: BorderSide(
+                              //
+                              color: Colors.white,
+                              width: 1.0,
                             ),
-                            child: Align(
-                                alignment: Alignment.center,
-                                child: GestureDetector(
-                                  onTap: () =>
-                                      {Get.toNamed("/front-screen/settings")},
-                                  child: const Text("SETTINGS",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 20),
-                                      textAlign: TextAlign.center),
-                                )))),
+                          ),
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.toNamed("/front-screen/benefit");
+                            },
+                            child: const Text("BENEFITS",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                                textAlign: TextAlign.center),
+                          ),
+                        ),
+                      ),
+                    ),
                     SizedBox(
                       width: 100.w,
                       height: 8.h,
@@ -339,8 +316,10 @@ class _ProfileViewState extends State<ProfileView> {
                         child: Align(
                           alignment: Alignment.center,
                           child: GestureDetector(
-                            onTap: () async => {logout()},
-                            child: const Text("LOGOUT",
+                            onTap: () {
+                              Get.toNamed("/front-screen/profile");
+                            },
+                            child: const Text("CONTACT US",
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 20),
                                 textAlign: TextAlign.center),
@@ -348,6 +327,65 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                       ),
                     ),
+                    SizedBox(
+                        width: 100.w,
+                        height: 8.h,
+                        child: DecoratedBox(
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                top: BorderSide(
+                                  //
+                                  color: Colors.white,
+                                  width: 1.0,
+                                ),
+                                bottom: BorderSide(
+                                  //
+                                  color: Colors.white,
+                                  width: 1.0,
+                                ),
+                              ),
+                            ),
+                            child: Align(
+                                alignment: Alignment.center,
+                                child: GestureDetector(
+                                  onTap: () => {
+                                    Get.toNamed("/front-screen/pilihSettings")
+                                  },
+                                  child: const Text("SETTINGS",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                      textAlign: TextAlign.center),
+                                )))),
+                    // SizedBox(
+                    //   width: 100.w,
+                    //   height: 8.h,
+                    //   child: DecoratedBox(
+                    //     decoration: const BoxDecoration(
+                    //       border: Border(
+                    //         top: BorderSide(
+                    //           //
+                    //           color: Colors.white,
+                    //           width: 1.0,
+                    //         ),
+                    //         bottom: BorderSide(
+                    //           //
+                    //           color: Colors.white,
+                    //           width: 1.0,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     child: Align(
+                    //       alignment: Alignment.center,
+                    //       child: GestureDetector(
+                    //         onTap: () async => {logout()},
+                    //         child: const Text("LOGOUT",
+                    //             style: TextStyle(
+                    //                 color: Colors.white, fontSize: 20),
+                    //             textAlign: TextAlign.center),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     SizedBox(
                       height: 5.h,
                     ),

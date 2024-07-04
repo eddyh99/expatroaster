@@ -1,0 +1,323 @@
+import 'package:expatroasters/utils/extensions.dart';
+import 'package:expatroasters/utils/globalvar.dart';
+import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
+class PilihSettingsView extends StatefulWidget {
+  const PilihSettingsView({super.key});
+
+  @override
+  State<PilihSettingsView> createState() {
+    return _PilihSettingsViewState();
+  }
+}
+
+class _PilihSettingsViewState extends State<PilihSettingsView> {
+  dynamic resultData;
+  String body = '';
+  String token = '';
+  String nama = '';
+  String membership = '';
+  bool isLoadingPref = true;
+  late final WebViewController wvcontroller;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future logout() async {
+    wvcontroller = WebViewController();
+    wvcontroller.loadRequest(Uri.parse("$urlbase/widget/order/removecookie"));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+    Get.toNamed("/front-screen/signin");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.black,
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () => Get.toNamed("/front-screen/profile"),
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          centerTitle: true,
+          title: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              child: const Text(
+                "SETTINGS",
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              )),
+        ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Center(
+                child: Column(children: [
+              SizedBox(
+                height: 3.h,
+              ),
+              SizedBox(
+                height: 5.h,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 5.w, right: 5.w),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 100.w,
+                      height: 8.h,
+                      child: DecoratedBox(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              //
+                              color: Colors.white,
+                              width: 1.0,
+                            ),
+                          ),
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.toNamed("/front-screen/settings");
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("ACCOUNT",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                        textAlign: TextAlign.center),
+                                    Text(
+                                        "Profile, password, and account security ",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w100),
+                                        textAlign: TextAlign.center),
+                                  ],
+                                ),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.arrow_right,
+                                      color: Colors.white),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 100.w,
+                      height: 8.h,
+                      child: DecoratedBox(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              //
+                              color: Colors.white,
+                              width: 1.0,
+                            ),
+                          ),
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.toNamed("/front-screen/profile");
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("FAQ",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                        textAlign: TextAlign.center),
+                                  ],
+                                ),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.arrow_right,
+                                      color: Colors.white),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 100.w,
+                      height: 8.h,
+                      child: DecoratedBox(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              //
+                              color: Colors.white,
+                              width: 1.0,
+                            ),
+                          ),
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.toNamed("/front-screen/profile");
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("PRIVACY POLICY",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                        textAlign: TextAlign.center),
+                                  ],
+                                ),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.arrow_right,
+                                      color: Colors.white),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 100.w,
+                      height: 8.h,
+                      child: DecoratedBox(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              //
+                              color: Colors.white,
+                              width: 1.0,
+                            ),
+                          ),
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.toNamed("/front-screen/profile");
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("TERMS & CONDITIONS",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                        textAlign: TextAlign.center),
+                                  ],
+                                ),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.arrow_right,
+                                      color: Colors.white),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 100.w,
+                      height: 8.h,
+                      child: DecoratedBox(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              //
+                              color: Colors.white,
+                              width: 1.0,
+                            ),
+                          ),
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: GestureDetector(
+                            onTap: () async => {logout()},
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("SIGN OUT",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                        textAlign: TextAlign.center),
+                                  ],
+                                ),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.arrow_right,
+                                      color: Colors.white),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5.h,
+                    ),
+                  ],
+                ),
+              )
+            ])),
+          ),
+        ),
+        bottomNavigationBar: const Expatnav(
+          number: 3,
+        ));
+  }
+}

@@ -311,7 +311,21 @@ class _SigninViewState extends State<SigninView> {
                                   prefs.setBool(
                                       "_rememberme", _rememberIsChecked);
                                   prefs.setString(
-                                      "logged", jsonEncode(result["messages"]));
+                                      "id", result["messages"]["id"]);
+                                  prefs.setString(
+                                      "nama", result["messages"]["nama"]);
+                                  prefs.setString("memberid",
+                                      result["messages"]["memberid"]);
+                                  prefs.setString(
+                                      "role", result["messages"]["role"]);
+                                  prefs.setString(
+                                      "pin", result["messages"]["pin"]);
+                                  prefs.setString("membership",
+                                      result["messages"]["membership"]);
+                                  prefs.setString(
+                                      "plafon", result["messages"]["plafon"]);
+                                  // prefs.setString(
+                                  //     "logged", jsonEncode(result["messages"]));
                                   if (result['messages']['pin']?.isEmpty) {
                                     Get.toNamed("/front-screen/createpin");
                                   } else {

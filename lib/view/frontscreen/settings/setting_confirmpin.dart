@@ -17,8 +17,6 @@ class SettingConfirmPinView extends StatefulWidget {
   }
 }
 
-const List<String> gender = <String>['Male', 'Female'];
-
 class _SettingConfirmPinViewState extends State<SettingConfirmPinView> {
   final GlobalKey<FormState> _settingFormKey = GlobalKey<FormState>();
   final TextEditingController pinController = TextEditingController();
@@ -29,11 +27,6 @@ class _SettingConfirmPinViewState extends State<SettingConfirmPinView> {
     pinController.dispose();
     focusNode.dispose();
     super.dispose();
-  }
-
-  Future<dynamic> getPrefer() async {
-    var data = await readPrefStr("logged");
-    printDebug(data);
   }
 
   @override

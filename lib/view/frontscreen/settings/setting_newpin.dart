@@ -2,11 +2,9 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
-import 'package:expatroasters/utils/globalvar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart';
 import 'package:pinput/pinput.dart';
 
 class SettingNewPinView extends StatefulWidget {
@@ -29,11 +27,6 @@ class _SettingNewPinViewState extends State<SettingNewPinView> {
     pinController.dispose();
     focusNode.dispose();
     super.dispose();
-  }
-
-  Future<dynamic> getPrefer() async {
-    var data = await readPrefStr("logged");
-    printDebug(data);
   }
 
   @override

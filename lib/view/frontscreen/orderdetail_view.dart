@@ -1,4 +1,3 @@
-import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
 // import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:flutter/material.dart';
@@ -48,12 +47,9 @@ class _OrderDetailViewState extends State<OrderDetailView> {
       ..addJavaScriptChannel(
         'Total',
         onMessageReceived: (JavaScriptMessage message) async {
-          print("--------Data Receive---------");
-          print(message.message);
           setState(() {
             totalorder = message.message;
           });
-          print("totalorder $totalorder");
         },
       )
       ..loadRequest(Uri.parse(

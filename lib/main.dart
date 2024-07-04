@@ -1,6 +1,7 @@
 import 'package:expatroasters/view/frontscreen/about_view.dart';
 import 'package:expatroasters/view/frontscreen/all_menu.dart';
 import 'package:expatroasters/view/frontscreen/benefit_view.dart';
+import 'package:expatroasters/view/frontscreen/settings/pilihsettings_view.dart';
 import 'package:expatroasters/view/frontscreen/signup/complete_view.dart';
 import 'package:expatroasters/view/frontscreen/signup/confirmation_view.dart';
 import 'package:expatroasters/view/frontscreen/createpin_view.dart';
@@ -161,6 +162,11 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: '/front-screen/settings',
             page: () => const SettingView(),
+            transition: Transition.noTransition,
+          ),
+          GetPage(
+            name: '/front-screen/pilihSettings',
+            page: () => const PilihSettingsView(),
             transition: Transition.rightToLeft,
           ),
           GetPage(

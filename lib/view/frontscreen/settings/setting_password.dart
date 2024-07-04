@@ -27,6 +27,7 @@ class _SettingPasswordViewState extends State<SettingPasswordView> {
   final TextEditingController _password2TextController =
       TextEditingController();
   late String _currpassword;
+  late String _userid;
   late String _inptcurrpassword;
 
   bool _passwordVisible1 = false;
@@ -39,6 +40,7 @@ class _SettingPasswordViewState extends State<SettingPasswordView> {
   Future _asyncMethod() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     _currpassword = prefs.getString("passwd")!;
+    _userid = prefs.getString("id")!;
   }
 
   void _currentValidation(String value) {
@@ -54,13 +56,14 @@ class _SettingPasswordViewState extends State<SettingPasswordView> {
 
   Future<void> _savePassword() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    var url = Uri.parse("$urlapi/v1/mobile/member/updatepass");
+    var url = Uri.parse("$urlapi/auth/updatepass");
     showLoaderDialog(context);
     if (!_settingFormKey.currentState!.validate()) {
       Navigator.pop(context);
     } else {
       if (_currpassword == _inptcurrpassword) {
         Map<String, dynamic> mdata = {
+          "userid": _userid,
           "oldpass": _currpassword,
           "newpass": sha1
               .convert(utf8.encode(_password1TextController.text))

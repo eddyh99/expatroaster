@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:crypto/crypto.dart';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/country.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
 import 'package:expatroasters/widgets/backscreens/button_widget.dart';
+import 'package:expatroasters/widgets/backscreens/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -32,19 +32,18 @@ class _SettingViewState extends State<SettingView> {
   final TextEditingController _pinTextController = TextEditingController();
   final TextEditingController _newpassTextController = TextEditingController();
   final TextEditingController _phoneTextController = TextEditingController();
-  var dobformat = DateFormat('yyyy-MM-dd');
-  late String _password;
 
-  bool _passwordVisible = false;
+  var dobformat = DateFormat('yyyy-MM-dd');
   RegExp numReg = RegExp(r".*[0-9].*");
   RegExp letterReg = RegExp(r".*[A-Za-z].*");
   RegExp charReg = RegExp(r".*[!@#$%^&*()].*");
   File? image;
   dynamic resultData;
   String body = '';
-  String _oldimage = '';
-  String selectedGender = gender.first;
+  dynamic _previmage;
+  String selectedGender = '';
   String selectedCountry = country.first;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -58,16 +57,17 @@ class _SettingViewState extends State<SettingView> {
 
     var url = Uri.parse("$urlapi/v1/mobile/member/get_userdetail");
     var query = jsonDecode(await expatAPI(url, body))["messages"];
-    // printDebug(resultData);
+    resultData = query;
+    print(resultData);
     setState(() {
-      resultData = query;
       _nameTextController.text = resultData["nama"];
       _emailTextController.text = prefs.getString("email")!;
       _dobTextController.text = resultData["dob"];
       selectedGender = toBeginningOfSentenceCase(resultData["gender"]);
       _phoneTextController.text = resultData["phone"];
       selectedCountry = resultData["country"];
-      _oldimage = resultData["picture"];
+      _previmage = resultData["picture"];
+      isLoading = false;
     });
   }
 
@@ -78,7 +78,6 @@ class _SettingViewState extends State<SettingView> {
     if (image != null) {
       List<int> imageBytes = image!.readAsBytesSync();
       baseimage = base64Encode(imageBytes);
-      //debugPrint(baseimage);
     }
 
     Map<String, dynamic> mdata;
@@ -90,17 +89,19 @@ class _SettingViewState extends State<SettingView> {
       'phone': _phoneTextController.text,
       'country': selectedCountry,
     };
+
+    print(mdata);
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
     await expatAPI(url, jsonEncode(mdata)).then((ress) {
       Navigator.pop(context);
-      Navigator.of(context, rootNavigator: true).pop();
-      print(ress);
-
-      // prefs.setString("logged", jsonEncode({"nama": _nameTextController.text}));
+      prefs.setString("nama", _nameTextController.text);
       showAlert(
         "Profile successfully updated",
         context,
       );
+      Get.toNamed("/front-screen/profile");
     }).catchError((err) {
       Navigator.pop(context);
       showAlert(
@@ -143,7 +144,7 @@ class _SettingViewState extends State<SettingView> {
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-            onPressed: () => Get.toNamed("/front-screen/profile"),
+            onPressed: () => Get.toNamed("/front-screen/pilihSettings"),
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -161,47 +162,75 @@ class _SettingViewState extends State<SettingView> {
               key: _settingFormKey,
               child: Column(
                 children: [
-                  SizedBox(
-                    width: 90.w,
-                    height: 100,
-                    child: Row(
-                      children: [
-                        image != null
-                            ? Image.file(
-                                image!,
-                                width: 100,
-                                height: 100,
-                                fit: BoxFit.cover,
-                              )
-                            : (selectedGender == 'male')
-                                ? Image.asset(
-                                    "assets/images/men-default.png",
-                                    width: 80,
-                                    height: 80,
-                                    fit: BoxFit.cover,
-                                  )
-                                : Image.asset(
-                                    "assets/images/women-default.png",
-                                    width: 80,
-                                    height: 80,
-                                    fit: BoxFit.cover,
-                                  ),
-                        TextButton(
-                          style: TextButton.styleFrom(
-                            foregroundColor: Colors.white,
-                          ),
-                          onPressed: () => pickgambar('gallery'),
-                          child: const Row(
+                  (isLoading)
+                      ? ShimmerWidget(tinggi: 60, lebar: 90.w)
+                      : SizedBox(
+                          width: 90.w,
+                          height: 100,
+                          child: Row(
                             children: [
-                              Icon(Icons.folder),
-                              SizedBox(width: 10),
-                              Text("Choose Picture")
+                              (_previmage != null && image == null)
+                                  ? Image.network(
+                                      _previmage,
+                                      width: 100,
+                                      height: 100,
+                                    )
+                                  : (image != null)
+                                      ? Image.file(
+                                          image!,
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : (selectedGender == 'Male')
+                                          ? Image.asset(
+                                              "assets/images/men-default.png",
+                                              width: 80,
+                                              height: 80,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Image.asset(
+                                              "assets/images/women-default.png",
+                                              width: 80,
+                                              height: 80,
+                                              fit: BoxFit.cover,
+                                            ),
+                              // image != null
+                              //     ? Image.file(
+                              //         image!,
+                              //         width: 100,
+                              //         height: 100,
+                              //         fit: BoxFit.cover,
+                              //       )
+                              //     : (selectedGender == 'male')
+                              //         ? Image.asset(
+                              //             "assets/images/men-default.png",
+                              //             width: 80,
+                              //             height: 80,
+                              //             fit: BoxFit.cover,
+                              //           )
+                              //         : Image.asset(
+                              //             "assets/images/women-default.png",
+                              //             width: 80,
+                              //             height: 80,
+                              //             fit: BoxFit.cover,
+                              //           ),
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Colors.white,
+                                ),
+                                onPressed: () => pickgambar('gallery'),
+                                child: const Row(
+                                  children: [
+                                    Icon(Icons.folder),
+                                    SizedBox(width: 10),
+                                    Text("Choose Picture")
+                                  ],
+                                ),
+                              )
                             ],
                           ),
-                        )
-                      ],
-                    ),
-                  ),
+                        ),
                   SizedBox(
                     width: 100.w,
                     height: 3.h,
@@ -233,7 +262,7 @@ class _SettingViewState extends State<SettingView> {
                                     color: Colors.grey, width: 0.0),
                               ),
                               // hintText: 'Your Name',
-                              labelText: 'Full name',
+                              labelText: 'Name',
                               labelStyle: const TextStyle(color: Colors.white),
                               hintStyle: const TextStyle(color: Colors.white),
                             ),
@@ -367,7 +396,6 @@ class _SettingViewState extends State<SettingView> {
                             width: 90.w,
                             initialSelection: selectedGender,
                             onSelected: (String? value) {
-                              // This is called when the user selects an item.
                               setState(() {
                                 selectedGender = value!;
                               });
@@ -375,7 +403,9 @@ class _SettingViewState extends State<SettingView> {
                             dropdownMenuEntries: gender
                                 .map<DropdownMenuEntry<String>>((String value) {
                               return DropdownMenuEntry<String>(
-                                  value: value, label: value);
+                                value: value,
+                                label: value,
+                              );
                             }).toList(),
                             inputDecorationTheme: InputDecorationTheme(
                               isDense: true,
@@ -515,16 +545,6 @@ class _SettingViewState extends State<SettingView> {
                         SizedBox(
                           height: 1.h,
                         ),
-                        const Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "leave blank if you don't want to change it",
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 10,
-                                color: Colors.white,
-                              ),
-                            )),
                       ],
                     ),
                   ),
@@ -540,6 +560,9 @@ class _SettingViewState extends State<SettingView> {
                         simpansettings();
                       },
                     ),
+                  ),
+                  SizedBox(
+                    height: 5.h,
                   ),
                 ],
               ),

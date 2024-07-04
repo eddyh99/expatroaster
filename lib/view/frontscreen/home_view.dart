@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
@@ -12,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:ui' as ui;
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -34,9 +35,9 @@ class _HomeViewState extends State<HomeView> {
   RangeValues valuesBottom = RangeValues(0, 0);
 
   Future<dynamic> getPrefer() async {
-    var data = await readPrefStr("logged");
-    nama = data['nama'];
-    printDebug(data);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var getNama = prefs.getString("nama");
+    nama = getNama!;
   }
 
   Future getProfile() async {
