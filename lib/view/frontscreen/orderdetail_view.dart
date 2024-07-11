@@ -1,4 +1,3 @@
-import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
 // import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +24,6 @@ class _OrderDetailViewState extends State<OrderDetailView> {
   @override
   void initState() {
     super.initState();
-    printDebug(idcabang);
-    printDebug(idproduk);
 
     wvcontroller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -50,12 +47,9 @@ class _OrderDetailViewState extends State<OrderDetailView> {
       ..addJavaScriptChannel(
         'Total',
         onMessageReceived: (JavaScriptMessage message) async {
-          print("--------Data Receive---------");
-          print(message.message);
           setState(() {
             totalorder = message.message;
           });
-          print("totalorder $totalorder");
         },
       )
       ..loadRequest(Uri.parse(
@@ -64,11 +58,6 @@ class _OrderDetailViewState extends State<OrderDetailView> {
 
   @override
   Widget build(BuildContext context) {
-    // wvcontroller.loadRequest(
-    //   Uri.parse(
-    //       "$urlbase/widget/order/detail?cabang=$idcabang&product=$idproduk"),
-    // );
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(

@@ -31,7 +31,6 @@ Future bearerToken() async {
   if (email != null && passwd != null) {
     token = sha1.convert(utf8.encode(email + passwd)).toString();
   }
-  debugPrint('100-$token');
 
   return token;
 }

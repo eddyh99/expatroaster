@@ -1,15 +1,12 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
-import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:expatroasters/widgets/backscreens/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingPasswordView extends StatefulWidget {
@@ -21,8 +18,6 @@ class SettingPasswordView extends StatefulWidget {
   }
 }
 
-const List<String> gender = <String>['Male', 'Female'];
-
 class _SettingPasswordViewState extends State<SettingPasswordView> {
   final GlobalKey<FormState> _settingFormKey = GlobalKey<FormState>();
   final TextEditingController _currentPasswordTextController =
@@ -32,6 +27,7 @@ class _SettingPasswordViewState extends State<SettingPasswordView> {
   final TextEditingController _password2TextController =
       TextEditingController();
   late String _currpassword;
+  late String _userid;
   late String _inptcurrpassword;
 
   bool _passwordVisible1 = false;
@@ -44,6 +40,7 @@ class _SettingPasswordViewState extends State<SettingPasswordView> {
   Future _asyncMethod() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     _currpassword = prefs.getString("passwd")!;
+    _userid = prefs.getString("id")!;
   }
 
   void _currentValidation(String value) {
@@ -59,13 +56,14 @@ class _SettingPasswordViewState extends State<SettingPasswordView> {
 
   Future<void> _savePassword() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    var url = Uri.parse("$urlapi/v1/mobile/member/updatepass");
+    var url = Uri.parse("$urlapi/auth/updatepass");
     showLoaderDialog(context);
     if (!_settingFormKey.currentState!.validate()) {
       Navigator.pop(context);
     } else {
       if (_currpassword == _inptcurrpassword) {
         Map<String, dynamic> mdata = {
+          "userid": _userid,
           "oldpass": _currpassword,
           "newpass": sha1
               .convert(utf8.encode(_password1TextController.text))

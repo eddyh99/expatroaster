@@ -25,6 +25,7 @@ class AsyncTextWidget extends StatelessWidget {
           var data = snapshot.data as dynamic;
           return Text(
             data[field],
+            textAlign: TextAlign.center,
             style: TextStyle(color: color, fontSize: double.parse(fontsize)),
           );
         } else {

@@ -2,11 +2,9 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
-import 'package:expatroasters/utils/globalvar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart';
 import 'package:pinput/pinput.dart';
 
 class SettingNewPinView extends StatefulWidget {
@@ -29,11 +27,6 @@ class _SettingNewPinViewState extends State<SettingNewPinView> {
     pinController.dispose();
     focusNode.dispose();
     super.dispose();
-  }
-
-  Future<dynamic> getPrefer() async {
-    var data = await readPrefStr("logged");
-    printDebug(data);
   }
 
   @override
@@ -107,36 +100,7 @@ class _SettingNewPinViewState extends State<SettingNewPinView> {
                                       .toString()
                                 }
                               ]);
-                          // Map<String, dynamic> mdata;
-                          // mdata = {
-                          //   'pin': sha1.convert(utf8.encode(value)).toString(),
-                          // };
-                          // var url =
-                          //     Uri.parse("$urlapi/v1/mobile/member/check_pin");
-                          // await expatAPI(url, jsonEncode(mdata)).then(
-                          //   (ress) {
-                          //     var result = jsonDecode(ress);
-                          //     printDebug(result);
-                          //     if (result["status"] == 200) {
-                          //       Navigator.pop(context);
-                          //       Get.toNamed("/front-screen/home");
-                          //     } else {
-                          //       Navigator.pop(context);
-                          //       showAlert(result["messages"]["error"], context);
-                          //     }
-                          //   },
-                          // ).catchError(
-                          //   (err) {
-                          //     Navigator.pop(context);
-                          //     printDebug("100-$err");
-                          //     showAlert(
-                          //       "404 - Error, Please Contact Administrator",
-                          //       context,
-                          //     );
-                          //   },
-                          // );
                         }
-                        ;
                       },
                     )
                   ],

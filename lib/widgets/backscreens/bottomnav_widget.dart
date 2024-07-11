@@ -1,6 +1,7 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Expatnav extends StatelessWidget {
   const Expatnav({super.key, this.number});
@@ -12,13 +13,20 @@ class Expatnav extends StatelessWidget {
     return ConvexAppBar(
         style: TabStyle.react,
         activeColor: Colors.white,
+
         // cornerRadius: 20,
         backgroundColor: const Color.fromRGBO(30, 30, 30, 1),
-        items: const [
-          TabItem(title: 'Home', icon: Icons.home),
-          TabItem(title: 'Scan', icon: Icons.qr_code),
-          TabItem(title: 'Menu', icon: Icons.coffee),
-          TabItem(title: 'Profile', icon: Icons.person),
+        items: [
+          TabItem(
+              title: 'Home', icon: SvgPicture.asset('assets/images/home.svg')),
+          TabItem(
+              title: 'Payment',
+              icon: SvgPicture.asset('assets/images/qrcode.svg')),
+          TabItem(
+              title: 'Menu', icon: SvgPicture.asset('assets/images/menu.svg')),
+          TabItem(
+              title: 'Profile',
+              icon: SvgPicture.asset('assets/images/profile.svg')),
           // TabItem(title: 'ProfileMe', icon: Icons.person),
         ],
         initialActiveIndex: number,

@@ -5,6 +5,7 @@ import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
 import 'package:expatroasters/widgets/backscreens/button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,11 +26,6 @@ class _SigninViewState extends State<SigninView> {
 
   bool _rememberIsChecked = false;
   bool _passwordVisible = false;
-
-  // Future<dynamic> getPrefer() async {
-  //   var data = await readPrefStr("logged");
-  //   printDebug(data);
-  // }
 
   @override
   void initState() {
@@ -67,7 +63,7 @@ class _SigninViewState extends State<SigninView> {
             style: TextStyle(
                 fontFamily: GoogleFonts.lora().fontFamily,
                 color: Color.fromRGBO(114, 162, 138, 1),
-                fontSize: 26,
+                fontSize: 20,
                 fontWeight: FontWeight.w800),
           ),
           SizedBox(
@@ -96,7 +92,8 @@ class _SigninViewState extends State<SigninView> {
                             ),
                             SizedBox(height: 1.h),
                             TextFormField(
-                              style: const TextStyle(color: Colors.white),
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 12),
                               controller: _emailTextController,
                               maxLines: 1,
                               keyboardType: TextInputType.text,
@@ -105,14 +102,14 @@ class _SigninViewState extends State<SigninView> {
                                 isDense: true,
                                 prefixIconColor: Colors.white,
                                 focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
+                                  borderRadius: BorderRadius.circular(5.0),
                                   borderSide: const BorderSide(
                                     color: Colors.red,
                                     width: 0.0,
                                   ),
                                 ),
                                 errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
+                                  borderRadius: BorderRadius.circular(5.0),
                                   borderSide: const BorderSide(
                                     color: Colors.red,
                                     width: 0.0,
@@ -121,16 +118,19 @@ class _SigninViewState extends State<SigninView> {
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
                                       color: Colors.grey, width: 0.0),
-                                  borderRadius: BorderRadius.circular(8.0),
+                                  borderRadius: BorderRadius.circular(5.0),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
+                                  borderRadius: BorderRadius.circular(5.0),
                                   borderSide: const BorderSide(
                                       color: Colors.grey, width: 0.0),
                                 ),
-                                hintText: 'Enter your email',
                                 contentPadding: const EdgeInsets.only(
-                                    left: 20, bottom: 13, right: 13, top: 13),
+                                    left: 20, bottom: 15, right: 13, top: 15),
+                                hintStyle: TextStyle(
+                                    fontSize: 12,
+                                    color: Color.fromRGBO(163, 163, 163, 1)),
+                                hintText: 'Enter your email address',
                               ),
                               validator: validateEmail,
                             ),
@@ -141,81 +141,83 @@ class _SigninViewState extends State<SigninView> {
                         height: 2.h,
                       ),
                       SizedBox(
-                          width: 80.w,
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(vertical: 0.5.h),
-                                  child: const Text("Password",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 12)),
-                                ),
-                                SizedBox(height: 1.h),
-                                TextFormField(
-                                  controller: _passwordTextController,
-                                  obscureText: !_passwordVisible,
-                                  maxLines: 1,
-                                  keyboardType: TextInputType.text,
-                                  style: const TextStyle(color: Colors.white),
-                                  decoration: InputDecoration(
-                                    suffixIcon: IconButton(
-                                        icon: Icon(
-                                          // Based on passwordVisible state choose the icon
-                                          _passwordVisible
-                                              ? Icons.visibility
-                                              : Icons.visibility_off,
-                                          color: Theme.of(context)
-                                              .primaryColorDark,
-                                        ),
-                                        onPressed: () {
-                                          // Update the state i.e. toogle the state of passwordVisible variable
-                                          setState(() {
-                                            _passwordVisible =
-                                                !_passwordVisible;
-                                          });
-                                        }),
-                                    isDense: true,
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      borderSide: const BorderSide(
-                                        color: Colors.red,
-                                        width: 0.0,
-                                      ),
+                        width: 80.w,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 0.5.h),
+                              child: const Text(
+                                "Password",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 12),
+                              ),
+                            ),
+                            SizedBox(height: 1.h),
+                            TextFormField(
+                              controller: _passwordTextController,
+                              obscureText: !_passwordVisible,
+                              maxLines: 1,
+                              keyboardType: TextInputType.text,
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 12),
+                              decoration: InputDecoration(
+                                suffixIcon: IconButton(
+                                    icon: Icon(
+                                      // Based on passwordVisible state choose the icon
+                                      _passwordVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                      color: Theme.of(context).primaryColorDark,
                                     ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      borderSide: const BorderSide(
-                                        color: Colors.red,
-                                        width: 0.0,
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          color: Colors.grey, width: 0.0),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      borderSide: const BorderSide(
-                                          color: Colors.grey, width: 0.0),
-                                    ),
-                                    hintText: 'Enter your Password',
-                                    contentPadding: const EdgeInsets.only(
-                                        left: 20,
-                                        bottom: 10,
-                                        right: 10,
-                                        top: 10),
+                                    onPressed: () {
+                                      // Update the state i.e. toogle the state of passwordVisible variable
+                                      setState(() {
+                                        _passwordVisible = !_passwordVisible;
+                                      });
+                                    }),
+                                isDense: true,
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  borderSide: const BorderSide(
+                                    color: Colors.red,
+                                    width: 0.0,
                                   ),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "Please enter your password";
-                                    }
-                                    return null;
-                                  },
                                 ),
-                              ])),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  borderSide: const BorderSide(
+                                    color: Colors.red,
+                                    width: 0.0,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 0.0),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 0.0),
+                                ),
+                                hintStyle: TextStyle(
+                                    fontSize: 12,
+                                    color: Color.fromRGBO(163, 163, 163, 1)),
+                                hintText: 'Enter your Password',
+                                contentPadding: const EdgeInsets.only(
+                                    left: 20, bottom: 11, right: 10, top: 11),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Please enter your password";
+                                }
+                                return null;
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
                       SizedBox(
                         width: 85.w,
                         child: Row(
@@ -249,11 +251,16 @@ class _SigninViewState extends State<SigninView> {
                                 ],
                               ),
                             ),
-                            const Text(
-                              "Forgot Password",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Color.fromRGBO(114, 162, 138, 1),
+                            GestureDetector(
+                              onTap: () => {
+                                Get.toNamed("/front-screen/sendemail_forgot")
+                              },
+                              child: const Text(
+                                "Forgot Password",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Color.fromRGBO(114, 162, 138, 1),
+                                ),
                               ),
                             ),
                           ],
@@ -304,7 +311,21 @@ class _SigninViewState extends State<SigninView> {
                                   prefs.setBool(
                                       "_rememberme", _rememberIsChecked);
                                   prefs.setString(
-                                      "logged", jsonEncode(result["messages"]));
+                                      "id", result["messages"]["id"]);
+                                  prefs.setString(
+                                      "nama", result["messages"]["nama"]);
+                                  prefs.setString("memberid",
+                                      result["messages"]["memberid"]);
+                                  prefs.setString(
+                                      "role", result["messages"]["role"]);
+                                  prefs.setString(
+                                      "pin", result["messages"]["pin"]);
+                                  prefs.setString("membership",
+                                      result["messages"]["membership"]);
+                                  prefs.setString(
+                                      "plafon", result["messages"]["plafon"]);
+                                  // prefs.setString(
+                                  //     "logged", jsonEncode(result["messages"]));
                                   if (result['messages']['pin']?.isEmpty) {
                                     Get.toNamed("/front-screen/createpin");
                                   } else {
@@ -355,6 +376,17 @@ class _SigninViewState extends State<SigninView> {
                           onTap: () {
                             Get.toNamed("/front-screen/register");
                           },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 2.h,
+                      ),
+                      SizedBox(
+                        child: ButtonWidget(
+                          name: "btnSecondary",
+                          text: "Sign up with Google",
+                          boxsize: '80',
+                          onTap: () {},
                         ),
                       ),
                       SizedBox(

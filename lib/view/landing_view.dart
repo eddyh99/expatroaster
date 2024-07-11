@@ -110,7 +110,14 @@ class _LandingViewState extends State<LandingView> {
                 SizedBox(
                   height: 1.h,
                 ),
-                DotsIndicator(dotsCount: items.length, position: currentIndex),
+                DotsIndicator(
+                  dotsCount: items.length,
+                  position: currentIndex,
+                  decorator: DotsDecorator(
+                    color: Color.fromRGBO(255, 255, 255, 1),
+                    activeColor: Color.fromRGBO(114, 162, 138, 1),
+                  ),
+                ),
               ],
             )),
           ],

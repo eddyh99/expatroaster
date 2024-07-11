@@ -3,14 +3,12 @@ import 'dart:convert';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
-import 'package:expatroasters/widgets/backscreens/async_widget.dart';
 import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:expatroasters/widgets/backscreens/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class ProfileView extends StatefulWidget {
@@ -25,18 +23,35 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   dynamic resultData;
   String body = '';
-  String token = "";
+  String token = '';
+  String nama = '';
+  String membership = '';
+  bool isLoadingPref = true;
   late final WebViewController wvcontroller;
 
   @override
   void initState() {
     super.initState();
     _asyncMethod();
+    getPrefer();
+    // _loadAllPreferences();
+  }
+
+  Future<dynamic> getPrefer() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var getNama = prefs.getString("nama");
+    nama = getNama!;
+    var getMembership = prefs.getString("membership");
+    membership = getMembership!;
+    setState(() {
+      isLoadingPref = false;
+    });
   }
 
   Future _asyncMethod() async {
     var url = Uri.parse("$urlapi/v1/mobile/member/get_userdetail");
     var query = jsonDecode(await expatAPI(url, body))["messages"];
+    print(query);
     if (query != null) {
       setState(() {
         resultData = query;
@@ -74,7 +89,7 @@ class _ProfileViewState extends State<ProfileView> {
               ),
               SizedBox(
                 width: 80.w,
-                height: 44.h,
+                height: 43.h,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20), // Image border
                   child: SizedBox.fromSize(
@@ -85,7 +100,7 @@ class _ProfileViewState extends State<ProfileView> {
                         image: DecorationImage(
                           image: AssetImage(
                               "assets/images/background-profile.png"),
-                          fit: BoxFit.cover,
+                          fit: BoxFit.contain,
                         ),
                       ),
                       child: Padding(
@@ -117,19 +132,24 @@ class _ProfileViewState extends State<ProfileView> {
                             SizedBox(
                               height: 2.h,
                             ),
-                            const AsyncTextWidget(
-                              pref: "logged",
-                              field: "nama",
-                              color: Colors.white,
-                              fontsize: '26.0',
-                            ),
+                            (isLoadingPref)
+                                ? ShimmerWidget(tinggi: 2.h, lebar: 20.w)
+                                : Text(
+                                    nama,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                    ),
+                                  ),
                             SizedBox(
                               height: 2.h,
                             ),
                             Text(
                               "EXPAT. ROASTERS POINTS".toUpperCase(),
                               style: const TextStyle(
-                                  color: Colors.white, fontSize: 16),
+                                  color: Colors.white, fontSize: 10),
                             ),
                             Text(
                               (resultData == null || resultData['poin'] == null)
@@ -146,19 +166,19 @@ class _ProfileViewState extends State<ProfileView> {
                             ),
                             SizedBox(
                               width: 70.w,
-                              height: 5.h,
+                              height: 6.h,
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
                                   color: const Color.fromRGBO(114, 162, 138, 1),
                                   borderRadius: BorderRadius.circular(18.0),
                                 ),
-                                child: const Align(
-                                  alignment: Alignment.center,
-                                  child: AsyncTextWidget(
-                                    pref: "logged",
-                                    field: "membership",
-                                    color: Colors.white,
-                                    fontsize: '24.0',
+                                child: Center(
+                                  child: Text(
+                                    membership.toUpperCase(),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.w800),
                                   ),
                                 ),
                               ),
@@ -181,7 +201,7 @@ class _ProfileViewState extends State<ProfileView> {
                   children: [
                     SizedBox(
                       width: 100.w,
-                      height: 6.h,
+                      height: 8.h,
                       child: DecoratedBox(
                         decoration: const BoxDecoration(
                           border: Border(
@@ -203,9 +223,9 @@ class _ProfileViewState extends State<ProfileView> {
                             onTap: () {
                               Get.toNamed("/front-screen/about");
                             },
-                            child: const Text("ABOUT EXPAT. ROASTERS",
+                            child: const Text("ABOUT",
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
+                                    color: Colors.white, fontSize: 20),
                                 textAlign: TextAlign.center),
                           ),
                         ),
@@ -213,7 +233,7 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                     SizedBox(
                       width: 100.w,
-                      height: 6.h,
+                      height: 8.h,
                       child: DecoratedBox(
                         decoration: const BoxDecoration(
                           border: Border(
@@ -237,7 +257,71 @@ class _ProfileViewState extends State<ProfileView> {
                             },
                             child: const Text("HISTORY",
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
+                                    color: Colors.white, fontSize: 20),
+                                textAlign: TextAlign.center),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 100.w,
+                      height: 8.h,
+                      child: DecoratedBox(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            top: BorderSide(
+                              //
+                              color: Colors.white,
+                              width: 1.0,
+                            ),
+                            bottom: BorderSide(
+                              //
+                              color: Colors.white,
+                              width: 1.0,
+                            ),
+                          ),
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.toNamed("/front-screen/benefit");
+                            },
+                            child: const Text("BENEFITS",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                                textAlign: TextAlign.center),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 100.w,
+                      height: 8.h,
+                      child: DecoratedBox(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            top: BorderSide(
+                              //
+                              color: Colors.white,
+                              width: 1.0,
+                            ),
+                            bottom: BorderSide(
+                              //
+                              color: Colors.white,
+                              width: 1.0,
+                            ),
+                          ),
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.toNamed("/front-screen/profile");
+                            },
+                            child: const Text("CONTACT US",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
                                 textAlign: TextAlign.center),
                           ),
                         ),
@@ -245,7 +329,7 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                     SizedBox(
                         width: 100.w,
-                        height: 6.h,
+                        height: 8.h,
                         child: DecoratedBox(
                             decoration: const BoxDecoration(
                               border: Border(
@@ -264,72 +348,61 @@ class _ProfileViewState extends State<ProfileView> {
                             child: Align(
                                 alignment: Alignment.center,
                                 child: GestureDetector(
-                                  onTap: () {
-                                    Get.toNamed("/front-screen/benefit");
+                                  onTap: () => {
+                                    Get.toNamed("/front-screen/pilihSettings")
                                   },
-                                  child: const Text("BENEFIT",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 18),
-                                      textAlign: TextAlign.center),
-                                )))),
-                    SizedBox(
-                        width: 100.w,
-                        height: 6.h,
-                        child: DecoratedBox(
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                top: BorderSide(
-                                  //
-                                  color: Colors.white,
-                                  width: 1.0,
-                                ),
-                                bottom: BorderSide(
-                                  //
-                                  color: Colors.white,
-                                  width: 1.0,
-                                ),
-                              ),
-                            ),
-                            child: Align(
-                                alignment: Alignment.center,
-                                child: GestureDetector(
-                                  onTap: () =>
-                                      {Get.toNamed("/front-screen/settings")},
                                   child: const Text("SETTINGS",
                                       style: TextStyle(
-                                          color: Colors.white, fontSize: 18),
+                                          color: Colors.white, fontSize: 20),
                                       textAlign: TextAlign.center),
                                 )))),
-                    SizedBox(
-                        width: 100.w,
-                        height: 6.h,
-                        child: DecoratedBox(
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                top: BorderSide(
-                                  //
-                                  color: Colors.white,
-                                  width: 1.0,
-                                ),
-                                bottom: BorderSide(
-                                  //
-                                  color: Colors.white,
-                                  width: 1.0,
-                                ),
-                              ),
-                            ),
-                            child: Align(
-                                alignment: Alignment.center,
-                                child: GestureDetector(
-                                  onTap: () async => {logout()},
-                                  child: const Text("LOGOUT",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 18),
-                                      textAlign: TextAlign.center),
-                                )))),
+                    // SizedBox(
+                    //   width: 100.w,
+                    //   height: 8.h,
+                    //   child: DecoratedBox(
+                    //     decoration: const BoxDecoration(
+                    //       border: Border(
+                    //         top: BorderSide(
+                    //           //
+                    //           color: Colors.white,
+                    //           width: 1.0,
+                    //         ),
+                    //         bottom: BorderSide(
+                    //           //
+                    //           color: Colors.white,
+                    //           width: 1.0,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     child: Align(
+                    //       alignment: Alignment.center,
+                    //       child: GestureDetector(
+                    //         onTap: () async => {logout()},
+                    //         child: const Text("LOGOUT",
+                    //             style: TextStyle(
+                    //                 color: Colors.white, fontSize: 20),
+                    //             textAlign: TextAlign.center),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     SizedBox(
                       height: 5.h,
-                    )
+                    ),
+                    SizedBox(
+                      height: 5.h,
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("ICON"),
+                            Text("ICON"),
+                            Text("ICON"),
+                            Text("ICON"),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               )
