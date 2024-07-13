@@ -41,7 +41,7 @@ class _ListOutletState extends State<ListOutlet> {
   String? _currentDistrict;
   Position? _currentPosition;
   String? dropdownValue = provinsi.first;
-  late final WebViewController wvcontroller;
+  //final WebViewController wvcontroller;
   final List<String> kota = [];
 
   @override
@@ -385,7 +385,7 @@ class _ListOutletState extends State<ListOutlet> {
                 foregroundColor: Colors.white,
                 padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h)),
             onPressed: () {
-              wvcontroller = WebViewController();
+              var wvcontroller = WebViewController();
               wvcontroller
                   .loadRequest(Uri.parse("$urlbase/widget/order/removecookie"));
               Get.toNamed(

@@ -36,7 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   get: ^4.6.6
-  url_launcher: ^6.2.5
+  url_launcher: ^6.3.0
   google_fonts: ^6.2.0
   carousel_slider: ^4.2.1
   convex_bottom_bar: ^3.2.0
@@ -46,16 +46,17 @@ dependencies:
   crypto: ^3.0.3
   qr_flutter: ^4.1.0
   shimmer: ^3.0.0  
-  image_picker: ^1.1.1
+  image_picker: ^1.1.2
   intl: ^0.19.0
-  webview_flutter: ^4.7.0
-  pinput: ^4.0.0
-  email_validator: '^2.1.16'
-  geolocator: ^11.0.0
+  webview_flutter: ^4.8.0
+  pinput: ^5.0.0
+  email_validator: '^3.0.0'
+  geolocator: ^12.0.0
   geocoding: ^3.0.0
   flutter_svg: ^2.0.10+1
-  syncfusion_flutter_datepicker: 25.2.4
-
+  syncfusion_flutter_datepicker: ^26.1.41
+  timeline_tile: ^2.0.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -84,7 +85,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/
-
+    - assets/images/thumb.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
@@ -31,6 +32,8 @@ class _HomeViewState extends State<HomeView> {
   String nama = '';
   String membership = '';
   double point = 0.0;
+  List<String> labels = [];
+  double _currentSliderValue = 3;
 
   RangeValues valuesBottom = RangeValues(0, 0);
 
@@ -43,11 +46,10 @@ class _HomeViewState extends State<HomeView> {
   Future getProfile() async {
     var url = Uri.parse("$urlapi/v1/mobile/member/get_userdetail");
     var query = jsonDecode(await expatAPI(url, body))["messages"];
-    print('query $query');
-    print('resultData $resultData');
     if (query != null) {
       setState(() {
         resultData = query;
+        print('100- $resultData');
         membership = resultData['membership'];
         point =
             (resultData['poin'] == null) ? 0 : double.parse(resultData['poin']);
@@ -56,6 +58,17 @@ class _HomeViewState extends State<HomeView> {
           0,
           (resultData['poin'] == null) ? 0 : double.parse(resultData['poin']),
         );
+        List<String> stepValuesList = resultData["step_values"].split(',');
+
+        // Convert and add step values to the labels list
+        for (var value in stepValuesList) {
+          int intValue = int.parse(value);
+          if (intValue >= 1000) {
+            labels.add('${(intValue / 1000).toStringAsFixed(1)}K');
+          } else {
+            labels.add(value);
+          }
+        }
         isLoading = false;
       });
     }
@@ -476,44 +489,17 @@ class _HomeViewState extends State<HomeView> {
                                                       tinggi: 3.h, lebar: 72.w),
                                                 ],
                                               )
-                                            : SliderTheme(
-                                                data: SliderThemeData(
-                                                  rangeTickMarkShape:
-                                                      const RoundRangeSliderTickMarkShape(
-                                                    tickMarkRadius: 2,
-                                                  ),
-                                                  rangeThumbShape:
-                                                      const RoundRangeSliderThumbShape(
-                                                    disabledThumbRadius: 3,
-                                                    enabledThumbRadius: 3,
-                                                  ),
-                                                  // thumbShape:
-                                                  //     RoundSliderThumbShape(
-                                                  //         enabledThumbRadius:
-                                                  //             7.0),
-                                                  thumbShape: (isLoading)
-                                                      ? null
-                                                      : CustomThumbShape(),
-                                                  trackHeight: 2,
-                                                  inactiveTickMarkColor:
-                                                      const Color.fromRGBO(
-                                                          217, 217, 217, 1),
-                                                  inactiveTrackColor:
-                                                      const Color.fromRGBO(
-                                                          217, 217, 217, 1),
-
-                                                  /// Active
-                                                  thumbColor:
-                                                      const Color.fromRGBO(
-                                                          114, 162, 138, 1),
-                                                  activeTrackColor:
-                                                      const Color.fromRGBO(
-                                                          114, 162, 138, 1),
-                                                  activeTickMarkColor:
-                                                      const Color.fromRGBO(
-                                                          114, 162, 138, 1),
-                                                ),
-                                                child: buildSliderTopLabel(),
+                                            : CustomSlider(
+                                                value: _currentSliderValue,
+                                                min: 1,
+                                                max: 6,
+                                                divisions: 5,
+                                                labels: labels,
+                                                onChanged: (double value) {
+                                                  setState(() {
+                                                    _currentSliderValue = value;
+                                                  });
+                                                },
                                               ),
                                       ],
                                     )
@@ -542,71 +528,17 @@ class _HomeViewState extends State<HomeView> {
           number: 0,
         ));
   }
-
-  Widget buildSliderTopLabel() {
-    final labels = ['0', '200', '400', '600', '800', '1K'];
-    const double _min = 0;
-    const double _max = 1000;
-    const _divisions = 1000;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 82.w,
-          child: Slider(
-            value: point,
-
-            // activeColor: Color.fromRGBO(114, 162, 138, 1),
-            // inactiveColor: Color.fromRGBO(217, 217, 217, 1),
-            min: _min,
-            max: _max,
-            divisions: _divisions,
-            onChanged: (value) => print(value),
-          ),
-        ),
-        Container(
-          width: 70.w,
-          margin: const EdgeInsets.symmetric(horizontal: 1),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: Utils.modelBuilder(
-              labels,
-              (index, label) {
-                const selectedColor = Colors.white;
-                const unselectedColor = Color.fromARGB(70, 255, 255, 255);
-                final isSelected =
-                    index >= valuesBottom.start && index <= valuesBottom.end;
-                final color = isSelected ? selectedColor : unselectedColor;
-
-                return buildLabel(label: label, color: color);
-              },
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget buildLabel({
-    required String label,
-    required Color color,
-  }) =>
-      Text(
-        label,
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-          fontSize: 9,
-          fontWeight: FontWeight.normal,
-        ).copyWith(color: color),
-      );
 }
 
 class CustomThumbShape extends SliderComponentShape {
-  final double _thumbSize = 20.0;
+  final double _thumbSize = 20.0; // Adjust size as needed
+  final ImageProvider imageProvider;
+
+  CustomThumbShape(this.imageProvider);
 
   @override
-  ui.Size getPreferredSize(bool isEnabled, bool isDiscrete) {
-    return ui.Size(_thumbSize, _thumbSize);
+  Size getPreferredSize(bool isEnabled, bool isDiscrete) {
+    return Size(_thumbSize, _thumbSize);
   }
 
   @override
@@ -622,30 +554,111 @@ class CustomThumbShape extends SliderComponentShape {
     required TextDirection textDirection,
     required double value,
     required double textScaleFactor,
-    required ui.Size sizeWithOverflow,
+    required Size sizeWithOverflow,
   }) {
     final Canvas canvas = context.canvas;
 
     final ImageConfiguration imageConfiguration = ImageConfiguration(
-      size: ui.Size(_thumbSize, _thumbSize),
+      size: Size(_thumbSize, _thumbSize),
     );
-    final ImageProvider imageProvider = AssetImage('assets/images/thumb.png');
+
     final ImageStream imageStream = imageProvider.resolve(imageConfiguration);
 
     imageStream.addListener(
       ImageStreamListener(
         (ImageInfo info, bool _) {
-          paintImage(
-            canvas: canvas,
-            rect: Rect.fromCenter(
+          final Paint paint = Paint()..filterQuality = FilterQuality.high;
+          canvas.drawImageRect(
+            info.image,
+            Rect.fromLTRB(0, 0, info.image.width.toDouble(),
+                info.image.height.toDouble()),
+            Rect.fromCenter(
               center: center,
               width: _thumbSize,
               height: _thumbSize,
             ),
-            image: info.image,
-            fit: BoxFit.cover,
+            paint,
           );
         },
+      ),
+    );
+  }
+}
+
+class CustomSlider extends StatelessWidget {
+  final double value;
+  final double min;
+  final double max;
+  final int divisions;
+  final List<String> labels;
+  final ValueChanged<double> onChanged;
+
+  CustomSlider({
+    required this.value,
+    required this.min,
+    required this.max,
+    required this.divisions,
+    required this.labels,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SliderTheme(
+      data: SliderTheme.of(context).copyWith(
+        activeTrackColor: Colors.blue,
+        inactiveTrackColor: Colors.blue.withOpacity(0.3),
+        trackHeight: 4.0,
+        thumbShape: CustomThumbShape(
+          AssetImage('assets/images/thumb.png'),
+        ),
+        overlayShape: RoundSliderOverlayShape(overlayRadius: 28.0),
+        tickMarkShape: RoundSliderTickMarkShape(),
+        activeTickMarkColor: Colors.blue,
+        inactiveTickMarkColor: Colors.blue.withOpacity(0.7),
+      ),
+      child: Stack(
+        children: [
+          Slider(
+            value: value,
+            min: min,
+            max: max,
+            divisions: divisions,
+            label: value.round().toString(),
+            onChanged: onChanged,
+          ),
+          Positioned(
+            left: 17.0, // Adjust this value as needed
+            right: 17.0, // Adjust this value as needed
+            bottom: 0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(divisions + 1, (index) {
+                return Column(
+                  children: [
+                    Container(
+                      width: 12.0,
+                      height: 12.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.blue,
+                      ),
+                    ),
+                    SizedBox(
+                        height: 4), // Adjust spacing between circle and label
+                    Text(
+                      labels[index],
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                );
+              }),
+            ),
+          ),
+        ],
       ),
     );
   }

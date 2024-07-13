@@ -26,12 +26,13 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
   final List<dynamic> retail = [];
   bool is_loading = true;
 
+  TextEditingController searchController = TextEditingController();
+  String searchText = '';
+
   @override
   void initState() {
     super.initState();
     _asyncMethod();
-    print(idcabang);
-    // printDebug(const AsyncTextWidget(pref: "logged", field: "nama"));
   }
 
   Future _asyncMethod() async {
@@ -51,7 +52,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
             isi["picture"],
             isi["deskripsi"],
             isi["nama"],
-            isi['harga'],
+            isi['price'],
             isi['kategori']
           ]);
           // });
@@ -62,7 +63,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
             isi["picture"],
             isi["deskripsi"],
             isi["nama"],
-            isi['harga'],
+            isi['price'],
             isi['kategori']
           ]);
           // });
@@ -73,7 +74,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
             isi["picture"],
             isi["deskripsi"],
             isi["nama"],
-            isi['harga'],
+            isi['price'],
             isi['kategori']
           ]);
           // });
@@ -84,67 +85,52 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
     print(drink);
   }
 
+  List<dynamic> filterItems(List<dynamic> items, String searchText) {
+    return items
+        .where(
+            (item) => item[3].toLowerCase().contains(searchText.toLowerCase()))
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: IconButton(
-              icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-              onPressed: () => {Get.toNamed("/front-screen/list_outlet")},
-            ),
-          ),
-          centerTitle: true,
-          title: const Text(
-            "MENU",
-            style: TextStyle(color: Colors.white),
-          ),
+          title: const Text("MENU"),
           actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: IconButton(
-                onPressed: () => {
-                  Get.toNamed(
-                    "/front-screen/order",
-                    arguments: [
-                      {"idcabang": idcabang},
-                    ],
-                  )
-                },
-                icon: const Stack(
-                  children: [
-                    Icon(
-                      Icons.shopping_cart,
-                      color: Colors.white,
-                    ),
-                    Positioned(
-                        right: 1,
-                        child: Icon(
-                          Icons.brightness_1,
-                          color: Colors.green,
-                          size: 12.0,
-                        ))
-                  ],
-                ),
-                color: Colors.white,
-                iconSize: 6.5.w,
-              ),
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {
+                // Implement search functionality
+                setState(() {
+                  searchText = searchController.text;
+                });
+              },
             ),
           ],
-          backgroundColor: Colors.transparent,
-          elevation: 0,
         ),
-        backgroundColor: Colors.black,
         body: SafeArea(
           child: DefaultTabController(
             length: 3,
             child: Column(
               children: [
-                SizedBox(
-                  height: 3.h,
+                TextField(
+                  controller: searchController,
+                  onChanged: (value) {
+                    setState(() {
+                      searchText = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Search...',
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                  ),
                 ),
+                SizedBox(height: 3.h),
                 Container(
                   height: 7.5.h,
                   color: Colors.black,
@@ -165,15 +151,12 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             border: Border.all(
-                              color: const Color.fromRGBO(114, 162, 138, 1),
-                            ),
+                                color: const Color.fromRGBO(114, 162, 138, 1)),
                           ),
                           child: const Align(
                             alignment: Alignment.center,
-                            child: Text(
-                              "DRINKS",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                            child: Text("DRINKS",
+                                style: TextStyle(color: Colors.white)),
                           ),
                         ),
                       ),
@@ -187,10 +170,8 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                           ),
                           child: const Align(
                             alignment: Alignment.center,
-                            child: Text(
-                              "FOOD",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                            child: Text("FOOD",
+                                style: TextStyle(color: Colors.white)),
                           ),
                         ),
                       ),
@@ -204,10 +185,8 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                           ),
                           child: const Align(
                             alignment: Alignment.center,
-                            child: Text(
-                              "RETAIL",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                            child: Text("RETAIL",
+                                style: TextStyle(color: Colors.white)),
                           ),
                         ),
                       ),
@@ -217,6 +196,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                 Expanded(
                   child: TabBarView(
                     children: [
+                      // Drinks Tab
                       Container(
                         decoration: const BoxDecoration(
                           color: Color.fromRGBO(25, 25, 25, 1),
@@ -227,26 +207,19 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              height: 2.h,
-                            ),
+                            SizedBox(height: 2.h),
                             SizedBox(
                               width: 90.w,
-                              // height: 2.h,
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 12.0),
                                 child: Title(
                                   color: Colors.white,
                                   child: Text(
-                                    'Coffee Drink',
+                                    'Drinks',
                                     style: TextStyle(
                                       fontSize: 24,
-                                      color: Color.fromRGBO(
-                                        114,
-                                        162,
-                                        138,
-                                        1,
-                                      ),
+                                      color: const Color.fromRGBO(
+                                          114, 162, 138, 1),
                                       fontFamily: GoogleFonts.lora().fontFamily,
                                       fontWeight: FontWeight.w700,
                                     ),
@@ -258,16 +231,18 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                               width: 100.w,
                               height: 60.h,
                               child: ListView.builder(
-                                itemCount: (is_loading) ? 5 : drink.length,
+                                itemCount: is_loading
+                                    ? 5
+                                    : filterItems(drink, searchText).length,
                                 itemBuilder: (context, i) {
-                                  return (is_loading)
+                                  final filteredItems =
+                                      filterItems(drink, searchText);
+                                  return is_loading
                                       ? Column(
                                           children: [
                                             ShimmerWidget(
                                                 tinggi: 20.h, lebar: 90.w),
-                                            SizedBox(
-                                              height: 2.h,
-                                            )
+                                            SizedBox(height: 2.h),
                                           ],
                                         )
                                       : GestureDetector(
@@ -276,16 +251,18 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                               "/front-screen/orderdetail",
                                               arguments: [
                                                 {'idcabang': idcabang},
-                                                {'idproduk': drink[i][0]}
+                                                {
+                                                  'idproduk': filteredItems[i]
+                                                      [0]
+                                                }
                                               ],
                                             );
                                           },
                                           child: SizedBox(
-                                            // height: 30.h,
                                             width: 100.w,
                                             child: Column(
                                               children: [
-                                                Container(
+                                                SizedBox(
                                                   width: 100.w,
                                                   child: Card(
                                                     shape:
@@ -325,7 +302,8 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                           12),
                                                               child:
                                                                   Image.network(
-                                                                drink[i][1],
+                                                                filteredItems[i]
+                                                                    [1],
                                                                 fit:
                                                                     BoxFit.fill,
                                                               ),
@@ -340,7 +318,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                               MainAxisAlignment
                                                                   .center,
                                                           children: [
-                                                            Container(
+                                                            SizedBox(
                                                               width: 50.w,
                                                               child: Padding(
                                                                 padding:
@@ -351,22 +329,25 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                         0,
                                                                         0),
                                                                 child: Text(
-                                                                  drink[i][3],
+                                                                  filteredItems[
+                                                                      i][3],
                                                                   overflow:
                                                                       TextOverflow
                                                                           .ellipsis,
-                                                                  style: const TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontSize:
-                                                                          18,
-                                                                      color: Colors
-                                                                          .white),
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        18,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
-                                                            Container(
+                                                            SizedBox(
                                                               width: 60.w,
                                                               child: Padding(
                                                                 padding:
@@ -377,7 +358,8 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                         0,
                                                                         0),
                                                                 child: Text(
-                                                                  drink[i][2],
+                                                                  filteredItems[
+                                                                      i][2],
                                                                   overflow:
                                                                       TextOverflow
                                                                           .ellipsis,
@@ -395,7 +377,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                 ),
                                                               ),
                                                             ),
-                                                            Container(
+                                                            SizedBox(
                                                               width: 60.w,
                                                               child: Padding(
                                                                 padding:
@@ -414,7 +396,13 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                             Text(
                                                                           'Rp',
                                                                           style:
-                                                                              TextStyle(color: Color.fromRGBO(114, 162, 138, 1)),
+                                                                              TextStyle(
+                                                                            color: Color.fromRGBO(
+                                                                                114,
+                                                                                162,
+                                                                                138,
+                                                                                1),
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                       WidgetSpan(
@@ -423,20 +411,19 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                                 1.w),
                                                                       ),
                                                                       TextSpan(
-                                                                        text: formatter
-                                                                            .format(int.parse(
-                                                                          drink[i]
-                                                                              [
-                                                                              4],
-                                                                        )),
-                                                                        style: const TextStyle(
-                                                                            color: Color.fromRGBO(
-                                                                                114,
-                                                                                162,
-                                                                                138,
-                                                                                1),
-                                                                            fontSize:
-                                                                                20),
+                                                                        text: formatter.format(int.parse(filteredItems[i]
+                                                                            [
+                                                                            4])),
+                                                                        style:
+                                                                            const TextStyle(
+                                                                          color: Color.fromRGBO(
+                                                                              114,
+                                                                              162,
+                                                                              138,
+                                                                              1),
+                                                                          fontSize:
+                                                                              20,
+                                                                        ),
                                                                       ),
                                                                     ],
                                                                   ),
@@ -449,7 +436,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                     ),
                                                   ),
                                                 ),
-                                                Container(
+                                                SizedBox(
                                                   width: 90.w,
                                                   child: const Divider(
                                                     color: Color.fromRGBO(
@@ -466,6 +453,8 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                           ],
                         ),
                       ),
+
+                      // Food Tab
                       Container(
                         decoration: const BoxDecoration(
                           color: Color.fromRGBO(25, 25, 25, 1),
@@ -476,26 +465,19 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              height: 2.h,
-                            ),
+                            SizedBox(height: 2.h),
                             SizedBox(
                               width: 90.w,
-                              // height: 2.h,
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 12.0),
                                 child: Title(
                                   color: Colors.white,
                                   child: Text(
-                                    'Sweets',
+                                    'Food',
                                     style: TextStyle(
                                       fontSize: 24,
-                                      color: Color.fromRGBO(
-                                        114,
-                                        162,
-                                        138,
-                                        1,
-                                      ),
+                                      color: const Color.fromRGBO(
+                                          114, 162, 138, 1),
                                       fontFamily: GoogleFonts.lora().fontFamily,
                                       fontWeight: FontWeight.w700,
                                     ),
@@ -507,16 +489,18 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                               width: 100.w,
                               height: 60.h,
                               child: ListView.builder(
-                                itemCount: (is_loading) ? 5 : food.length,
+                                itemCount: is_loading
+                                    ? 5
+                                    : filterItems(food, searchText).length,
                                 itemBuilder: (context, i) {
-                                  return (is_loading)
+                                  final filteredItems =
+                                      filterItems(food, searchText);
+                                  return is_loading
                                       ? Column(
                                           children: [
                                             ShimmerWidget(
                                                 tinggi: 20.h, lebar: 90.w),
-                                            SizedBox(
-                                              height: 2.h,
-                                            )
+                                            SizedBox(height: 2.h),
                                           ],
                                         )
                                       : GestureDetector(
@@ -525,23 +509,25 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                               "/front-screen/orderdetail",
                                               arguments: [
                                                 {'idcabang': idcabang},
-                                                {'idproduk': food[i][0]}
+                                                {
+                                                  'idproduk': filteredItems[i]
+                                                      [0]
+                                                }
                                               ],
                                             );
                                           },
                                           child: SizedBox(
-                                            // height: 30.h,
                                             width: 100.w,
                                             child: Column(
                                               children: [
-                                                Container(
+                                                SizedBox(
                                                   width: 100.w,
                                                   child: Card(
                                                     shape:
                                                         RoundedRectangleBorder(
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              0.0),
+                                                              10.0),
                                                     ),
                                                     color: Colors.transparent,
                                                     shadowColor:
@@ -574,7 +560,8 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                           12),
                                                               child:
                                                                   Image.network(
-                                                                food[i][1],
+                                                                filteredItems[i]
+                                                                    [1],
                                                                 fit:
                                                                     BoxFit.fill,
                                                               ),
@@ -589,7 +576,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                               MainAxisAlignment
                                                                   .center,
                                                           children: [
-                                                            Container(
+                                                            SizedBox(
                                                               width: 50.w,
                                                               child: Padding(
                                                                 padding:
@@ -600,22 +587,25 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                         0,
                                                                         0),
                                                                 child: Text(
-                                                                  food[i][3],
+                                                                  filteredItems[
+                                                                      i][3],
                                                                   overflow:
                                                                       TextOverflow
                                                                           .ellipsis,
-                                                                  style: const TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontSize:
-                                                                          18,
-                                                                      color: Colors
-                                                                          .white),
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        18,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
-                                                            Container(
+                                                            SizedBox(
                                                               width: 60.w,
                                                               child: Padding(
                                                                 padding:
@@ -626,7 +616,8 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                         0,
                                                                         0),
                                                                 child: Text(
-                                                                  food[i][2],
+                                                                  filteredItems[
+                                                                      i][2],
                                                                   overflow:
                                                                       TextOverflow
                                                                           .ellipsis,
@@ -644,7 +635,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                 ),
                                                               ),
                                                             ),
-                                                            Container(
+                                                            SizedBox(
                                                               width: 60.w,
                                                               child: Padding(
                                                                 padding:
@@ -663,7 +654,13 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                             Text(
                                                                           'Rp',
                                                                           style:
-                                                                              TextStyle(color: Color.fromRGBO(114, 162, 138, 1)),
+                                                                              TextStyle(
+                                                                            color: Color.fromRGBO(
+                                                                                114,
+                                                                                162,
+                                                                                138,
+                                                                                1),
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                       WidgetSpan(
@@ -672,20 +669,19 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                                 1.w),
                                                                       ),
                                                                       TextSpan(
-                                                                        text: formatter
-                                                                            .format(int.parse(
-                                                                          food[i]
-                                                                              [
-                                                                              4],
-                                                                        )),
-                                                                        style: const TextStyle(
-                                                                            color: Color.fromRGBO(
-                                                                                114,
-                                                                                162,
-                                                                                138,
-                                                                                1),
-                                                                            fontSize:
-                                                                                20),
+                                                                        text: formatter.format(int.parse(filteredItems[i]
+                                                                            [
+                                                                            4])),
+                                                                        style:
+                                                                            const TextStyle(
+                                                                          color: Color.fromRGBO(
+                                                                              114,
+                                                                              162,
+                                                                              138,
+                                                                              1),
+                                                                          fontSize:
+                                                                              20,
+                                                                        ),
                                                                       ),
                                                                     ],
                                                                   ),
@@ -698,7 +694,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                     ),
                                                   ),
                                                 ),
-                                                Container(
+                                                SizedBox(
                                                   width: 90.w,
                                                   child: const Divider(
                                                     color: Color.fromRGBO(
@@ -715,6 +711,8 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                           ],
                         ),
                       ),
+
+                      // Retail Tab
                       Container(
                         decoration: const BoxDecoration(
                           color: Color.fromRGBO(25, 25, 25, 1),
@@ -725,12 +723,9 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              height: 2.h,
-                            ),
+                            SizedBox(height: 2.h),
                             SizedBox(
                               width: 90.w,
-                              // height: 2.h,
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 12.0),
                                 child: Title(
@@ -739,12 +734,8 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                     'Retail',
                                     style: TextStyle(
                                       fontSize: 24,
-                                      color: Color.fromRGBO(
-                                        114,
-                                        162,
-                                        138,
-                                        1,
-                                      ),
+                                      color: const Color.fromRGBO(
+                                          114, 162, 138, 1),
                                       fontFamily: GoogleFonts.lora().fontFamily,
                                       fontWeight: FontWeight.w700,
                                     ),
@@ -756,16 +747,18 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                               width: 100.w,
                               height: 60.h,
                               child: ListView.builder(
-                                itemCount: (is_loading) ? 5 : retail.length,
+                                itemCount: is_loading
+                                    ? 5
+                                    : filterItems(retail, searchText).length,
                                 itemBuilder: (context, i) {
-                                  return (is_loading)
+                                  final filteredItems =
+                                      filterItems(retail, searchText);
+                                  return is_loading
                                       ? Column(
                                           children: [
                                             ShimmerWidget(
                                                 tinggi: 20.h, lebar: 90.w),
-                                            SizedBox(
-                                              height: 2.h,
-                                            )
+                                            SizedBox(height: 2.h),
                                           ],
                                         )
                                       : GestureDetector(
@@ -774,23 +767,25 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                               "/front-screen/orderdetail",
                                               arguments: [
                                                 {'idcabang': idcabang},
-                                                {'idproduk': retail[i][0]}
+                                                {
+                                                  'idproduk': filteredItems[i]
+                                                      [0]
+                                                }
                                               ],
                                             );
                                           },
                                           child: SizedBox(
-                                            // height: 30.h,
                                             width: 100.w,
                                             child: Column(
                                               children: [
-                                                Container(
+                                                SizedBox(
                                                   width: 100.w,
                                                   child: Card(
                                                     shape:
                                                         RoundedRectangleBorder(
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              0.0),
+                                                              10.0),
                                                     ),
                                                     color: Colors.transparent,
                                                     shadowColor:
@@ -823,7 +818,8 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                           12),
                                                               child:
                                                                   Image.network(
-                                                                retail[i][1],
+                                                                filteredItems[i]
+                                                                    [1],
                                                                 fit:
                                                                     BoxFit.fill,
                                                               ),
@@ -838,7 +834,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                               MainAxisAlignment
                                                                   .center,
                                                           children: [
-                                                            Container(
+                                                            SizedBox(
                                                               width: 50.w,
                                                               child: Padding(
                                                                 padding:
@@ -849,22 +845,25 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                         0,
                                                                         0),
                                                                 child: Text(
-                                                                  retail[i][3],
+                                                                  filteredItems[
+                                                                      i][3],
                                                                   overflow:
                                                                       TextOverflow
                                                                           .ellipsis,
-                                                                  style: const TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontSize:
-                                                                          18,
-                                                                      color: Colors
-                                                                          .white),
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        18,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
-                                                            Container(
+                                                            SizedBox(
                                                               width: 60.w,
                                                               child: Padding(
                                                                 padding:
@@ -875,7 +874,8 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                         0,
                                                                         0),
                                                                 child: Text(
-                                                                  retail[i][2],
+                                                                  filteredItems[
+                                                                      i][2],
                                                                   overflow:
                                                                       TextOverflow
                                                                           .ellipsis,
@@ -893,7 +893,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                 ),
                                                               ),
                                                             ),
-                                                            Container(
+                                                            SizedBox(
                                                               width: 60.w,
                                                               child: Padding(
                                                                 padding:
@@ -912,7 +912,13 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                             Text(
                                                                           'Rp',
                                                                           style:
-                                                                              TextStyle(color: Color.fromRGBO(114, 162, 138, 1)),
+                                                                              TextStyle(
+                                                                            color: Color.fromRGBO(
+                                                                                114,
+                                                                                162,
+                                                                                138,
+                                                                                1),
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                       WidgetSpan(
@@ -921,20 +927,19 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                                                 1.w),
                                                                       ),
                                                                       TextSpan(
-                                                                        text: formatter
-                                                                            .format(int.parse(
-                                                                          retail[i]
-                                                                              [
-                                                                              4],
-                                                                        )),
-                                                                        style: const TextStyle(
-                                                                            color: Color.fromRGBO(
-                                                                                114,
-                                                                                162,
-                                                                                138,
-                                                                                1),
-                                                                            fontSize:
-                                                                                20),
+                                                                        text: formatter.format(int.parse(filteredItems[i]
+                                                                            [
+                                                                            4])),
+                                                                        style:
+                                                                            const TextStyle(
+                                                                          color: Color.fromRGBO(
+                                                                              114,
+                                                                              162,
+                                                                              138,
+                                                                              1),
+                                                                          fontSize:
+                                                                              20,
+                                                                        ),
                                                                       ),
                                                                     ],
                                                                   ),
@@ -947,7 +952,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                                     ),
                                                   ),
                                                 ),
-                                                Container(
+                                                SizedBox(
                                                   width: 90.w,
                                                   child: const Divider(
                                                     color: Color.fromRGBO(
@@ -966,7 +971,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
