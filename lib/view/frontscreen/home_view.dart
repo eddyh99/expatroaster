@@ -11,7 +11,6 @@ import 'package:expatroasters/widgets/backscreens/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dart:ui' as ui;
 
 import 'package:shared_preferences/shared_preferences.dart';
 
