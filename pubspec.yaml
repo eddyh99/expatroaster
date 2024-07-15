@@ -54,8 +54,7 @@ dependencies:
   geolocator: ^12.0.0
   geocoding: ^3.0.0
   flutter_svg: ^2.0.10+1
-  syncfusion_flutter_datepicker: ^26.1.41
-  timeline_tile: ^2.0.0
+  syncfusion_flutter_datepicker: 25.2.4
   
 dev_dependencies:
   flutter_test:
