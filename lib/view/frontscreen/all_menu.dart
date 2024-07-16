@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class AllMenu extends StatefulWidget {
   const AllMenu({super.key});
@@ -19,12 +20,15 @@ class AllMenu extends StatefulWidget {
 
 class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
   var idcabang = Get.arguments[0]["idcabang"];
-
   dynamic resultData;
   final List<dynamic> drink = [];
   final List<dynamic> food = [];
   final List<dynamic> retail = [];
   bool is_loading = true;
+
+  late final WebViewController wvcontroller;
+  var totalorder = '';
+  bool isDataReady = true;
 
   TextEditingController searchController = TextEditingController();
   String searchText = '';
@@ -33,6 +37,35 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     _asyncMethod();
+    wvcontroller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0x00000000))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {
+            // Update loading bar.
+            print("PROGRESS");
+          },
+          onPageStarted: (String url) {},
+          onPageFinished: (String url) {
+            print("FINISH");
+            setState(() {
+              isDataReady = false;
+            });
+          },
+          onWebResourceError: (WebResourceError error) {},
+        ),
+      )
+      ..addJavaScriptChannel(
+        'Total',
+        onMessageReceived: (JavaScriptMessage message) async {
+          setState(() {
+            totalorder = message.message;
+            print(totalorder + "ini total");
+          });
+        },
+      )
+      ..loadRequest(Uri.parse("$urlbase/widget/order/getquantitycart"));
   }
 
   Future _asyncMethod() async {
@@ -97,42 +130,89 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("MENU"),
+          title: const Text(
+            "MENU",
+            style: TextStyle(color: Colors.white),
+          ),
           actions: [
-            IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {
-                // Implement search functionality
-                setState(() {
-                  searchText = searchController.text;
-                });
-              },
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: IconButton(
+                onPressed: () => {
+                  Get.toNamed(
+                    "/front-screen/order",
+                    arguments: [
+                      {"idcabang": idcabang},
+                    ],
+                  )
+                },
+                icon: Stack(
+                  children: [
+                    Icon(
+                      Icons.shopping_cart,
+                      color: Colors.white,
+                    ),
+                    (totalorder != '0')
+                        ? Positioned(
+                            right: 1,
+                            child: Icon(
+                              Icons.brightness_1,
+                              color: Colors.green,
+                              size: 12.0,
+                            ),
+                          )
+                        : Text(""),
+                  ],
+                ),
+                color: Colors.white,
+                iconSize: 6.5.w,
+              ),
             ),
           ],
+          backgroundColor: Colors.transparent,
         ),
+        backgroundColor: Colors.black,
         body: SafeArea(
           child: DefaultTabController(
             length: 3,
             child: Column(
               children: [
-                TextField(
-                  controller: searchController,
-                  onChanged: (value) {
-                    setState(() {
-                      searchText = value;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    hintText: 'Search...',
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
+                SizedBox(
+                  width: 90.w,
+                  height: 10.h,
+                  child: TextField(
+                    controller: searchController,
+                    onChanged: (value) {
+                      setState(() {
+                        searchText = value;
+                      });
+                    },
+                    style: const TextStyle(color: Colors.white, fontSize: 14),
+                    decoration: InputDecoration(
+                      hintText: 'Search...',
+                      prefixIcon: Icon(
+                        Icons.search,
+                        size: 20.0,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 0.0),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      contentPadding: const EdgeInsets.only(
+                          left: 20, bottom: 6, right: 13, top: 6),
+                      labelStyle: const TextStyle(color: Colors.white),
+                      hintStyle: const TextStyle(
+                          color: Color.fromARGB(255, 188, 188, 188),
+                          fontSize: 14),
                     ),
                   ),
                 ),
-                SizedBox(height: 3.h),
                 Container(
-                  height: 7.5.h,
+                  height: 8.h,
                   color: Colors.black,
                   child: TabBar(
                     physics: const ClampingScrollPhysics(),
@@ -229,7 +309,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                             ),
                             SizedBox(
                               width: 100.w,
-                              height: 60.h,
+                              height: 53.h,
                               child: ListView.builder(
                                 itemCount: is_loading
                                     ? 5
@@ -487,7 +567,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                             ),
                             SizedBox(
                               width: 100.w,
-                              height: 60.h,
+                              height: 53.h,
                               child: ListView.builder(
                                 itemCount: is_loading
                                     ? 5
@@ -745,7 +825,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                             ),
                             SizedBox(
                               width: 100.w,
-                              height: 60.h,
+                              height: 53.h,
                               child: ListView.builder(
                                 itemCount: is_loading
                                     ? 5

@@ -11,7 +11,6 @@ import 'package:expatroasters/widgets/backscreens/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dart:ui' as ui;
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -63,6 +62,7 @@ class _HomeViewState extends State<HomeView> {
         // Convert and add step values to the labels list
         for (var value in stepValuesList) {
           int intValue = int.parse(value);
+          print(value);
           if (intValue >= 1000) {
             labels.add('${(intValue / 1000).toStringAsFixed(1)}K');
           } else {
@@ -497,7 +497,7 @@ class _HomeViewState extends State<HomeView> {
                                                 labels: labels,
                                                 onChanged: (double value) {
                                                   setState(() {
-                                                    _currentSliderValue = value;
+                                                    // _currentSliderValue = value;
                                                   });
                                                 },
                                               ),
@@ -606,16 +606,16 @@ class CustomSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliderTheme(
       data: SliderTheme.of(context).copyWith(
-        activeTrackColor: Colors.blue,
-        inactiveTrackColor: Colors.blue.withOpacity(0.3),
+        activeTrackColor: Color.fromRGBO(114, 162, 138, 1),
+        inactiveTrackColor: Color.fromRGBO(217, 217, 217, 1),
         trackHeight: 4.0,
         thumbShape: CustomThumbShape(
           AssetImage('assets/images/thumb.png'),
         ),
         overlayShape: RoundSliderOverlayShape(overlayRadius: 28.0),
         tickMarkShape: RoundSliderTickMarkShape(),
-        activeTickMarkColor: Colors.blue,
-        inactiveTickMarkColor: Colors.blue.withOpacity(0.7),
+        activeTickMarkColor: Color.fromRGBO(114, 162, 138, 1),
+        inactiveTickMarkColor: Color.fromRGBO(217, 217, 217, 1),
       ),
       child: Stack(
         children: [
@@ -641,11 +641,13 @@ class CustomSlider extends StatelessWidget {
                       height: 12.0,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.blue,
+                        color: Color.fromRGBO(114, 162, 138, 1),
                       ),
                     ),
                     SizedBox(
-                        height: 4), // Adjust spacing between circle and label
+                      height: 5,
+                      // child: Text('$index'),
+                    ), // Adjust spacing between circle and label
                     Text(
                       labels[index],
                       style: TextStyle(
