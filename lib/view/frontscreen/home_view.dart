@@ -1,9 +1,7 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
-import 'package:expatroasters/utils/utils.dart';
 import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:expatroasters/widgets/backscreens/outlet_widget.dart';
 import 'package:expatroasters/widgets/backscreens/promotion_widget.dart';
@@ -32,9 +30,8 @@ class _HomeViewState extends State<HomeView> {
   String membership = '';
   double point = 0.0;
   List<String> labels = [];
-  double _currentSliderValue = 3;
-
-  RangeValues valuesBottom = RangeValues(0, 0);
+  late double _currentSliderValue;
+  RangeValues valuesBottom = const RangeValues(0, 0);
 
   Future<dynamic> getPrefer() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -48,8 +45,8 @@ class _HomeViewState extends State<HomeView> {
     if (query != null) {
       setState(() {
         resultData = query;
-        print('100- $resultData');
         membership = resultData['membership'];
+        _currentSliderValue = double.parse(resultData["poin"]);
         point =
             (resultData['poin'] == null) ? 0 : double.parse(resultData['poin']);
         // printDebug(valuesBottom);
@@ -62,7 +59,6 @@ class _HomeViewState extends State<HomeView> {
         // Convert and add step values to the labels list
         for (var value in stepValuesList) {
           int intValue = int.parse(value);
-          print(value);
           if (intValue >= 1000) {
             labels.add('${(intValue / 1000).toStringAsFixed(1)}K');
           } else {
@@ -100,30 +96,6 @@ class _HomeViewState extends State<HomeView> {
                       height: 5.h,
                       child: Image.asset("assets/images/logo.png"),
                     ),
-                    // ElevatedButton(
-                    //   style: ElevatedButton.styleFrom(
-                    //     backgroundColor: const Color.fromRGBO(114, 162, 138, 1),
-                    //     foregroundColor: Colors.white,
-                    //     shape: RoundedRectangleBorder(
-                    //       borderRadius: BorderRadius.circular(18.0),
-                    //     ),
-                    //   ),
-                    //   onPressed: () async {
-                    //     Get.toNamed("/front-screen/allpromo", arguments: [
-                    //       {"first": ""}
-                    //     ]);
-                    //   },
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.center,
-                    //     children: [
-                    //       Image.asset('assets/images/icon_discount.png'),
-                    //       SizedBox(
-                    //         width: 2.w,
-                    //       ),
-                    //       const Text("Promo")
-                    //     ],
-                    //   ),
-                    // ),
                   ],
                 ),
                 SizedBox(height: 3.h),
@@ -157,11 +129,12 @@ class _HomeViewState extends State<HomeView> {
                                           child: Center(
                                             child: Text.rich(TextSpan(
                                                 text: "Hi, ",
-                                                style: TextStyle(fontSize: 16),
+                                                style: const TextStyle(
+                                                    fontSize: 16),
                                                 children: <TextSpan>[
                                                   TextSpan(
                                                       text: nama,
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           fontWeight:
                                                               FontWeight.w800))
                                                 ])),
@@ -239,13 +212,12 @@ class _HomeViewState extends State<HomeView> {
                                                                         const Offset(
                                                                             2,
                                                                             -6),
-                                                                    child:
-                                                                        const Text(
+                                                                    child: Text(
                                                                       'Rp',
-                                                                      //superscript is usually smaller in size
-                                                                      textScaleFactor:
-                                                                          0.5,
                                                                       style: TextStyle(
+                                                                          fontSize: 16 *
+                                                                              MediaQuery.textScalerOf(context).scale(
+                                                                                  0.5),
                                                                           color:
                                                                               Colors.white),
                                                                     ),
@@ -491,9 +463,6 @@ class _HomeViewState extends State<HomeView> {
                                               )
                                             : CustomSlider(
                                                 value: _currentSliderValue,
-                                                min: 1,
-                                                max: 6,
-                                                divisions: 5,
                                                 labels: labels,
                                                 onChanged: (double value) {
                                                   setState(() {
@@ -531,7 +500,7 @@ class _HomeViewState extends State<HomeView> {
 }
 
 class CustomThumbShape extends SliderComponentShape {
-  final double _thumbSize = 20.0; // Adjust size as needed
+  final double _thumbSize = 20.0;
   final ImageProvider imageProvider;
 
   CustomThumbShape(this.imageProvider);
@@ -562,11 +531,9 @@ class CustomThumbShape extends SliderComponentShape {
       size: Size(_thumbSize, _thumbSize),
     );
 
-    final ImageStream imageStream = imageProvider.resolve(imageConfiguration);
-
-    imageStream.addListener(
+    imageProvider.resolve(imageConfiguration).addListener(
       ImageStreamListener(
-        (ImageInfo info, bool _) {
+        (ImageInfo info, bool synchronousCall) {
           final Paint paint = Paint()..filterQuality = FilterQuality.high;
           canvas.drawImageRect(
             info.image,
@@ -587,35 +554,33 @@ class CustomThumbShape extends SliderComponentShape {
 
 class CustomSlider extends StatelessWidget {
   final double value;
-  final double min;
-  final double max;
-  final int divisions;
   final List<String> labels;
   final ValueChanged<double> onChanged;
 
-  CustomSlider({
+  const CustomSlider({
+    super.key,
     required this.value,
-    required this.min,
-    required this.max,
-    required this.divisions,
     required this.labels,
     required this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
+    double min = double.parse(labels.first) - 1;
+    double max = double.parse(labels.last) + 1;
+    int divisions = (max - min).toInt();
+
     return SliderTheme(
       data: SliderTheme.of(context).copyWith(
-        activeTrackColor: Color.fromRGBO(114, 162, 138, 1),
-        inactiveTrackColor: Color.fromRGBO(217, 217, 217, 1),
+        activeTrackColor: Colors.blue,
+        inactiveTrackColor: Colors.blue.withOpacity(0.3),
         trackHeight: 4.0,
-        thumbShape: CustomThumbShape(
-          AssetImage('assets/images/thumb.png'),
-        ),
-        overlayShape: RoundSliderOverlayShape(overlayRadius: 28.0),
-        tickMarkShape: RoundSliderTickMarkShape(),
-        activeTickMarkColor: Color.fromRGBO(114, 162, 138, 1),
-        inactiveTickMarkColor: Color.fromRGBO(217, 217, 217, 1),
+        thumbShape:
+            CustomThumbShape(const AssetImage('assets/images/thumb.png')),
+        overlayShape: const RoundSliderOverlayShape(overlayRadius: 28.0),
+        tickMarkShape: const RoundSliderTickMarkShape(),
+        activeTickMarkColor: Colors.blue,
+        inactiveTickMarkColor: Colors.blue.withOpacity(0.7),
       ),
       child: Stack(
         children: [
@@ -628,34 +593,33 @@ class CustomSlider extends StatelessWidget {
             onChanged: onChanged,
           ),
           Positioned(
-            left: 17.0, // Adjust this value as needed
-            right: 17.0, // Adjust this value as needed
+            left: 12.0,
+            right: 12.0,
             bottom: 0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(divisions + 1, (index) {
-                return Column(
-                  children: [
-                    Container(
-                      width: 12.0,
-                      height: 12.0,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color.fromRGBO(114, 162, 138, 1),
+              children: List.generate(labels.length, (index) {
+                return Expanded(
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 12.0,
+                        height: 12.0,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.blue,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                      // child: Text('$index'),
-                    ), // Adjust spacing between circle and label
-                    Text(
-                      labels[index],
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.white,
+                      const SizedBox(height: 4),
+                      Text(
+                        labels[index].toString(),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               }),
             ),
