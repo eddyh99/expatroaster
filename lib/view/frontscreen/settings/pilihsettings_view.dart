@@ -76,26 +76,25 @@ class _PilihSettingsViewState extends State<PilihSettingsView> {
                     SizedBox(
                       width: 100.w,
                       height: 8.h,
-                      child: DecoratedBox(
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              //
-                              color: Colors.white,
-                              width: 1.0,
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed("/front-screen/settings");
+                        },
+                        child: DecoratedBox(
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                //
+                                color: Colors.white,
+                                width: 1.0,
+                              ),
                             ),
                           ),
-                        ),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: GestureDetector(
-                            onTap: () {
-                              Get.toNamed("/front-screen/settings");
-                            },
+                          child: Center(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Column(
+                                const Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text("ACCOUNT",
@@ -128,26 +127,25 @@ class _PilihSettingsViewState extends State<PilihSettingsView> {
                     SizedBox(
                       width: 100.w,
                       height: 8.h,
-                      child: DecoratedBox(
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              //
-                              color: Colors.white,
-                              width: 1.0,
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed("/front-screen/profile");
+                        },
+                        child: DecoratedBox(
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                //
+                                color: Colors.white,
+                                width: 1.0,
+                              ),
                             ),
                           ),
-                        ),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: GestureDetector(
-                            onTap: () {
-                              Get.toNamed("/front-screen/profile");
-                            },
+                          child: Center(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Column(
+                                const Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -174,26 +172,25 @@ class _PilihSettingsViewState extends State<PilihSettingsView> {
                     SizedBox(
                       width: 100.w,
                       height: 8.h,
-                      child: DecoratedBox(
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              //
-                              color: Colors.white,
-                              width: 1.0,
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed("/front-screen/profile");
+                        },
+                        child: DecoratedBox(
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                //
+                                color: Colors.white,
+                                width: 1.0,
+                              ),
                             ),
                           ),
-                        ),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: GestureDetector(
-                            onTap: () {
-                              Get.toNamed("/front-screen/profile");
-                            },
+                          child: Center(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Column(
+                                const Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -220,26 +217,25 @@ class _PilihSettingsViewState extends State<PilihSettingsView> {
                     SizedBox(
                       width: 100.w,
                       height: 8.h,
-                      child: DecoratedBox(
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              //
-                              color: Colors.white,
-                              width: 1.0,
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed("/front-screen/profile");
+                        },
+                        child: DecoratedBox(
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                //
+                                color: Colors.white,
+                                width: 1.0,
+                              ),
                             ),
                           ),
-                        ),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: GestureDetector(
-                            onTap: () {
-                              Get.toNamed("/front-screen/profile");
-                            },
+                          child: Center(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Column(
+                                const Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -266,24 +262,23 @@ class _PilihSettingsViewState extends State<PilihSettingsView> {
                     SizedBox(
                       width: 100.w,
                       height: 8.h,
-                      child: DecoratedBox(
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              //
-                              color: Colors.white,
-                              width: 1.0,
+                      child: GestureDetector(
+                        onTap: () async => {logout()},
+                        child: DecoratedBox(
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                //
+                                color: Colors.white,
+                                width: 1.0,
+                              ),
                             ),
                           ),
-                        ),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: GestureDetector(
-                            onTap: () async => {logout()},
+                          child: Center(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Column(
+                                const Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [

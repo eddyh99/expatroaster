@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:math';
+import 'dart:developer' as developer;
 
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
@@ -21,23 +23,57 @@ class _DetailHistoryOrderState extends State<DetailHistoryOrder> {
   bool isLoading = true;
   dynamic resultData;
   var idtransaksi = Get.arguments[0]["id_transaksi"];
-  num price = 0;
+  final List<dynamic> product = [];
+  int deliveryfee = 0;
+  int price = 0;
+  int total = 0;
 
   Future _historyOrder() async {
     String body = '';
     var url = Uri.parse(
         "$urlapi/v1/mobile/history/history_byinvoice?invoice=$idtransaksi");
     resultData = jsonDecode(await expatAPI(url, body))["messages"];
+
     setState(() {
-      for (var data in resultData) {
-        var temp;
-        temp = int.parse(data['jumlah']) * int.parse(data['harga']);
-        price += temp;
+      Map<String, List<Map<String, dynamic>>> groupedMessages = {};
+      for (var result in resultData) {
+        String prdGroup = result['prd_group'];
+
+        if (groupedMessages.containsKey(prdGroup)) {
+          groupedMessages[prdGroup]!.add(result);
+        } else {
+          groupedMessages[prdGroup] = [result];
+        }
       }
+
+      groupedMessages.forEach((key, value) {
+        Map<String, String> temp = Map();
+        int harga = 0;
+        for (var val in value) {
+          if (val['tipe'] == 'produk') {
+            temp['imgprod'] = val['imgprod'];
+            temp['jumlah'] = val['jumlah'];
+            temp['delivery_fee'] = val['delivery_fee'];
+          }
+          temp['nama${val['tipe']}'] = val['nama'];
+          harga = harga + int.parse(val['harga']);
+          deliveryfee = int.parse(val['delivery_fee']);
+          // temp['harga'] =  val['harga'];
+        }
+        temp['harga'] = harga.toString();
+        product.add(temp);
+      });
+
+      product.map((val) {
+        price = price + (int.parse(val['harga']) * int.parse(val['jumlah']));
+      }).toList();
+
+      print(product);
       print(price);
+      total = price + deliveryfee;
+
       isLoading = false;
     });
-    // print(resultData);
   }
 
   @override
@@ -268,24 +304,22 @@ class _DetailHistoryOrderState extends State<DetailHistoryOrder> {
                             ],
                           )),
                 SizedBox(
-                  width: 90.w,
-                  // height: 70.w,
-                  child: Container(
+                    width: 90.w,
+                    // height: 70.w,
+                    // child: Container(
                     // padding: EdgeInsets.all(20),
-                    child: ListView.builder(
-                      itemCount: resultData == null ? 3 : resultData.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, i) {
-                        return (isLoading)
-                            ? Column(
-                                children: [
-                                  ShimmerWidget(tinggi: 10.h, lebar: 90.w),
-                                  SizedBox(
-                                    height: 2.h,
-                                  )
-                                ],
+                    child: (isLoading)
+                        ? Column(
+                            children: [
+                              ShimmerWidget(tinggi: 10.h, lebar: 90.w),
+                              SizedBox(
+                                height: 2.h,
                               )
-                            : Column(
+                            ],
+                          )
+                        : Column(
+                            children: product.map((val) {
+                              return Column(
                                 children: [
                                   SizedBox(
                                     height: 2.h,
@@ -325,21 +359,14 @@ class _DetailHistoryOrderState extends State<DetailHistoryOrder> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  '${resultData[i]['nama']}',
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
+                                                  '${val['namaproduk']}',
                                                   style:
                                                       TextStyle(fontSize: 18),
                                                 ),
                                                 Row(
                                                   children: [
                                                     Text(
-                                                      (resultData[i][
-                                                                  'optional'] ==
-                                                              null)
-                                                          ? ""
-                                                          : resultData[i]
-                                                              ['optional'],
+                                                      '${(val['namaoptional'] == null ? '' : val['namaoptional'])}',
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       style: TextStyle(
@@ -351,12 +378,7 @@ class _DetailHistoryOrderState extends State<DetailHistoryOrder> {
                                                       width: 2.w,
                                                     ),
                                                     Text(
-                                                      (resultData[i][
-                                                                  'additional'] ==
-                                                              null)
-                                                          ? ""
-                                                          : resultData[i]
-                                                              ['additional'],
+                                                      '${(val['namaadditional'] == null ? '' : val['namaadditional'])}',
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       style: TextStyle(
@@ -367,10 +389,7 @@ class _DetailHistoryOrderState extends State<DetailHistoryOrder> {
                                                   ],
                                                 ),
                                                 Text(
-                                                  (resultData[i]['satuan'] ==
-                                                          null)
-                                                      ? ""
-                                                      : resultData[i]['satuan'],
+                                                  '${(val['namasatuan'] == null ? '' : val['namasatuan'])}',
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   style: TextStyle(
@@ -391,7 +410,7 @@ class _DetailHistoryOrderState extends State<DetailHistoryOrder> {
                                                 CrossAxisAlignment.end,
                                             children: [
                                               Text(
-                                                '${resultData[i]['jumlah']}',
+                                                'Quantity ${val['jumlah']}',
                                                 textAlign: TextAlign.end,
                                                 style: TextStyle(
                                                   fontSize: 12,
@@ -399,7 +418,8 @@ class _DetailHistoryOrderState extends State<DetailHistoryOrder> {
                                                 ),
                                               ),
                                               Text(
-                                                'Rp ${formatter.format(int.parse(resultData[i]['harga']))}',
+                                                'Rp ${formatter.format(int.parse(val['harga']))}',
+                                                // 'Rp ',
                                                 textAlign: TextAlign.end,
                                                 style: TextStyle(
                                                   fontSize: 12,
@@ -414,10 +434,8 @@ class _DetailHistoryOrderState extends State<DetailHistoryOrder> {
                                   ),
                                 ],
                               );
-                      },
-                    ),
-                  ),
-                ),
+                            }).toList(),
+                          )),
                 SizedBox(
                   height: 2.h,
                 ),
@@ -489,7 +507,7 @@ class _DetailHistoryOrderState extends State<DetailHistoryOrder> {
                         style: TextStyle(color: Colors.white54, fontSize: 12),
                       ),
                       Text(
-                        'Rp 0',
+                        'Rp ${formatter.format(deliveryfee)}',
                         style: TextStyle(color: Colors.white54, fontSize: 12),
                       ),
                     ],
@@ -537,7 +555,7 @@ class _DetailHistoryOrderState extends State<DetailHistoryOrder> {
                         style: TextStyle(color: Colors.white54, fontSize: 12),
                       ),
                       Text(
-                        'Rp ${formatter.format(price)}',
+                        'Rp ${formatter.format(total)}',
                         style: TextStyle(color: Colors.white54, fontSize: 12),
                       ),
                     ],

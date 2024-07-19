@@ -488,7 +488,7 @@ class _SignupViewState extends State<SignupView> {
                   ),
                   SizedBox(
                     child: ButtonWidget(
-                        name: "btnSecondary",
+                        name: "btnSecondaryGoogle",
                         text: "Sign in with Google",
                         boxsize: '80',
                         onTap: () {}),

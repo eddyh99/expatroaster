@@ -5,7 +5,7 @@ import 'package:expatroasters/view/frontscreen/settings/pilihsettings_view.dart'
 import 'package:expatroasters/view/frontscreen/signup/complete_view.dart';
 import 'package:expatroasters/view/frontscreen/signup/confirmation_view.dart';
 import 'package:expatroasters/view/frontscreen/createpin_view.dart';
-import 'package:expatroasters/view/frontscreen/detail_history_order.dart';
+import 'package:expatroasters/view/frontscreen/history/detail_history_order.dart';
 import 'package:expatroasters/view/frontscreen/enterpin_view.dart';
 import 'package:expatroasters/view/frontscreen/forgot_password/enterotp_view.dart';
 import 'package:expatroasters/view/frontscreen/forgot_password/forgotpass_view.dart';
@@ -15,7 +15,7 @@ import 'package:expatroasters/view/frontscreen/home_view.dart';
 import 'package:expatroasters/view/frontscreen/list_outlet.dart';
 import 'package:expatroasters/view/frontscreen/orderdetail_view.dart';
 import 'package:expatroasters/view/frontscreen/order_view.dart';
-import 'package:expatroasters/view/frontscreen/history_view.dart';
+import 'package:expatroasters/view/frontscreen/history/history_view.dart';
 import 'package:expatroasters/view/frontscreen/profile_view.dart';
 import 'package:expatroasters/view/frontscreen/promotion_view.dart';
 import 'package:expatroasters/view/frontscreen/qrcode_view.dart';

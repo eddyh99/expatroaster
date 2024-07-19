@@ -383,7 +383,7 @@ class _SigninViewState extends State<SigninView> {
                       ),
                       SizedBox(
                         child: ButtonWidget(
-                          name: "btnSecondary",
+                          name: "btnSecondaryGoogle",
                           text: "Sign up with Google",
                           boxsize: '80',
                           onTap: () {},

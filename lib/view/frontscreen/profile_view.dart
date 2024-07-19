@@ -3,12 +3,15 @@ import 'dart:convert';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
+import 'package:expatroasters/widgets/backscreens/Iconsosmed_widget.dart';
 import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:expatroasters/widgets/backscreens/shimmer_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class ProfileView extends StatefulWidget {
@@ -35,6 +38,12 @@ class _ProfileViewState extends State<ProfileView> {
     _asyncMethod();
     getPrefer();
     // _loadAllPreferences();
+  }
+
+  Future<void> _launchInWebViewOrVC(Uri url) async {
+    if (!await launchUrl(url, mode: LaunchMode.inAppWebView)) {
+      throw Exception('Could not launch $url');
+    }
   }
 
   Future<dynamic> getPrefer() async {
@@ -302,7 +311,6 @@ class _ProfileViewState extends State<ProfileView> {
                         decoration: const BoxDecoration(
                           border: Border(
                             top: BorderSide(
-                              //
                               color: Colors.white,
                               width: 1.0,
                             ),
@@ -328,80 +336,45 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                     SizedBox(
-                        width: 100.w,
-                        height: 8.h,
-                        child: DecoratedBox(
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                top: BorderSide(
-                                  //
-                                  color: Colors.white,
-                                  width: 1.0,
-                                ),
-                                bottom: BorderSide(
-                                  //
-                                  color: Colors.white,
-                                  width: 1.0,
-                                ),
-                              ),
+                      width: 100.w,
+                      height: 8.h,
+                      child: DecoratedBox(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            top: BorderSide(
+                              //
+                              color: Colors.white,
+                              width: 1.0,
                             ),
-                            child: Align(
-                                alignment: Alignment.center,
-                                child: GestureDetector(
-                                  onTap: () => {
-                                    Get.toNamed("/front-screen/pilihSettings")
-                                  },
-                                  child: const Text("SETTINGS",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 20),
-                                      textAlign: TextAlign.center),
-                                )))),
-                    // SizedBox(
-                    //   width: 100.w,
-                    //   height: 8.h,
-                    //   child: DecoratedBox(
-                    //     decoration: const BoxDecoration(
-                    //       border: Border(
-                    //         top: BorderSide(
-                    //           //
-                    //           color: Colors.white,
-                    //           width: 1.0,
-                    //         ),
-                    //         bottom: BorderSide(
-                    //           //
-                    //           color: Colors.white,
-                    //           width: 1.0,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     child: Align(
-                    //       alignment: Alignment.center,
-                    //       child: GestureDetector(
-                    //         onTap: () async => {logout()},
-                    //         child: const Text("LOGOUT",
-                    //             style: TextStyle(
-                    //                 color: Colors.white, fontSize: 20),
-                    //             textAlign: TextAlign.center),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
+                            bottom: BorderSide(
+                              //
+                              color: Colors.white,
+                              width: 1.0,
+                            ),
+                          ),
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: GestureDetector(
+                            onTap: () =>
+                                {Get.toNamed("/front-screen/pilihSettings")},
+                            child: const Text("SETTINGS",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                                textAlign: TextAlign.center),
+                          ),
+                        ),
+                      ),
+                    ),
                     SizedBox(
-                      height: 5.h,
+                      height: 2.h,
                     ),
                     SizedBox(
                       height: 5.h,
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("ICON"),
-                            Text("ICON"),
-                            Text("ICON"),
-                            Text("ICON"),
-                          ],
-                        ),
-                      ),
+                      child: IconsosmedWidget(),
+                    ),
+                    SizedBox(
+                      height: 5.h,
                     ),
                   ],
                 ),

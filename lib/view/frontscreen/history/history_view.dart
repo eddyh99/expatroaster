@@ -245,7 +245,6 @@ class _HistoryViewState extends State<HistoryView> {
                               _historyTopup();
                               _historyOrder();
                               Navigator.pop(context);
-                              print(value);
                             },
                             onCancel: () {
                               Navigator.pop(context);
@@ -375,7 +374,7 @@ class _HistoryViewState extends State<HistoryView> {
                               child: ListView.builder(
                                 itemCount:
                                     resultPoin == null ? 3 : resultPoin.length,
-                                reverse: true,
+                                reverse: false,
                                 itemBuilder: (context, i) {
                                   return (isLoading)
                                       ? Column(
@@ -493,7 +492,7 @@ class _HistoryViewState extends State<HistoryView> {
                                 itemCount: resultTopup == null
                                     ? 3
                                     : resultTopup.length,
-                                reverse: true,
+                                reverse: false,
                                 itemBuilder: (context, i) {
                                   return (isLoading)
                                       ? Column(
@@ -616,7 +615,7 @@ class _HistoryViewState extends State<HistoryView> {
                                 itemCount: resultOrder == null
                                     ? 3
                                     : resultOrder.length,
-                                reverse: true,
+                                reverse: false,
                                 itemBuilder: (context, i) {
                                   return (isLoading)
                                       ? Column(

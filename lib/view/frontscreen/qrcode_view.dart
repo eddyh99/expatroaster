@@ -1,10 +1,15 @@
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
+import 'package:expatroasters/widgets/backscreens/Iconsosmed_widget.dart';
 import 'package:expatroasters/widgets/backscreens/async_widget.dart';
 import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
+import 'package:expatroasters/widgets/backscreens/shimmer_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class QrcodeView extends StatefulWidget {
   const QrcodeView({super.key});
@@ -16,12 +21,24 @@ class QrcodeView extends StatefulWidget {
 
 class _QrcodeViewState extends State<QrcodeView> {
   String memberid = '';
+  String nama = '';
+  bool isLoadingPref = true;
 
   Future<void> getCompany() async {
-    var name = await readPrefStr("logged");
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var getmemberid = prefs.getString("memberid");
+    var getnama = prefs.getString("nama");
+    nama = getnama!;
+    memberid = getmemberid!;
     setState(() {
-      memberid = name["memberid"];
+      isLoadingPref = false;
     });
+  }
+
+  Future<void> _launchInWebViewOrVC(Uri url) async {
+    if (!await launchUrl(url, mode: LaunchMode.inAppWebView)) {
+      throw Exception('Could not launch $url');
+    }
   }
 
   @override
@@ -65,51 +82,66 @@ class _QrcodeViewState extends State<QrcodeView> {
                       "Hi",
                       style: TextStyle(color: Colors.white),
                     ),
-                    const AsyncTextWidget(
-                      pref: "logged",
-                      field: "nama",
-                      color: Colors.white,
-                      fontsize: '20.0',
+                    (isLoadingPref)
+                        ? ShimmerWidget(tinggi: 2.h, lebar: 20.w)
+                        : Text(
+                            nama,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    SizedBox(
+                      width: 275,
+                      height: 300,
+                      child: DecoratedBox(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            top: BorderSide(
+                              //
+                              color: Colors.white,
+                              width: 1.0,
+                            ),
+                            bottom: BorderSide(
+                              //
+                              color: Colors.white,
+                              width: 1.0,
+                            ),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 2.w, vertical: 2.h),
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(18.0),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 2.h, vertical: 2.h),
+                              child: QrImageView(
+                                data: memberid,
+                                version: QrVersions.auto,
+                                size: 300.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: 2.h,
                     ),
                     SizedBox(
-                        width: 275,
-                        height: 300,
-                        child: DecoratedBox(
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                top: BorderSide(
-                                  //
-                                  color: Colors.white,
-                                  width: 1.0,
-                                ),
-                                bottom: BorderSide(
-                                  //
-                                  color: Colors.white,
-                                  width: 1.0,
-                                ),
-                              ),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 2.w, vertical: 2.h),
-                              child: DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(18.0),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 2.h, vertical: 2.h),
-                                    child: QrImageView(
-                                      data: memberid,
-                                      version: QrVersions.auto,
-                                      size: 300.0,
-                                    ),
-                                  )),
-                            )))
+                      height: 5.h,
+                      child: IconsosmedWidget(),
+                    ),
                   ],
                 ),
               ),

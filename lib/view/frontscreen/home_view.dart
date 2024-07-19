@@ -572,15 +572,15 @@ class CustomSlider extends StatelessWidget {
 
     return SliderTheme(
       data: SliderTheme.of(context).copyWith(
-        activeTrackColor: Colors.blue,
-        inactiveTrackColor: Colors.blue.withOpacity(0.3),
+        activeTrackColor: Color.fromRGBO(114, 162, 138, 1),
+        inactiveTrackColor: Color.fromARGB(255, 255, 255, 255).withOpacity(1),
         trackHeight: 4.0,
         thumbShape:
             CustomThumbShape(const AssetImage('assets/images/thumb.png')),
         overlayShape: const RoundSliderOverlayShape(overlayRadius: 28.0),
         tickMarkShape: const RoundSliderTickMarkShape(),
-        activeTickMarkColor: Colors.blue,
-        inactiveTickMarkColor: Colors.blue.withOpacity(0.7),
+        activeTickMarkColor: Color.fromRGBO(114, 162, 138, 1),
+        inactiveTickMarkColor: Color.fromRGBO(255, 255, 255, 1),
       ),
       child: Stack(
         children: [
@@ -607,7 +607,7 @@ class CustomSlider extends StatelessWidget {
                         height: 12.0,
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.blue,
+                          color: Color.fromRGBO(114, 162, 138, 1),
                         ),
                       ),
                       const SizedBox(height: 4),
