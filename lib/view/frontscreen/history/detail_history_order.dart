@@ -68,8 +68,6 @@ class _DetailHistoryOrderState extends State<DetailHistoryOrder> {
         price = price + (int.parse(val['harga']) * int.parse(val['jumlah']));
       }).toList();
 
-      print(product);
-      print(price);
       total = price + deliveryfee;
 
       isLoading = false;

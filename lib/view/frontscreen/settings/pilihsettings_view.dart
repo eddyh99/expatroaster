@@ -17,10 +17,6 @@ class PilihSettingsView extends StatefulWidget {
 
 class _PilihSettingsViewState extends State<PilihSettingsView> {
   dynamic resultData;
-  String body = '';
-  String token = '';
-  String nama = '';
-  String membership = '';
   bool isLoadingPref = true;
   late final WebViewController wvcontroller;
 

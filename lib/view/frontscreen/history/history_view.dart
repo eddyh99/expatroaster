@@ -93,7 +93,6 @@ class _HistoryViewState extends State<HistoryView> {
     resultUserpoin = jsonDecode(await expatAPI(url, body))["messages"];
     setState(() {
       isLoading = false;
-      print(resultUserpoin);
     });
   }
 
@@ -106,7 +105,6 @@ class _HistoryViewState extends State<HistoryView> {
     setState(() {
       isLoading = false;
     });
-    // print(resultPoin[1]['tanggal']);
   }
 
   Future _historyTopup() async {
@@ -117,7 +115,6 @@ class _HistoryViewState extends State<HistoryView> {
     setState(() {
       isLoading = false;
     });
-    // print(resultTopup[1]['tanggal']);
   }
 
   Future _historyOrder() async {
@@ -129,7 +126,6 @@ class _HistoryViewState extends State<HistoryView> {
     setState(() {
       isLoading = false;
     });
-    // print(resultTopup[1]['tanggal']);
   }
 
   @override
