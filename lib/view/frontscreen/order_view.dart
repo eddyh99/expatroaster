@@ -51,20 +51,6 @@ class _OrderViewState extends State<OrderView> {
           onWebResourceError: (WebResourceError error) {},
         ),
       );
-    // ..loadRequest(Uri.parse(
-    //     "$urlbase/widget/order/ordersummary/$token?cabang=$idcabang"));
-    // ..addJavaScriptChannel(
-    //   'Total',
-    //   onMessageReceived: (JavaScriptMessage message) {
-    //     print("--------Data Receive---------");
-    //     print(message.message);
-    //     totalorder = message.message;
-    //     isDataReady = false;
-    //     print("totalorder $totalorder");
-    //   },
-    // );
-    // ..loadRequest(Uri.parse(
-    //     "$urlbase/widget/order/ordersummary/$token?cabang=$idcabang"));
   }
 
   @override

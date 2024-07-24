@@ -90,7 +90,6 @@ class _SettingConfirmPinViewState extends State<SettingConfirmPinView> {
                       }
 
                       if (_settingFormKey.currentState!.validate()) {
-                        debugPrint('onComplate: $value');
                         Map<String, dynamic> mdata;
                         mdata = {
                           'pin': sha1.convert(utf8.encode(value)).toString(),
@@ -105,7 +104,6 @@ class _SettingConfirmPinViewState extends State<SettingConfirmPinView> {
                           await expatAPI(url, jsonEncode(mdata)).then(
                             (ress) {
                               var result = jsonDecode(ress);
-                              printDebug(result);
                               if (result["status"] == 200) {
                                 Navigator.pop(context);
                                 showAlert("Pin successfully updated", context);
@@ -121,7 +119,6 @@ class _SettingConfirmPinViewState extends State<SettingConfirmPinView> {
                           ).catchError(
                             (err) {
                               Navigator.pop(context);
-                              printDebug("100-$err");
                               showAlert(
                                 "404 - Error, Please Contact Administrator",
                                 context,

@@ -97,7 +97,6 @@ class _EnterpinViewState extends State<EnterpinView> {
                       await expatAPI(url, jsonEncode(mdata)).then(
                         (ress) {
                           var result = jsonDecode(ress);
-                          printDebug(result);
                           if (result["status"] == 200) {
                             Navigator.pop(context);
                             Get.toNamed("/front-screen/home");
@@ -109,7 +108,7 @@ class _EnterpinViewState extends State<EnterpinView> {
                       ).catchError(
                         (err) {
                           Navigator.pop(context);
-                          printDebug("100-$err");
+                          // printDebug("100-$err");
                           showAlert(
                             "404 - Error, Please Contact Administrator",
                             context,

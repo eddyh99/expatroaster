@@ -58,7 +58,6 @@ class _SettingViewState extends State<SettingView> {
     var url = Uri.parse("$urlapi/v1/mobile/member/get_userdetail");
     var query = jsonDecode(await expatAPI(url, body))["messages"];
     resultData = query;
-    print(resultData);
     setState(() {
       _nameTextController.text = resultData["nama"];
       _emailTextController.text = resultData["email"]!;
@@ -71,7 +70,6 @@ class _SettingViewState extends State<SettingView> {
       _previmage = resultData["picture"];
       isLoading = false;
     });
-    print(isLoading);
   }
 
   Future<void> simpansettings() async {

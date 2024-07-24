@@ -47,8 +47,6 @@ class _PromotionViewState extends State<MenuView>
       onlineData = query2;
       is_loading = false;
     });
-    printDebug(onlineData.length.toString());
-    printDebug(instoreData[0]["id"]);
   }
 
   instorewidget(i) {

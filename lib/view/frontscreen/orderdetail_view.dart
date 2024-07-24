@@ -36,7 +36,6 @@ class _OrderDetailViewState extends State<OrderDetailView> {
           },
           onPageStarted: (String url) {},
           onPageFinished: (String url) {
-            print("FINISH");
             setState(() {
               isDataReady = false;
             });
@@ -88,7 +87,6 @@ class _OrderDetailViewState extends State<OrderDetailView> {
     return FloatingActionButton.extended(
       onPressed: () async {
         final String? url = await wvcontroller.getUserAgent();
-        print(url);
         if (mounted) {
           Get.toNamed(
             "/front-screen/allmenu",

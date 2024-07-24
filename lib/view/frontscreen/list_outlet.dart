@@ -57,7 +57,6 @@ class _ListOutletState extends State<ListOutlet> {
     var url = Uri.parse("$urlapi/v1/outlet/get_allcabang");
     resultData = jsonDecode(await expatAPI(url, body))["messages"];
     lengthData = resultData.length;
-    printDebug(resultData);
     setState(() {
       for (var dt in resultData) {
         if (!kota.contains(dt['provinsi'])) {
@@ -104,7 +103,6 @@ class _ListOutletState extends State<ListOutlet> {
       setState(() {
         _currentPosition = position;
       });
-      print(_currentPosition);
       _getAddressFromLatLng(_currentPosition!);
     }).catchError((e) {
       debugPrint(e);

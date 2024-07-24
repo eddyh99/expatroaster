@@ -44,11 +44,11 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
         NavigationDelegate(
           onProgress: (int progress) {
             // Update loading bar.
-            print("PROGRESS");
+            // print("PROGRESS");
           },
           onPageStarted: (String url) {},
           onPageFinished: (String url) {
-            print("FINISH");
+            // print("FINISH");
             setState(() {
               isDataReady = false;
             });
@@ -61,7 +61,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
         onMessageReceived: (JavaScriptMessage message) async {
           setState(() {
             totalorder = message.message;
-            print(totalorder + "ini total");
+            // print(totalorder + "ini total");
           });
         },
       )
@@ -74,7 +74,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
     var url =
         Uri.parse("$urlapi/v1/mobile/produk/getproduk_bycabang?id=$idcabang");
     resultData = jsonDecode(await expatAPI(url, body))["messages"];
-    printDebug("200 - $resultData");
+    // printDebug("200 - $resultData");
 
     setState(() {
       for (var isi in resultData) {
@@ -115,7 +115,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
       }
       is_loading = false;
     });
-    print(drink);
+    // print(drink);
   }
 
   List<dynamic> filterItems(List<dynamic> items, String searchText) {

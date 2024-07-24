@@ -118,7 +118,6 @@ class _PinViewState extends State<PinView> {
                           await expatAPI(url, jsonEncode(mdata)).then(
                             (ress) {
                               var result = jsonDecode(ress);
-                              printDebug(result);
                               if (result["status"] == 200) {
                                 showAlert(result["messages"], context);
                                 Get.toNamed("/front-screen/signin");
@@ -128,7 +127,6 @@ class _PinViewState extends State<PinView> {
                             },
                           ).catchError(
                             (err) {
-                              printDebug("100-$err");
                               showAlert(
                                 "404 - Error, Please Contact Administrator",
                                 context,

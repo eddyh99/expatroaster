@@ -72,7 +72,6 @@ class _SettingPasswordViewState extends State<SettingPasswordView> {
 
         await expatAPI(url, jsonEncode(mdata)).then((ress) {
           var result = jsonDecode(ress);
-          printDebug(result);
           if (result["status"] == 200) {
             prefs.setString(
               "passwd",

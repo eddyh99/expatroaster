@@ -60,14 +60,13 @@ class _ProfileViewState extends State<ProfileView> {
   Future _asyncMethod() async {
     var url = Uri.parse("$urlapi/v1/mobile/member/get_userdetail");
     var query = jsonDecode(await expatAPI(url, body))["messages"];
-    print(query);
     if (query != null) {
       setState(() {
         resultData = query;
         bearerToken().then(
           (value) => {
             setState(() {
-              print(value);
+              // print(value);
             })
           },
         );

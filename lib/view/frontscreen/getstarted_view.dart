@@ -51,7 +51,7 @@ class _GetstartedViewState extends State<GetstartedView> {
       }).catchError(
         (err) {
           Navigator.pop(context);
-          printDebug("100-$err");
+          // printDebug("100-$err");
           showAlert(
             "404 - Error, Please Contact Administrator",
             context,

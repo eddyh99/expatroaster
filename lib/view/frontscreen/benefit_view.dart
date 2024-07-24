@@ -44,7 +44,6 @@ class _BenefitViewState extends State<BenefitView> {
       }
       isLoading = false;
     });
-    print(benefits[0]);
   }
 
   final items = [
@@ -156,7 +155,6 @@ class _BenefitViewState extends State<BenefitView> {
                           onPageChanged: (index, reason) {
                             setState(() {
                               currentIndex = index;
-                              printDebug(currentIndex);
                             });
                           },
                           viewportFraction: 0.8,
