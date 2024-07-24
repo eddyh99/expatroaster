@@ -61,14 +61,17 @@ class _SettingViewState extends State<SettingView> {
     print(resultData);
     setState(() {
       _nameTextController.text = resultData["nama"];
-      _emailTextController.text = prefs.getString("email")!;
-      _dobTextController.text = resultData["dob"];
+      _emailTextController.text = resultData["email"]!;
+      _dobTextController.text =
+          (resultData["dob"] == null) ? "" : resultData["dob"];
       selectedGender = toBeginningOfSentenceCase(resultData["gender"]);
-      _phoneTextController.text = resultData["phone"];
+      _phoneTextController.text =
+          (resultData["phone"] == null) ? "" : resultData["phone"];
       selectedCountry = resultData["country"];
       _previmage = resultData["picture"];
       isLoading = false;
     });
+    print(isLoading);
   }
 
   Future<void> simpansettings() async {
@@ -89,8 +92,6 @@ class _SettingViewState extends State<SettingView> {
       'phone': _phoneTextController.text,
       'country': selectedCountry,
     };
-
-    print(mdata);
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 

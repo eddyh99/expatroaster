@@ -32,6 +32,8 @@ Future bearerToken() async {
     token = sha1.convert(utf8.encode(email + passwd)).toString();
   }
 
+  print(token);
+
   return token;
 }
 

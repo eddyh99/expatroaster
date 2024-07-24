@@ -28,10 +28,8 @@ class _HomeViewState extends State<HomeView> {
   String memberid = '';
   String nama = '';
   String membership = '';
-  double point = 0.0;
   List<String> labels = [];
   late double _currentSliderValue;
-  RangeValues valuesBottom = const RangeValues(0, 0);
 
   Future<dynamic> getPrefer() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -42,18 +40,12 @@ class _HomeViewState extends State<HomeView> {
   Future getProfile() async {
     var url = Uri.parse("$urlapi/v1/mobile/member/get_userdetail");
     var query = jsonDecode(await expatAPI(url, body))["messages"];
+    print(query);
     if (query != null) {
       setState(() {
         resultData = query;
         membership = resultData['membership'];
         _currentSliderValue = double.parse(resultData["poin"]);
-        point =
-            (resultData['poin'] == null) ? 0 : double.parse(resultData['poin']);
-        // printDebug(valuesBottom);
-        valuesBottom = RangeValues(
-          0,
-          (resultData['poin'] == null) ? 0 : double.parse(resultData['poin']),
-        );
         List<String> stepValuesList = resultData["step_values"].split(',');
 
         // Convert and add step values to the labels list
