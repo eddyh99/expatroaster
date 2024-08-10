@@ -100,7 +100,7 @@ class _SettingViewState extends State<SettingView> {
         "Profile successfully updated",
         context,
       );
-      Get.toNamed("/front-screen/profile");
+      Get.toNamed("/front-screen/home");
     }).catchError((err) {
       Navigator.pop(context);
       showAlert(
@@ -120,7 +120,7 @@ class _SettingViewState extends State<SettingView> {
         setState(() {
           this.image = imageTemporary;
         });
-      } else {
+      } else if (sumber == 'camera') {
         final image = await ImagePicker().pickImage(source: ImageSource.camera);
         if (image == null) return;
         final imageTemporary = File(image.path);
@@ -194,39 +194,38 @@ class _SettingViewState extends State<SettingView> {
                                               height: 80,
                                               fit: BoxFit.cover,
                                             ),
-                              // image != null
-                              //     ? Image.file(
-                              //         image!,
-                              //         width: 100,
-                              //         height: 100,
-                              //         fit: BoxFit.cover,
-                              //       )
-                              //     : (selectedGender == 'male')
-                              //         ? Image.asset(
-                              //             "assets/images/men-default.png",
-                              //             width: 80,
-                              //             height: 80,
-                              //             fit: BoxFit.cover,
-                              //           )
-                              //         : Image.asset(
-                              //             "assets/images/women-default.png",
-                              //             width: 80,
-                              //             height: 80,
-                              //             fit: BoxFit.cover,
-                              //           ),
-                              TextButton(
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                ),
-                                onPressed: () => pickgambar('gallery'),
-                                child: const Row(
-                                  children: [
-                                    Icon(Icons.folder),
-                                    SizedBox(width: 10),
-                                    Text("Choose Picture")
-                                  ],
-                                ),
-                              )
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      foregroundColor: Colors.white,
+                                    ),
+                                    onPressed: () => pickgambar('gallery'),
+                                    child: const Row(
+                                      children: [
+                                        Icon(Icons.folder),
+                                        SizedBox(width: 10),
+                                        Text("Choose Picture")
+                                      ],
+                                    ),
+                                  ),
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      foregroundColor: Colors.white,
+                                    ),
+                                    onPressed: () => pickgambar('camera'),
+                                    child: const Row(
+                                      children: [
+                                        Icon(Icons.camera_alt_outlined),
+                                        SizedBox(width: 10),
+                                        Text("Camera")
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ],
                           ),
                         ),

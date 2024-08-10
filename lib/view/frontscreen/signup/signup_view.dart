@@ -403,7 +403,13 @@ class _SignupViewState extends State<SignupView> {
                               );
                               Get.toNamed("/front-screen/completeregister",
                                   arguments: [
-                                    {"email": email}
+                                    {
+                                      "email": email,
+                                      "password": sha1
+                                          .convert(utf8.encode(
+                                              _passwordTextController.text))
+                                          .toString()
+                                    },
                                   ]);
                             }
                           } else {

@@ -362,7 +362,6 @@ class _SettingPasswordViewState extends State<SettingPasswordView> {
                       boxsize: '90',
                       onTap: () {
                         _savePassword();
-                        // SnackBar(content: Text("data"));
                       },
                     ),
                   ),

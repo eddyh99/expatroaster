@@ -120,7 +120,8 @@ class _PinViewState extends State<PinView> {
                               var result = jsonDecode(ress);
                               if (result["status"] == 200) {
                                 showAlert(result["messages"], context);
-                                Get.toNamed("/front-screen/signin");
+                                Get.toNamed("/front-screen/settings");
+                                // Get.toNamed("/front-screen/signin");
                               } else {
                                 showAlert(result["messages"]["error"], context);
                               }

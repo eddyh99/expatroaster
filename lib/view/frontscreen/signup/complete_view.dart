@@ -14,6 +14,7 @@ class CompleteView extends StatefulWidget {
 
 class _CompleteViewState extends State<CompleteView> {
   var email = Get.arguments[0]['email'];
+  var password = Get.arguments[0]['password'];
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +82,7 @@ class _CompleteViewState extends State<CompleteView> {
                                 )),
                             onPressed: () async {
                               Get.toNamed("/front-screen/confirm",
-                                  arguments: [email]);
+                                  arguments: [email, password]);
                             },
                             child: const Text(
                               "CONFIRMATION CODE",
