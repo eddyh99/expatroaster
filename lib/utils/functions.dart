@@ -6,20 +6,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:email_validator/email_validator.dart';
 
 void printDebug(Object object) {
   if (kDebugMode) {
     print(object);
   }
 }
-
-// Future<bool> openMailApp() async {
-//   var result = await OpenMailApp.openMailApp();
-//   if (!result.canOpen && !result.didOpen) {
-//     return false;
-//   }
-//   return true;
-// }
 
 int randomNumber() {
   int min = 1000;
@@ -38,7 +31,6 @@ Future bearerToken() async {
   if (email != null && passwd != null) {
     token = sha1.convert(utf8.encode(email + passwd)).toString();
   }
-  debugPrint('100-$token');
 
   return token;
 }
@@ -53,6 +45,7 @@ Future<String> expatAPI(Uri url, String body) async {
   if (email != null && passwd != null) {
     token = sha1.convert(utf8.encode(email + passwd)).toString();
   }
+
   if (token.isNotEmpty) {
     headers = {
       'Content-Type': 'application/json',
@@ -62,6 +55,16 @@ Future<String> expatAPI(Uri url, String body) async {
 
   Response response = await post(url, headers: headers, body: body);
   return response.body;
+}
+
+Future<dynamic> readAllPref() async {
+  final prefs = await SharedPreferences.getInstance();
+  final keys = prefs.getKeys();
+
+  final prefsMap = <String, dynamic>{};
+  for (String key in keys) {
+    prefsMap[key] = prefs.get(key);
+  }
 }
 
 readPrefStr(String key) async {
@@ -102,4 +105,26 @@ showAlert(String value, BuildContext context) {
     ),
     backgroundColor: const Color.fromRGBO(114, 162, 138, 1),
   ));
+}
+
+String? validateEmail(String? email) {
+  dynamic isValid = EmailValidator.validate('$email');
+
+  // Navigator.pop(context);
+  if (email == null || email.isEmpty) {
+    return "Please enter your email";
+  }
+
+  if (!isValid) {
+    return "Please enter a valid email";
+  }
+
+  return null;
+}
+
+String capitalizeFirstLetter(String word) {
+  if (word.isEmpty) {
+    return word; // Return empty string if input is empty
+  }
+  return word[0].toUpperCase() + word.substring(1);
 }

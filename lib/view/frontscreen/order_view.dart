@@ -19,6 +19,8 @@ class _OrderViewState extends State<OrderView> {
   var idcabang = Get.arguments[0]["idcabang"];
   String token = "";
   int value = 0;
+  String totalorder = '';
+  bool isDataReady = true;
 
   @override
   void initState() {
@@ -27,7 +29,9 @@ class _OrderViewState extends State<OrderView> {
       (value) => {
         setState(() {
           token = value;
-        })
+          wvcontroller.loadRequest(Uri.parse(
+              "$urlbase/widget/order/ordersummary/$token?cabang=$idcabang"));
+        }),
       },
     );
     wvcontroller = WebViewController()
@@ -39,7 +43,11 @@ class _OrderViewState extends State<OrderView> {
             // Update loading bar.
           },
           onPageStarted: (String url) {},
-          onPageFinished: (String url) {},
+          onPageFinished: (String url) {
+            setState(() {
+              isDataReady = false;
+            });
+          },
           onWebResourceError: (WebResourceError error) {},
         ),
       );
@@ -47,8 +55,8 @@ class _OrderViewState extends State<OrderView> {
 
   @override
   Widget build(BuildContext context) {
-    wvcontroller.loadRequest(Uri.parse(
-        "$urlbase/widget/order/ordersummary/$token?cabang=$idcabang"));
+    // wvcontroller.loadRequest(Uri.parse(
+    //     "$urlbase/widget/order/ordersummary/$token?cabang=$idcabang"));
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -69,14 +77,13 @@ class _OrderViewState extends State<OrderView> {
           },
           icon: const Icon(Icons.restaurant_menu),
           label: Text(
-            "Menu",
+            "All Menu",
             style: TextStyle(fontSize: 18),
           ),
           backgroundColor: Color.fromRGBO(131, 173, 152, 1),
           foregroundColor: Colors.white,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        // bottomNavigationBar: const Expatnav(),
       ),
     );
   }

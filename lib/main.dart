@@ -1,24 +1,35 @@
 import 'package:expatroasters/view/frontscreen/about_view.dart';
 import 'package:expatroasters/view/frontscreen/all_menu.dart';
 import 'package:expatroasters/view/frontscreen/benefit_view.dart';
-import 'package:expatroasters/view/frontscreen/complete_view.dart';
-import 'package:expatroasters/view/frontscreen/confirmation_view.dart';
-import 'package:expatroasters/view/frontscreen/createpin_view.dart';
-import 'package:expatroasters/view/frontscreen/enterpin_view.dart';
+import 'package:expatroasters/view/frontscreen/settings/pilihsettings_view.dart';
+import 'package:expatroasters/view/frontscreen/signup/complete_view.dart';
+import 'package:expatroasters/view/frontscreen/signup/confirmation_view.dart';
+import 'package:expatroasters/view/frontscreen/signup/createpin_view.dart';
+import 'package:expatroasters/view/frontscreen/history/detail_history_order.dart';
+import 'package:expatroasters/view/frontscreen/signin/enterpin_view.dart';
+import 'package:expatroasters/view/frontscreen/forgot_password/enterotp_view.dart';
+import 'package:expatroasters/view/frontscreen/forgot_password/forgotpass_view.dart';
+import 'package:expatroasters/view/frontscreen/forgot_password/sendemail_view.dart';
 import 'package:expatroasters/view/frontscreen/getstarted_view.dart';
 import 'package:expatroasters/view/frontscreen/home_view.dart';
 import 'package:expatroasters/view/frontscreen/list_outlet.dart';
 import 'package:expatroasters/view/frontscreen/orderdetail_view.dart';
 import 'package:expatroasters/view/frontscreen/order_view.dart';
+import 'package:expatroasters/view/frontscreen/history/history_view.dart';
 import 'package:expatroasters/view/frontscreen/profile_view.dart';
 import 'package:expatroasters/view/frontscreen/promotion_view.dart';
 import 'package:expatroasters/view/frontscreen/qrcode_view.dart';
-import 'package:expatroasters/view/frontscreen/setting_view.dart';
-import 'package:expatroasters/view/frontscreen/signin_view.dart';
-import 'package:expatroasters/view/frontscreen/signup_view.dart';
+import 'package:expatroasters/view/frontscreen/settings/setting_confirmpin.dart';
+import 'package:expatroasters/view/frontscreen/settings/setting_newpin.dart';
+import 'package:expatroasters/view/frontscreen/settings/setting_password.dart';
+import 'package:expatroasters/view/frontscreen/settings/setting_view.dart';
+import 'package:expatroasters/view/frontscreen/signin/signin_view.dart';
+import 'package:expatroasters/view/frontscreen/signup/signup_view.dart';
 import 'package:expatroasters/view/frontscreen/single_outlet.dart';
 import 'package:expatroasters/view/frontscreen/single_promo.dart';
+import 'package:expatroasters/view/frontscreen/term_view.dart';
 import 'package:expatroasters/view/frontscreen/topup_view.dart';
+import 'package:expatroasters/view/frontscreen/webviewexample.dart';
 import 'package:expatroasters/view/landing_view.dart';
 import 'package:expatroasters/view/splashscreen.dart';
 import 'package:flutter/material.dart';
@@ -74,6 +85,11 @@ class MyApp extends StatelessWidget {
             transition: Transition.leftToRight,
           ),
           GetPage(
+            name: '/front-screen/termcondition',
+            page: () => const TermView(),
+            transition: Transition.noTransition,
+          ),
+          GetPage(
             name: '/front-screen/register',
             page: () => const SignupView(),
             transition: Transition.leftToRight,
@@ -106,7 +122,7 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: '/front-screen/profile',
             page: () => const ProfileView(),
-            transition: Transition.fadeIn,
+            transition: Transition.noTransition,
           ),
           GetPage(
             name: '/front-screen/about',
@@ -121,7 +137,7 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: '/front-screen/qrcode',
             page: () => const QrcodeView(),
-            transition: Transition.leftToRight,
+            transition: Transition.noTransition,
           ),
           GetPage(
             name: '/front-screen/singleoutlet',
@@ -146,7 +162,27 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: '/front-screen/settings',
             page: () => const SettingView(),
+            transition: Transition.noTransition,
+          ),
+          GetPage(
+            name: '/front-screen/pilihSettings',
+            page: () => const PilihSettingsView(),
             transition: Transition.rightToLeft,
+          ),
+          GetPage(
+            name: '/front-screen/settingPassword',
+            page: () => const SettingPasswordView(),
+            transition: Transition.noTransition,
+          ),
+          GetPage(
+            name: '/front-screen/settingNewPin',
+            page: () => const SettingNewPinView(),
+            transition: Transition.noTransition,
+          ),
+          GetPage(
+            name: '/front-screen/settingConfirmPin',
+            page: () => const SettingConfirmPinView(),
+            transition: Transition.noTransition,
           ),
           GetPage(
             name: '/front-screen/topup',
@@ -172,6 +208,36 @@ class MyApp extends StatelessWidget {
             name: '/front-screen/order',
             page: () => const OrderView(),
             transition: Transition.fadeIn,
+          ),
+          GetPage(
+            name: '/front-screen/webview',
+            page: () => const WebViewExample(),
+            transition: Transition.fadeIn,
+          ),
+          GetPage(
+            name: '/front-screen/history',
+            page: () => const HistoryView(),
+            transition: Transition.fadeIn,
+          ),
+          GetPage(
+            name: '/front-screen/historyorder',
+            page: () => const DetailHistoryOrder(),
+            transition: Transition.fadeIn,
+          ),
+          GetPage(
+            name: '/front-screen/sendemail_forgot',
+            page: () => const SendemailView(),
+            transition: Transition.noTransition,
+          ),
+          GetPage(
+            name: '/front-screen/enterotp_forgot',
+            page: () => const EnterotpView(),
+            transition: Transition.rightToLeft,
+          ),
+          GetPage(
+            name: '/front-screen/password_forgot',
+            page: () => const ForgotpassView(),
+            transition: Transition.rightToLeft,
           ),
         ]);
   }

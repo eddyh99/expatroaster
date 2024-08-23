@@ -13,7 +13,8 @@ class CompleteView extends StatefulWidget {
 }
 
 class _CompleteViewState extends State<CompleteView> {
-  var localData = Get.arguments[0];
+  var email = Get.arguments[0]['email'];
+  var password = Get.arguments[0]['password'];
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +58,7 @@ class _CompleteViewState extends State<CompleteView> {
                               const Text("We sent a confirmation email to:",
                                   style: TextStyle(color: Colors.white)),
                               SizedBox(height: 2.h),
-                              Text(localData,
+                              Text(email,
                                   style: const TextStyle(color: Colors.white)),
                               SizedBox(height: 2.h),
                               const Text(
@@ -81,7 +82,7 @@ class _CompleteViewState extends State<CompleteView> {
                                 )),
                             onPressed: () async {
                               Get.toNamed("/front-screen/confirm",
-                                  arguments: [localData]);
+                                  arguments: [email, password]);
                             },
                             child: const Text(
                               "CONFIRMATION CODE",

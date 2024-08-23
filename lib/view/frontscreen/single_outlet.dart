@@ -38,7 +38,7 @@ class _SingleoutletViewState extends State<SingleoutletView> {
       resultData = query;
       is_loading = false;
     });
-    printDebug(resultData);
+    // printDebug(resultData);
   }
 
   @override

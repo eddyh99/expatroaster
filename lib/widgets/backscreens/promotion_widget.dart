@@ -1,6 +1,6 @@
 import 'dart:convert';
-
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
@@ -21,8 +21,10 @@ class PromotionView extends StatefulWidget {
 
 class _PromotionViewState extends State<PromotionView> {
   dynamic resultData;
-  final List<dynamic> imglst = [];
+  dynamic lengthdata;
   bool is_loading = true;
+  int currentIndex = 0;
+
   @override
   void initState() {
     super.initState();
@@ -30,24 +32,22 @@ class _PromotionViewState extends State<PromotionView> {
   }
 
   Future _asyncMethod() async {
-    //get user detail
     String body = '';
     var url = Uri.parse("$urlapi/v1/mobile/promotion/get_allpromo");
     resultData = jsonDecode(await expatAPI(url, body))['messages'];
-    // printDebug(resultData);
-    for (var isi in resultData) {
-      setState(() {
-        imglst.add([isi["picture"], isi["id"]]);
-        is_loading = false;
-      });
-    }
+    lengthdata = resultData.length;
+    print(lengthdata);
+    setState(() {
+      is_loading = false;
+    });
+
     // printDebug(imglst[0][0].toString());
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 26.h,
+        height: 28.h,
         width: 100.w,
         child: DecoratedBox(
           decoration: const BoxDecoration(
@@ -56,57 +56,128 @@ class _PromotionViewState extends State<PromotionView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.h),
-                  child: Text(
-                    "PROMOTIONS",
-                    style: GoogleFonts.inter(color: Colors.white),
-                  )),
               SizedBox(
-                  height: 20.h,
-                  width: 100.w,
-                  child: (is_loading)
-                      ? Row(
-                          children: [
-                            ShimmerWidget(tinggi: 20.h, lebar: 49.w),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            ShimmerWidget(tinggi: 20.h, lebar: 49.w),
-                          ],
-                        )
-                      : CarouselSlider.builder(
-                          options: CarouselOptions(
-                            autoPlay: true,
-                            aspectRatio: 1.0,
-                            enlargeCenterPage: true,
-                            viewportFraction: 1,
-                          ),
-                          itemCount: (imglst.length / 3).round(),
-                          itemBuilder: (context, index, realIdx) {
-                            final int first = index * 3;
-                            final int second = first + 1;
-                            final int third = second + 1;
-                            return Row(
-                                children: [first, second, third].map((idx) {
-                              return (imglst.asMap().containsKey(idx))
-                                  ? Expanded(
-                                      flex: 1,
-                                      child: GestureDetector(
-                                          onTap: () {
-                                            Get.toNamed(
-                                                "/front-screen/singlePromo",
-                                                arguments: [
-                                                  {"second": imglst[idx][1]}
-                                                ]);
-                                          },
-                                          child: ListimageView(
-                                            image: NetworkImage(imglst[idx][0]),
-                                            child: Container(),
-                                          )))
-                                  : Container();
-                            }).toList());
-                          }))
+                height: 24.h,
+                width: 100.w,
+                child: (is_loading)
+                    ? const Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ShimmerWidget(tinggi: 20, lebar: 90),
+                        ],
+                      )
+                    : Column(children: [
+                        (lengthdata == 0)
+                            ? Column(children: [
+                                SizedBox(
+                                    height: 13.h,
+                                    child: Image.asset(
+                                        "assets/images/empty-product.png")),
+                                Text(
+                                  "EMPTY PROMOTION",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Color.fromRGBO(
+                                        114,
+                                        162,
+                                        138,
+                                        1,
+                                      ),
+                                      fontFamily: GoogleFonts.lora().fontFamily,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ])
+                            : Column(
+                                children: [
+                                  SizedBox(
+                                    width: 100.w,
+                                    height: 20.h,
+                                    child: CarouselSlider(
+                                      options: CarouselOptions(
+                                        autoPlay: true,
+                                        aspectRatio: 1.0,
+                                        enlargeCenterPage: true,
+                                        viewportFraction: 0.84,
+                                        onPageChanged: (index, reason) {
+                                          setState(() {
+                                            currentIndex = index;
+                                          });
+                                        },
+                                      ),
+                                      items: [
+                                        for (int i = 0; i < lengthdata; i++)
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  child: ListimageView(
+                                                    image: NetworkImage(
+                                                        resultData[i]
+                                                            ['picture']),
+                                                    child: ElevatedButton(
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                              shadowColor: Colors
+                                                                  .transparent),
+                                                      onPressed: () async {
+                                                        Get.toNamed(
+                                                          "/front-screen/singlePromo",
+                                                          arguments: [
+                                                            {
+                                                              "second":
+                                                                  resultData[i]
+                                                                      ['id']
+                                                            }
+                                                          ],
+                                                        );
+                                                      },
+                                                      child: Text(""),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                  DotsIndicator(
+                                    dotsCount: lengthdata == 0 ? 1 : lengthdata,
+                                    position: currentIndex,
+                                    decorator: DotsDecorator(
+                                      color: Color.fromRGBO(255, 255, 255, 0.2),
+                                      activeColor:
+                                          Color.fromRGBO(114, 162, 138, 1),
+                                      size: Size.fromRadius(3),
+                                    ),
+                                  ),
+                                ],
+                              )
+                      ]),
+              ),
+              // (is_loading)
+              //     ? Row(
+              //         crossAxisAlignment: CrossAxisAlignment.center,
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children: [
+              //           ShimmerWidget(tinggi: 2.h, lebar: 95.w),
+              //         ],
+              //       )
+              //     : DotsIndicator(
+              //         dotsCount: lengthdata == 0 ? 1 : lengthdata,
+              //         position: currentIndex,
+              //         decorator: DotsDecorator(
+              //           color: Color.fromRGBO(255, 255, 255, 0.2),
+              //           activeColor: Color.fromRGBO(114, 162, 138, 1),
+              //           size: Size.fromRadius(3),
+              //         ),
+              //       ),
             ],
           ),
         ));

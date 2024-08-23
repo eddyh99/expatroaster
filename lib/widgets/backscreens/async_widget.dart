@@ -6,7 +6,15 @@ import 'package:flutter/material.dart';
 class AsyncTextWidget extends StatelessWidget {
   final String pref;
   final String field;
-  const AsyncTextWidget({super.key, required this.pref, required this.field});
+  final Color color;
+  final String fontsize;
+  const AsyncTextWidget({
+    super.key,
+    required this.pref,
+    required this.field,
+    required this.color,
+    required this.fontsize,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +25,8 @@ class AsyncTextWidget extends StatelessWidget {
           var data = snapshot.data as dynamic;
           return Text(
             data[field],
-            style: const TextStyle(
-              color: Color.fromRGBO(114, 162, 138, 1),
-            ),
+            textAlign: TextAlign.center,
+            style: TextStyle(color: color, fontSize: double.parse(fontsize)),
           );
         } else {
           return ShimmerWidget(tinggi: 1.h, lebar: 5.w);
