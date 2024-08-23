@@ -47,8 +47,6 @@ Future<String> expatAPI(Uri url, String body) async {
     token = sha1.convert(utf8.encode(email + passwd)).toString();
   }
 
-  print(token);
-
   if (token.isNotEmpty) {
     headers = {
       'Content-Type': 'application/json',

@@ -28,6 +28,7 @@ class _HomeViewState extends State<HomeView> {
   String memberid = '';
   String nama = '';
   String membership = '';
+  String role = '';
   List<String> labels = [];
   late double _currentSliderValue;
 
@@ -35,6 +36,9 @@ class _HomeViewState extends State<HomeView> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var getNama = prefs.getString("nama");
     nama = getNama!;
+    var getRole = prefs.getString("role");
+    role = getRole!;
+    print(role);
   }
 
   Future getProfile() async {
@@ -93,7 +97,7 @@ class _HomeViewState extends State<HomeView> {
                 Stack(
                   children: [
                     SizedBox(
-                        height: 25.h,
+                        height: (role == 'member') ? 25.h : 14.h,
                         width: 100.w,
                         child: DecoratedBox(
                           decoration: BoxDecoration(
@@ -137,7 +141,7 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           SizedBox(
                             width: 100.w,
-                            height: 26.h,
+                            height: (role == 'member') ? 26.h : 16.h,
                             child: DecoratedBox(
                               decoration: BoxDecoration(
                                 color: const Color.fromRGBO(30, 30, 30, 1),
@@ -396,73 +400,92 @@ class _HomeViewState extends State<HomeView> {
                                     SizedBox(
                                       height: 1.h,
                                     ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        (isLoading)
-                                            ? Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  SizedBox(
-                                                    height: 4.h,
-                                                  ),
-                                                  ShimmerWidget(
-                                                      tinggi: 2.h, lebar: 20.w),
-                                                ],
-                                              )
-                                            : Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  const Text(
-                                                    "You are in ",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 10),
-                                                  ),
-                                                  Text(
-                                                    "$membership Member "
-                                                        .toUpperCase(),
-                                                    style: const TextStyle(
-                                                        color: Color.fromRGBO(
-                                                            114, 162, 138, 1),
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 10),
-                                                  ),
-                                                ],
-                                              ),
-                                        (isLoading)
-                                            ? Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  SizedBox(
-                                                    height: 6.h,
-                                                  ),
-                                                  ShimmerWidget(
-                                                      tinggi: 3.h, lebar: 72.w),
-                                                ],
-                                              )
-                                            : CustomSlider(
-                                                value: _currentSliderValue,
-                                                labels: labels,
-                                                onChanged: (double value) {
-                                                  setState(() {
-                                                    // _currentSliderValue = value;
-                                                  });
-                                                },
-                                              ),
-                                      ],
-                                    )
+                                    (role == 'member')
+                                        ? Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              (isLoading)
+                                                  ? Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 4.h,
+                                                        ),
+                                                        ShimmerWidget(
+                                                            tinggi: 2.h,
+                                                            lebar: 20.w),
+                                                      ],
+                                                    )
+                                                  : Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        const Text(
+                                                          "You are in ",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 10),
+                                                        ),
+                                                        Text(
+                                                          "$membership Member "
+                                                              .toUpperCase(),
+                                                          style:
+                                                              const TextStyle(
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          114,
+                                                                          162,
+                                                                          138,
+                                                                          1),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontSize: 10),
+                                                        ),
+                                                      ],
+                                                    ),
+                                              (isLoading)
+                                                  ? Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 6.h,
+                                                        ),
+                                                        ShimmerWidget(
+                                                            tinggi: 3.h,
+                                                            lebar: 72.w),
+                                                      ],
+                                                    )
+                                                  : CustomSlider(
+                                                      value:
+                                                          _currentSliderValue,
+                                                      labels: labels,
+                                                      onChanged:
+                                                          (double value) {
+                                                        setState(() {
+                                                          // _currentSliderValue = value;
+                                                        });
+                                                      },
+                                                    ),
+                                            ],
+                                          )
+                                        : SizedBox.shrink()
                                   ],
                                 ),
                               ),
@@ -478,8 +501,11 @@ class _HomeViewState extends State<HomeView> {
           ),
           Padding(
               padding: EdgeInsets.only(top: 2.h), child: const OutletView()),
-          Padding(
-              padding: EdgeInsets.only(top: 2.h), child: const PromotionView()),
+          (role == 'member')
+              ? Padding(
+                  padding: EdgeInsets.only(top: 2.h),
+                  child: const PromotionView())
+              : SizedBox.shrink(),
           SizedBox(
             height: 5.h,
           )

@@ -55,9 +55,6 @@ class _OrderViewState extends State<OrderView> {
 
   @override
   Widget build(BuildContext context) {
-    // wvcontroller.loadRequest(Uri.parse(
-    //     "$urlbase/widget/order/ordersummary/$token?cabang=$idcabang"));
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
