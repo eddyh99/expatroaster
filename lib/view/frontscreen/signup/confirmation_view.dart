@@ -88,23 +88,12 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                               Uri.parse("$urlapi/auth/activate?token=$value");
                           var result = jsonDecode(await expatAPI(url, ""));
                           if (result["status"] == 200) {
-                            // if (context.mounted) {
-                            // Navigator.pop(context);
-                            // ScaffoldMessenger.of(context)
-                            //     .showSnackBar(SnackBar(
-                            //   content: Text(
-                            //     result["messages"],
-                            //     style: const TextStyle(color: Colors.white),
-                            //   ),
-                            //   backgroundColor:
-                            //       const Color.fromRGBO(114, 162, 138, 1),
-                            // ));
-                            // _confirmFormKey.currentState?.reset();
-                            // Get.toNamed("/front-screen/signin");
-                            // }
                             Map<String, dynamic> mdata;
-                            mdata = {'email': email, 'passwd': password};
-                            // print(mdata);
+                            mdata = {
+                              'email': email,
+                              'passwd': password,
+                              'is_google': 'no'
+                            };
                             SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
                             var url = Uri.parse("$urlapi/auth/signin");
@@ -124,10 +113,9 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                                     "role", result["messages"]["role"]);
                                 prefs.setString(
                                     "pin", result["messages"]["pin"]);
-                                prefs.setString("membership",
-                                    result["messages"]["membership"]);
                                 prefs.setString(
                                     "plafon", result["messages"]["plafon"]);
+                                prefs.setString("is_google", "no");
                                 Get.toNamed("/front-screen/createpin");
                               } else {
                                 var psnerr = result['messages']['error'];

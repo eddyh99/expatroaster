@@ -288,9 +288,9 @@ class _SigninViewState extends State<SigninView> {
                                 'passwd': sha1
                                     .convert(utf8
                                         .encode(_passwordTextController.text))
-                                    .toString()
+                                    .toString(),
+                                'is_google': 'no'
                               };
-                              // print(mdata);
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               var url = Uri.parse("$urlapi/auth/signin");
@@ -298,7 +298,6 @@ class _SigninViewState extends State<SigninView> {
                               await expatAPI(url, jsonEncode(mdata))
                                   .then((ress) {
                                 var result = jsonDecode(ress);
-                                print(result);
                                 if (result['status'] == 200) {
                                   prefs.setString(
                                       "email", _emailTextController.text);
@@ -320,12 +319,9 @@ class _SigninViewState extends State<SigninView> {
                                       "role", result["messages"]["role"]);
                                   prefs.setString(
                                       "pin", result["messages"]["pin"]);
-                                  prefs.setString("membership",
-                                      result["messages"]["membership"]);
                                   prefs.setString(
                                       "plafon", result["messages"]["plafon"]);
-                                  // prefs.setString(
-                                  //     "logged", jsonEncode(result["messages"]));
+                                  prefs.setString("is_google", "no");
                                   if (result['messages']['pin']?.isEmpty) {
                                     Get.toNamed("/front-screen/createpin");
                                   } else {

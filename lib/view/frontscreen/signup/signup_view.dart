@@ -385,7 +385,8 @@ class _SignupViewState extends State<SignupView> {
                             'passwd': sha1
                                 .convert(
                                     utf8.encode(_passwordTextController.text))
-                                .toString()
+                                .toString(),
+                            'is_google': 'no'
                           };
                           var url = Uri.parse("$urlapi/auth/register");
                           var result = jsonDecode(

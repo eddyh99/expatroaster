@@ -493,8 +493,27 @@ class _HomeViewState extends State<HomeView> {
 class CustomThumbShape extends SliderComponentShape {
   final double _thumbSize = 20.0;
   final ImageProvider imageProvider;
+  ImageStream? _imageStream;
+  ImageInfo? _imageInfo;
 
-  CustomThumbShape(this.imageProvider);
+  CustomThumbShape(this.imageProvider) {
+    _resolveImage();
+  }
+
+  void _resolveImage() {
+    final ImageConfiguration imageConfiguration = ImageConfiguration(
+      size: Size(_thumbSize, _thumbSize),
+    );
+
+    _imageStream = imageProvider.resolve(imageConfiguration);
+    _imageStream!.addListener(
+      ImageStreamListener(
+        (ImageInfo info, bool synchronousCall) {
+          _imageInfo = info;
+        },
+      ),
+    );
+  }
 
   @override
   Size getPreferredSize(bool isEnabled, bool isDiscrete) {
@@ -518,28 +537,33 @@ class CustomThumbShape extends SliderComponentShape {
   }) {
     final Canvas canvas = context.canvas;
 
-    final ImageConfiguration imageConfiguration = ImageConfiguration(
-      size: Size(_thumbSize, _thumbSize),
-    );
+    if (_imageInfo != null) {
+      final Paint paint = Paint()..filterQuality = FilterQuality.high;
+      canvas.drawImageRect(
+        _imageInfo!.image,
+        Rect.fromLTRB(0, 0, _imageInfo!.image.width.toDouble(),
+            _imageInfo!.image.height.toDouble()),
+        Rect.fromCenter(
+          center: center,
+          width: _thumbSize,
+          height: _thumbSize,
+        ),
+        paint,
+      );
+    } else {
+      // Optionally, draw a placeholder or fallback shape if the image isn't ready
+      final Paint paint = Paint()..color = Colors.grey;
+      canvas.drawCircle(center, _thumbSize / 2, paint);
+    }
+  }
 
-    imageProvider.resolve(imageConfiguration).addListener(
-      ImageStreamListener(
-        (ImageInfo info, bool synchronousCall) {
-          final Paint paint = Paint()..filterQuality = FilterQuality.high;
-          canvas.drawImageRect(
-            info.image,
-            Rect.fromLTRB(0, 0, info.image.width.toDouble(),
-                info.image.height.toDouble()),
-            Rect.fromCenter(
-              center: center,
-              width: _thumbSize,
-              height: _thumbSize,
-            ),
-            paint,
-          );
-        },
-      ),
-    );
+  void dispose() {
+    _imageStream?.removeListener(ImageStreamListener(
+      (ImageInfo info, bool synchronousCall) {
+        _imageInfo = null; // Cleanup
+      },
+    ));
+    // super.dispose();
   }
 }
 

@@ -1,5 +1,6 @@
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
+import 'package:expatroasters/utils/google_login.dart';
 import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,7 +29,11 @@ class _PilihSettingsViewState extends State<PilihSettingsView> {
   Future logout() async {
     wvcontroller = WebViewController();
     wvcontroller.loadRequest(Uri.parse("$urlbase/widget/order/removecookie"));
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var isGoogle = prefs.getString("is_google");
+    if (isGoogle == 'yes') {
+      await GoogleLogin.logout();
+    }
     await prefs.clear();
     Get.toNamed("/front-screen/signin");
   }
@@ -259,7 +264,9 @@ class _PilihSettingsViewState extends State<PilihSettingsView> {
                       width: 100.w,
                       height: 8.h,
                       child: GestureDetector(
-                        onTap: () async => {logout()},
+                        onTap: () async {
+                          logout();
+                        },
                         child: DecoratedBox(
                           decoration: const BoxDecoration(
                             border: Border(

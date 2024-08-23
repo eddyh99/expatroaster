@@ -4,6 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:email_validator/email_validator.dart';
@@ -45,6 +46,8 @@ Future<String> expatAPI(Uri url, String body) async {
   if (email != null && passwd != null) {
     token = sha1.convert(utf8.encode(email + passwd)).toString();
   }
+
+  print(token);
 
   if (token.isNotEmpty) {
     headers = {
