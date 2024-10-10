@@ -61,23 +61,6 @@ class _TopupViewState extends State<TopupView> {
       );
   }
 
-  Future<void> _checkConnectivity() async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
-
-    setState(() {
-      _isOffline = connectivityResult == ConnectivityResult.none;
-    });
-
-    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-      setState(() {
-        _isOffline = result == ConnectivityResult.none;
-      });
-
-      if (!_isOffline) {
-        wvcontroller.reload();
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,26 +99,4 @@ class _TopupViewState extends State<TopupView> {
             bottomNavigationBar: const Expatnav()));
   }
 
-  Widget _buildOfflineWidget() {
-    return SizedBox(
-      height: 100.h,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: 5.h),
-            Icon(Icons.wifi_off, size: 100, color: Colors.grey),
-            SizedBox(height: 20),
-            Text('No internet connection', style: TextStyle(fontSize: 18)),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _checkConnectivity,
-              child: Text('Retry'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
