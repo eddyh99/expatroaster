@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
@@ -21,9 +22,14 @@ class AllMenu extends StatefulWidget {
 class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
   var idcabang = Get.arguments[0]["idcabang"];
   dynamic resultData;
+  dynamic resultSub;
   final List<dynamic> drink = [];
   final List<dynamic> food = [];
   final List<dynamic> retail = [];
+
+  final List<dynamic> finaldrink = [];
+  final List<dynamic> finalfood = [];
+  final List<dynamic> finalretail = [];
   bool is_loading = true;
 
   late final WebViewController wvcontroller;
@@ -74,48 +80,73 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
     var url =
         Uri.parse("$urlapi/v1/mobile/produk/getproduk_bycabang?id=$idcabang");
     resultData = jsonDecode(await expatAPI(url, body))["messages"];
-    // printDebug("200 - $resultData");
+    var urlSub = Uri.parse("$urlapi/v1/produk/get_subkategori");
+    resultSub = jsonDecode(await expatAPI(urlSub, body))["messages"];
+    // printDebug("200 - $resultSub");
+    // log('${resultData}');
 
     setState(() {
-      for (var isi in resultData) {
-        if (isi['kategori'] == 'drink') {
-          // setState(() {
-          drink.add([
-            isi["id"],
-            isi["picture"],
-            isi["deskripsi"],
-            isi["nama"],
-            isi['price'],
-            isi['kategori']
-          ]);
-          // });
-        } else if (isi['kategori'] == 'food') {
-          // setState(() {
-          food.add([
-            isi["id"],
-            isi["picture"],
-            isi["deskripsi"],
-            isi["nama"],
-            isi['price'],
-            isi['kategori']
-          ]);
-          // });
-        } else if (isi['kategori'] == 'retail') {
-          // setState(() {
-          retail.add([
-            isi["id"],
-            isi["picture"],
-            isi["deskripsi"],
-            isi["nama"],
-            isi['price'],
-            isi['kategori']
-          ]);
-          // });
+      for (var sub in resultSub) {
+        String subkategori = sub['subkategori'];
+        final List<dynamic> tempdrink = [];
+        final List<dynamic> tempfood = [];
+        final List<dynamic> tempretail = [];
+
+        for (var product in resultData) {
+          if (product['kategori'] == 'drink' &&
+              subkategori == product['subkategori']) {
+            tempdrink.add([
+              product["id"],
+              product["picture"],
+              product["deskripsi"],
+              product["nama"],
+              product['price'],
+              product['kategori'],
+              product['subkategori']
+            ]);
+          } else if (product['kategori'] == 'food' &&
+              subkategori == product['subkategori']) {
+            tempfood.add([
+              product["id"],
+              product["picture"],
+              product["deskripsi"],
+              product["nama"],
+              product['price'],
+              product['kategori'],
+              product['subkategori']
+            ]);
+          } else if (product['kategori'] == 'retail' &&
+              subkategori == product['subkategori']) {
+            tempretail.add([
+              product["id"],
+              product["picture"],
+              product["deskripsi"],
+              product["nama"],
+              product['price'],
+              product['kategori'],
+              product['subkategori']
+            ]);
+          }
+        }
+
+        if (tempdrink.isNotEmpty) {
+          finaldrink.add([subkategori, tempdrink]);
+        }
+
+        if (tempfood.isNotEmpty) {
+          finalfood.add([subkategori, tempfood]);
+        }
+
+        if (tempretail.isNotEmpty) {
+          finalretail.add([subkategori, tempretail]);
         }
       }
+
       is_loading = false;
     });
-    // print(drink);
+    // log('${finaldrink}');
+    // log('${finalfood}');
+    // print(finalfood);
   }
 
   List<dynamic> filterItems(List<dynamic> items, String searchText) {
@@ -289,34 +320,20 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                           children: [
                             SizedBox(height: 2.h),
                             SizedBox(
-                              width: 90.w,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 12.0),
-                                child: Title(
-                                  color: Colors.white,
-                                  child: Text(
-                                    'Drinks',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      color: const Color.fromRGBO(
-                                          114, 162, 138, 1),
-                                      fontFamily: GoogleFonts.lora().fontFamily,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
                               width: 100.w,
-                              height: 53.h,
+                              height: 59.h,
                               child: ListView.builder(
-                                itemCount: is_loading
-                                    ? 5
-                                    : filterItems(drink, searchText).length,
+                                itemCount: is_loading ? 5 : finaldrink.length,
                                 itemBuilder: (context, i) {
-                                  final filteredItems =
-                                      filterItems(drink, searchText);
+                                  var resultproduct = is_loading
+                                      ? 5
+                                      : filterItems(
+                                              finaldrink[i][1], searchText)
+                                          .length;
+                                  final filteredItems = is_loading
+                                      ? []
+                                      : filterItems(
+                                          finaldrink[i][1], searchText);
                                   return is_loading
                                       ? Column(
                                           children: [
@@ -325,207 +342,232 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                             SizedBox(height: 2.h),
                                           ],
                                         )
-                                      : GestureDetector(
-                                          onTap: () {
-                                            Get.toNamed(
-                                              "/front-screen/orderdetail",
-                                              arguments: [
-                                                {'idcabang': idcabang},
-                                                {
-                                                  'idproduk': filteredItems[i]
-                                                      [0]
-                                                }
-                                              ],
-                                            );
-                                          },
-                                          child: SizedBox(
-                                            width: 100.w,
-                                            child: Column(
-                                              children: [
-                                                SizedBox(
-                                                  width: 100.w,
-                                                  child: Card(
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
-                                                    ),
-                                                    color: Colors.transparent,
-                                                    shadowColor:
-                                                        Colors.transparent,
-                                                    surfaceTintColor:
-                                                        Colors.transparent,
-                                                    elevation: 10,
-                                                    child: Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(2.0),
-                                                          child: ConstrainedBox(
-                                                            constraints:
-                                                                BoxConstraints(
-                                                              maxWidth: 35.w,
-                                                              maxHeight: 35.h,
-                                                            ),
-                                                            child: ClipRRect(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          12),
-                                                              child:
-                                                                  Image.network(
-                                                                filteredItems[i]
-                                                                    [1],
-                                                                fit:
-                                                                    BoxFit.fill,
-                                                              ),
-                                                            ),
+                                      : Column(
+                                          children: [
+                                            SizedBox(
+                                              width: 90.w,
+                                              child: Title(
+                                                color: Colors.white,
+                                                child: Text(
+                                                  finaldrink[i][0],
+                                                  style: TextStyle(
+                                                    fontSize: 24,
+                                                    color: const Color.fromRGBO(
+                                                        114, 162, 138, 1),
+                                                    fontFamily:
+                                                        GoogleFonts.lora()
+                                                            .fontFamily,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            (is_loading)
+                                                ? Column(
+                                                    children: [
+                                                      ShimmerWidget(
+                                                          tinggi: 20.h,
+                                                          lebar: 90.w),
+                                                      SizedBox(height: 2.h),
+                                                    ],
+                                                  )
+                                                : Column(
+                                                    children: List.generate(
+                                                        resultproduct, (j) {
+                                                    return GestureDetector(
+                                                      onTap: () {
+                                                        Get.toNamed(
+                                                          "/front-screen/orderdetail",
+                                                          arguments: [
+                                                            {
+                                                              'idcabang':
+                                                                  idcabang
+                                                            },
+                                                            {
+                                                              'idproduk':
+                                                                  filteredItems[
+                                                                      j][0]
+                                                            }
+                                                          ],
+                                                        );
+                                                      },
+                                                      child: SizedBox(
+                                                        width: 100.w,
+                                                        child: Card(
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10.0),
                                                           ),
-                                                        ),
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            SizedBox(
-                                                              width: 50.w,
-                                                              child: Padding(
+                                                          color: Colors
+                                                              .transparent,
+                                                          shadowColor: Colors
+                                                              .transparent,
+                                                          surfaceTintColor:
+                                                              Colors
+                                                                  .transparent,
+                                                          elevation: 10,
+                                                          child: Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Padding(
                                                                 padding:
                                                                     const EdgeInsets
-                                                                        .fromLTRB(
-                                                                        10,
-                                                                        0,
-                                                                        0,
-                                                                        0),
-                                                                child: Text(
-                                                                  filteredItems[
-                                                                      i][3],
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        18,
-                                                                    color: Colors
-                                                                        .white,
+                                                                        .all(
+                                                                        2.0),
+                                                                child:
+                                                                    ConstrainedBox(
+                                                                  constraints:
+                                                                      BoxConstraints(
+                                                                    maxWidth:
+                                                                        35.w,
+                                                                    maxHeight:
+                                                                        35.h,
+                                                                  ),
+                                                                  child:
+                                                                      ClipRRect(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            12),
+                                                                    child: Image
+                                                                        .network(
+                                                                      filteredItems[
+                                                                          j][1],
+                                                                      fit: BoxFit
+                                                                          .fill,
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                            SizedBox(
-                                                              width: 60.w,
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .fromLTRB(
-                                                                        10,
-                                                                        2,
-                                                                        0,
-                                                                        0),
-                                                                child: Text(
-                                                                  filteredItems[
-                                                                      i][2],
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    fontSize:
-                                                                        12,
-                                                                    color: Color
-                                                                        .fromRGBO(
-                                                                            255,
-                                                                            255,
-                                                                            255,
-                                                                            0.7),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              width: 60.w,
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .fromLTRB(
-                                                                        10,
-                                                                        5,
-                                                                        0,
-                                                                        0),
-                                                                child: RichText(
-                                                                  text:
-                                                                      TextSpan(
-                                                                    children: [
-                                                                      const WidgetSpan(
-                                                                        child:
-                                                                            Text(
-                                                                          'Rp',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color: Color.fromRGBO(
-                                                                                114,
-                                                                                162,
-                                                                                138,
-                                                                                1),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      WidgetSpan(
-                                                                        child: SizedBox(
-                                                                            width:
-                                                                                1.w),
-                                                                      ),
-                                                                      TextSpan(
-                                                                        text: formatter.format(int.parse(filteredItems[i]
-                                                                            [
-                                                                            4])),
+                                                              Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  SizedBox(
+                                                                    width: 50.w,
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .fromLTRB(
+                                                                          10,
+                                                                          0,
+                                                                          0,
+                                                                          0),
+                                                                      child:
+                                                                          Text(
+                                                                        filteredItems[j]
+                                                                            [3],
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
                                                                         style:
                                                                             const TextStyle(
-                                                                          color: Color.fromRGBO(
-                                                                              114,
-                                                                              162,
-                                                                              138,
-                                                                              1),
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
                                                                           fontSize:
-                                                                              20,
+                                                                              18,
+                                                                          color:
+                                                                              Colors.white,
                                                                         ),
                                                                       ),
-                                                                    ],
+                                                                    ),
                                                                   ),
-                                                                ),
+                                                                  SizedBox(
+                                                                    width: 60.w,
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .fromLTRB(
+                                                                          10,
+                                                                          2,
+                                                                          0,
+                                                                          0),
+                                                                      child:
+                                                                          Text(
+                                                                        filteredItems[j]
+                                                                            [2],
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
+                                                                        style:
+                                                                            const TextStyle(
+                                                                          fontSize:
+                                                                              12,
+                                                                          color: Color.fromRGBO(
+                                                                              255,
+                                                                              255,
+                                                                              255,
+                                                                              0.7),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 60.w,
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .fromLTRB(
+                                                                          10,
+                                                                          5,
+                                                                          0,
+                                                                          0),
+                                                                      child:
+                                                                          RichText(
+                                                                        text:
+                                                                            TextSpan(
+                                                                          children: [
+                                                                            const WidgetSpan(
+                                                                              child: Text(
+                                                                                'Rp',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(114, 162, 138, 1),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            WidgetSpan(
+                                                                              child: SizedBox(width: 1.w),
+                                                                            ),
+                                                                            TextSpan(
+                                                                              text: formatter.format(int.parse(
+                                                                                filteredItems[j][4],
+                                                                              )),
+                                                                              style: const TextStyle(
+                                                                                color: Color.fromRGBO(114, 162, 138, 1),
+                                                                                fontSize: 20,
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
-                                                            ),
-                                                          ],
+                                                            ],
+                                                          ),
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 90.w,
-                                                  child: const Divider(
-                                                    color: Color.fromRGBO(
-                                                        55, 55, 55, 1),
-                                                  ),
-                                                ),
-                                              ],
+                                                      ),
+                                                    );
+                                                  })),
+                                            // end of for column
+                                            SizedBox(
+                                              width: 90.w,
+                                              child: const Divider(
+                                                color: Color.fromRGBO(
+                                                    55, 55, 55, 1),
+                                              ),
                                             ),
-                                          ),
+                                          ],
                                         );
                                 },
                               ),
@@ -547,34 +589,19 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                           children: [
                             SizedBox(height: 2.h),
                             SizedBox(
-                              width: 90.w,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 12.0),
-                                child: Title(
-                                  color: Colors.white,
-                                  child: Text(
-                                    'Food',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      color: const Color.fromRGBO(
-                                          114, 162, 138, 1),
-                                      fontFamily: GoogleFonts.lora().fontFamily,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
                               width: 100.w,
                               height: 53.h,
                               child: ListView.builder(
-                                itemCount: is_loading
-                                    ? 5
-                                    : filterItems(food, searchText).length,
+                                itemCount: is_loading ? 5 : finalfood.length,
                                 itemBuilder: (context, i) {
-                                  final filteredItems =
-                                      filterItems(food, searchText);
+                                  var resultproduct = is_loading
+                                      ? 5
+                                      : filterItems(finalfood[i][1], searchText)
+                                          .length;
+                                  final filteredItems = is_loading
+                                      ? []
+                                      : filterItems(
+                                          finalfood[i][1], searchText);
                                   return is_loading
                                       ? Column(
                                           children: [
@@ -583,207 +610,232 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                             SizedBox(height: 2.h),
                                           ],
                                         )
-                                      : GestureDetector(
-                                          onTap: () {
-                                            Get.toNamed(
-                                              "/front-screen/orderdetail",
-                                              arguments: [
-                                                {'idcabang': idcabang},
-                                                {
-                                                  'idproduk': filteredItems[i]
-                                                      [0]
-                                                }
-                                              ],
-                                            );
-                                          },
-                                          child: SizedBox(
-                                            width: 100.w,
-                                            child: Column(
-                                              children: [
-                                                SizedBox(
-                                                  width: 100.w,
-                                                  child: Card(
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
-                                                    ),
-                                                    color: Colors.transparent,
-                                                    shadowColor:
-                                                        Colors.transparent,
-                                                    surfaceTintColor:
-                                                        Colors.transparent,
-                                                    elevation: 10,
-                                                    child: Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(2.0),
-                                                          child: ConstrainedBox(
-                                                            constraints:
-                                                                BoxConstraints(
-                                                              maxWidth: 35.w,
-                                                              maxHeight: 35.h,
-                                                            ),
-                                                            child: ClipRRect(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          12),
-                                                              child:
-                                                                  Image.network(
-                                                                filteredItems[i]
-                                                                    [1],
-                                                                fit:
-                                                                    BoxFit.fill,
-                                                              ),
-                                                            ),
+                                      : Column(
+                                          children: [
+                                            SizedBox(
+                                              width: 90.w,
+                                              child: Title(
+                                                color: Colors.white,
+                                                child: Text(
+                                                  finalfood[i][0],
+                                                  style: TextStyle(
+                                                    fontSize: 24,
+                                                    color: const Color.fromRGBO(
+                                                        114, 162, 138, 1),
+                                                    fontFamily:
+                                                        GoogleFonts.lora()
+                                                            .fontFamily,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            (is_loading)
+                                                ? Column(
+                                                    children: [
+                                                      ShimmerWidget(
+                                                          tinggi: 20.h,
+                                                          lebar: 90.w),
+                                                      SizedBox(height: 2.h),
+                                                    ],
+                                                  )
+                                                : Column(
+                                                    children: List.generate(
+                                                        resultproduct, (j) {
+                                                    return GestureDetector(
+                                                      onTap: () {
+                                                        Get.toNamed(
+                                                          "/front-screen/orderdetail",
+                                                          arguments: [
+                                                            {
+                                                              'idcabang':
+                                                                  idcabang
+                                                            },
+                                                            {
+                                                              'idproduk':
+                                                                  filteredItems[
+                                                                      j][0]
+                                                            }
+                                                          ],
+                                                        );
+                                                      },
+                                                      child: SizedBox(
+                                                        width: 100.w,
+                                                        child: Card(
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10.0),
                                                           ),
-                                                        ),
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            SizedBox(
-                                                              width: 50.w,
-                                                              child: Padding(
+                                                          color: Colors
+                                                              .transparent,
+                                                          shadowColor: Colors
+                                                              .transparent,
+                                                          surfaceTintColor:
+                                                              Colors
+                                                                  .transparent,
+                                                          elevation: 10,
+                                                          child: Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Padding(
                                                                 padding:
                                                                     const EdgeInsets
-                                                                        .fromLTRB(
-                                                                        10,
-                                                                        0,
-                                                                        0,
-                                                                        0),
-                                                                child: Text(
-                                                                  filteredItems[
-                                                                      i][3],
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        18,
-                                                                    color: Colors
-                                                                        .white,
+                                                                        .all(
+                                                                        2.0),
+                                                                child:
+                                                                    ConstrainedBox(
+                                                                  constraints:
+                                                                      BoxConstraints(
+                                                                    maxWidth:
+                                                                        35.w,
+                                                                    maxHeight:
+                                                                        35.h,
+                                                                  ),
+                                                                  child:
+                                                                      ClipRRect(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            12),
+                                                                    child: Image
+                                                                        .network(
+                                                                      filteredItems[
+                                                                          j][1],
+                                                                      fit: BoxFit
+                                                                          .fill,
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                            SizedBox(
-                                                              width: 60.w,
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .fromLTRB(
-                                                                        10,
-                                                                        2,
-                                                                        0,
-                                                                        0),
-                                                                child: Text(
-                                                                  filteredItems[
-                                                                      i][2],
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    fontSize:
-                                                                        12,
-                                                                    color: Color
-                                                                        .fromRGBO(
-                                                                            255,
-                                                                            255,
-                                                                            255,
-                                                                            0.7),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              width: 60.w,
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .fromLTRB(
-                                                                        10,
-                                                                        5,
-                                                                        0,
-                                                                        0),
-                                                                child: RichText(
-                                                                  text:
-                                                                      TextSpan(
-                                                                    children: [
-                                                                      const WidgetSpan(
-                                                                        child:
-                                                                            Text(
-                                                                          'Rp',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color: Color.fromRGBO(
-                                                                                114,
-                                                                                162,
-                                                                                138,
-                                                                                1),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      WidgetSpan(
-                                                                        child: SizedBox(
-                                                                            width:
-                                                                                1.w),
-                                                                      ),
-                                                                      TextSpan(
-                                                                        text: formatter.format(int.parse(filteredItems[i]
-                                                                            [
-                                                                            4])),
+                                                              Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  SizedBox(
+                                                                    width: 50.w,
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .fromLTRB(
+                                                                          10,
+                                                                          0,
+                                                                          0,
+                                                                          0),
+                                                                      child:
+                                                                          Text(
+                                                                        filteredItems[j]
+                                                                            [3],
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
                                                                         style:
                                                                             const TextStyle(
-                                                                          color: Color.fromRGBO(
-                                                                              114,
-                                                                              162,
-                                                                              138,
-                                                                              1),
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
                                                                           fontSize:
-                                                                              20,
+                                                                              18,
+                                                                          color:
+                                                                              Colors.white,
                                                                         ),
                                                                       ),
-                                                                    ],
+                                                                    ),
                                                                   ),
-                                                                ),
+                                                                  SizedBox(
+                                                                    width: 60.w,
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .fromLTRB(
+                                                                          10,
+                                                                          2,
+                                                                          0,
+                                                                          0),
+                                                                      child:
+                                                                          Text(
+                                                                        filteredItems[j]
+                                                                            [2],
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
+                                                                        style:
+                                                                            const TextStyle(
+                                                                          fontSize:
+                                                                              12,
+                                                                          color: Color.fromRGBO(
+                                                                              255,
+                                                                              255,
+                                                                              255,
+                                                                              0.7),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 60.w,
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .fromLTRB(
+                                                                          10,
+                                                                          5,
+                                                                          0,
+                                                                          0),
+                                                                      child:
+                                                                          RichText(
+                                                                        text:
+                                                                            TextSpan(
+                                                                          children: [
+                                                                            const WidgetSpan(
+                                                                              child: Text(
+                                                                                'Rp',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(114, 162, 138, 1),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            WidgetSpan(
+                                                                              child: SizedBox(width: 1.w),
+                                                                            ),
+                                                                            TextSpan(
+                                                                              text: formatter.format(int.parse(
+                                                                                filteredItems[j][4],
+                                                                              )),
+                                                                              style: const TextStyle(
+                                                                                color: Color.fromRGBO(114, 162, 138, 1),
+                                                                                fontSize: 20,
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
-                                                            ),
-                                                          ],
+                                                            ],
+                                                          ),
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 90.w,
-                                                  child: const Divider(
-                                                    color: Color.fromRGBO(
-                                                        55, 55, 55, 1),
-                                                  ),
-                                                ),
-                                              ],
+                                                      ),
+                                                    );
+                                                  })),
+                                            // end of for column
+                                            SizedBox(
+                                              width: 90.w,
+                                              child: const Divider(
+                                                color: Color.fromRGBO(
+                                                    55, 55, 55, 1),
+                                              ),
                                             ),
-                                          ),
+                                          ],
                                         );
                                 },
                               ),
@@ -804,35 +856,40 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: 2.h),
-                            SizedBox(
-                              width: 90.w,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 12.0),
-                                child: Title(
-                                  color: Colors.white,
-                                  child: Text(
-                                    'Retail',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      color: const Color.fromRGBO(
-                                          114, 162, 138, 1),
-                                      fontFamily: GoogleFonts.lora().fontFamily,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // SizedBox(
+                            //   width: 90.w,
+                            //   child: Padding(
+                            //     padding: const EdgeInsets.only(left: 12.0),
+                            //     child: Title(
+                            //       color: Colors.white,
+                            //       child: Text(
+                            //         'Retail',
+                            //         style: TextStyle(
+                            //           fontSize: 24,
+                            //           color: const Color.fromRGBO(
+                            //               114, 162, 138, 1),
+                            //           fontFamily: GoogleFonts.lora().fontFamily,
+                            //           fontWeight: FontWeight.w700,
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                             SizedBox(
                               width: 100.w,
                               height: 53.h,
                               child: ListView.builder(
-                                itemCount: is_loading
-                                    ? 5
-                                    : filterItems(retail, searchText).length,
+                                itemCount: is_loading ? 5 : finalretail.length,
                                 itemBuilder: (context, i) {
-                                  final filteredItems =
-                                      filterItems(retail, searchText);
+                                  var resultproduct = is_loading
+                                      ? 5
+                                      : filterItems(
+                                              finalretail[i][1], searchText)
+                                          .length;
+                                  final filteredItems = is_loading
+                                      ? []
+                                      : filterItems(
+                                          finalretail[i][1], searchText);
                                   return is_loading
                                       ? Column(
                                           children: [
@@ -841,207 +898,232 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                                             SizedBox(height: 2.h),
                                           ],
                                         )
-                                      : GestureDetector(
-                                          onTap: () {
-                                            Get.toNamed(
-                                              "/front-screen/orderdetail",
-                                              arguments: [
-                                                {'idcabang': idcabang},
-                                                {
-                                                  'idproduk': filteredItems[i]
-                                                      [0]
-                                                }
-                                              ],
-                                            );
-                                          },
-                                          child: SizedBox(
-                                            width: 100.w,
-                                            child: Column(
-                                              children: [
-                                                SizedBox(
-                                                  width: 100.w,
-                                                  child: Card(
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
-                                                    ),
-                                                    color: Colors.transparent,
-                                                    shadowColor:
-                                                        Colors.transparent,
-                                                    surfaceTintColor:
-                                                        Colors.transparent,
-                                                    elevation: 10,
-                                                    child: Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(2.0),
-                                                          child: ConstrainedBox(
-                                                            constraints:
-                                                                BoxConstraints(
-                                                              maxWidth: 35.w,
-                                                              maxHeight: 35.h,
-                                                            ),
-                                                            child: ClipRRect(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          12),
-                                                              child:
-                                                                  Image.network(
-                                                                filteredItems[i]
-                                                                    [1],
-                                                                fit:
-                                                                    BoxFit.fill,
-                                                              ),
-                                                            ),
+                                      : Column(
+                                          children: [
+                                            SizedBox(
+                                              width: 90.w,
+                                              child: Title(
+                                                color: Colors.white,
+                                                child: Text(
+                                                  finalretail[i][0],
+                                                  style: TextStyle(
+                                                    fontSize: 24,
+                                                    color: const Color.fromRGBO(
+                                                        114, 162, 138, 1),
+                                                    fontFamily:
+                                                        GoogleFonts.lora()
+                                                            .fontFamily,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            (is_loading)
+                                                ? Column(
+                                                    children: [
+                                                      ShimmerWidget(
+                                                          tinggi: 20.h,
+                                                          lebar: 90.w),
+                                                      SizedBox(height: 2.h),
+                                                    ],
+                                                  )
+                                                : Column(
+                                                    children: List.generate(
+                                                        resultproduct, (j) {
+                                                    return GestureDetector(
+                                                      onTap: () {
+                                                        Get.toNamed(
+                                                          "/front-screen/orderdetail",
+                                                          arguments: [
+                                                            {
+                                                              'idcabang':
+                                                                  idcabang
+                                                            },
+                                                            {
+                                                              'idproduk':
+                                                                  filteredItems[
+                                                                      j][0]
+                                                            }
+                                                          ],
+                                                        );
+                                                      },
+                                                      child: SizedBox(
+                                                        width: 100.w,
+                                                        child: Card(
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10.0),
                                                           ),
-                                                        ),
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            SizedBox(
-                                                              width: 50.w,
-                                                              child: Padding(
+                                                          color: Colors
+                                                              .transparent,
+                                                          shadowColor: Colors
+                                                              .transparent,
+                                                          surfaceTintColor:
+                                                              Colors
+                                                                  .transparent,
+                                                          elevation: 10,
+                                                          child: Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Padding(
                                                                 padding:
                                                                     const EdgeInsets
-                                                                        .fromLTRB(
-                                                                        10,
-                                                                        0,
-                                                                        0,
-                                                                        0),
-                                                                child: Text(
-                                                                  filteredItems[
-                                                                      i][3],
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        18,
-                                                                    color: Colors
-                                                                        .white,
+                                                                        .all(
+                                                                        2.0),
+                                                                child:
+                                                                    ConstrainedBox(
+                                                                  constraints:
+                                                                      BoxConstraints(
+                                                                    maxWidth:
+                                                                        35.w,
+                                                                    maxHeight:
+                                                                        35.h,
+                                                                  ),
+                                                                  child:
+                                                                      ClipRRect(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            12),
+                                                                    child: Image
+                                                                        .network(
+                                                                      filteredItems[
+                                                                          j][1],
+                                                                      fit: BoxFit
+                                                                          .fill,
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                            SizedBox(
-                                                              width: 60.w,
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .fromLTRB(
-                                                                        10,
-                                                                        2,
-                                                                        0,
-                                                                        0),
-                                                                child: Text(
-                                                                  filteredItems[
-                                                                      i][2],
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    fontSize:
-                                                                        12,
-                                                                    color: Color
-                                                                        .fromRGBO(
-                                                                            255,
-                                                                            255,
-                                                                            255,
-                                                                            0.7),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              width: 60.w,
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .fromLTRB(
-                                                                        10,
-                                                                        5,
-                                                                        0,
-                                                                        0),
-                                                                child: RichText(
-                                                                  text:
-                                                                      TextSpan(
-                                                                    children: [
-                                                                      const WidgetSpan(
-                                                                        child:
-                                                                            Text(
-                                                                          'Rp',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color: Color.fromRGBO(
-                                                                                114,
-                                                                                162,
-                                                                                138,
-                                                                                1),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      WidgetSpan(
-                                                                        child: SizedBox(
-                                                                            width:
-                                                                                1.w),
-                                                                      ),
-                                                                      TextSpan(
-                                                                        text: formatter.format(int.parse(filteredItems[i]
-                                                                            [
-                                                                            4])),
+                                                              Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  SizedBox(
+                                                                    width: 50.w,
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .fromLTRB(
+                                                                          10,
+                                                                          0,
+                                                                          0,
+                                                                          0),
+                                                                      child:
+                                                                          Text(
+                                                                        filteredItems[j]
+                                                                            [3],
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
                                                                         style:
                                                                             const TextStyle(
-                                                                          color: Color.fromRGBO(
-                                                                              114,
-                                                                              162,
-                                                                              138,
-                                                                              1),
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
                                                                           fontSize:
-                                                                              20,
+                                                                              18,
+                                                                          color:
+                                                                              Colors.white,
                                                                         ),
                                                                       ),
-                                                                    ],
+                                                                    ),
                                                                   ),
-                                                                ),
+                                                                  SizedBox(
+                                                                    width: 60.w,
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .fromLTRB(
+                                                                          10,
+                                                                          2,
+                                                                          0,
+                                                                          0),
+                                                                      child:
+                                                                          Text(
+                                                                        filteredItems[j]
+                                                                            [2],
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
+                                                                        style:
+                                                                            const TextStyle(
+                                                                          fontSize:
+                                                                              12,
+                                                                          color: Color.fromRGBO(
+                                                                              255,
+                                                                              255,
+                                                                              255,
+                                                                              0.7),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 60.w,
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .fromLTRB(
+                                                                          10,
+                                                                          5,
+                                                                          0,
+                                                                          0),
+                                                                      child:
+                                                                          RichText(
+                                                                        text:
+                                                                            TextSpan(
+                                                                          children: [
+                                                                            const WidgetSpan(
+                                                                              child: Text(
+                                                                                'Rp',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(114, 162, 138, 1),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            WidgetSpan(
+                                                                              child: SizedBox(width: 1.w),
+                                                                            ),
+                                                                            TextSpan(
+                                                                              text: formatter.format(int.parse(
+                                                                                filteredItems[j][4],
+                                                                              )),
+                                                                              style: const TextStyle(
+                                                                                color: Color.fromRGBO(114, 162, 138, 1),
+                                                                                fontSize: 20,
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
-                                                            ),
-                                                          ],
+                                                            ],
+                                                          ),
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 90.w,
-                                                  child: const Divider(
-                                                    color: Color.fromRGBO(
-                                                        55, 55, 55, 1),
-                                                  ),
-                                                ),
-                                              ],
+                                                      ),
+                                                    );
+                                                  })),
+                                            // end of for column
+                                            SizedBox(
+                                              width: 90.w,
+                                              child: const Divider(
+                                                color: Color.fromRGBO(
+                                                    55, 55, 55, 1),
+                                              ),
                                             ),
-                                          ),
+                                          ],
                                         );
                                 },
                               ),

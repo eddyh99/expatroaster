@@ -3,11 +3,13 @@ import 'package:crypto/crypto.dart';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
+import 'package:expatroasters/utils/google_login.dart';
 import 'package:expatroasters/widgets/backscreens/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SigninView extends StatefulWidget {
@@ -31,6 +33,116 @@ class _SigninViewState extends State<SigninView> {
   void initState() {
     super.initState();
     // getPrefer();
+  }
+
+  void loginGoogle(GoogleSignInAccount user) async {
+    showLoaderDialog(context);
+    if (user != null) {
+      Map<String, dynamic> mdata;
+      mdata = {
+        'email': user.email,
+        'passwd': sha1.convert(utf8.encode(user.email)).toString(),
+        'is_google': 'yes'
+      };
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var url = Uri.parse("$urlapi/auth/signin");
+      await expatAPI(url, jsonEncode(mdata)).then((ressLogin) {
+        var resultLogin = jsonDecode(ressLogin);
+
+        if (resultLogin['status'] == 200 && resultLogin['error'] == null) {
+          prefs.setString("email", user.email);
+          prefs.setString(
+              "passwd", sha1.convert(utf8.encode(user.email)).toString());
+          prefs.setBool("_rememberme", false);
+          prefs.setString("id", resultLogin["messages"]["id"]);
+          prefs.setString("nama", resultLogin["messages"]["nama"]);
+          prefs.setString("memberid", resultLogin["messages"]["memberid"]);
+          prefs.setString("role", resultLogin["messages"]["role"]);
+          prefs.setString("pin", resultLogin["messages"]["pin"]);
+          prefs.setString("plafon", resultLogin["messages"]["plafon"]);
+          prefs.setString("is_google", "yes");
+          if (resultLogin['messages']['pin']?.isEmpty) {
+            Get.toNamed("/front-screen/createpin");
+          } else {
+            Get.toNamed("/front-screen/enterpin");
+          }
+        } else if (resultLogin['status'] == 400 && resultLogin['error'] == 2) {
+          var urlRegister = Uri.parse("$urlapi/auth/register");
+          expatAPI(urlRegister, jsonEncode(mdata)).then((ressRegister) {
+            var resultRegister = jsonDecode(ressRegister);
+
+            if (resultRegister["status"] == 200) {
+              var urlReLogin = Uri.parse("$urlapi/auth/signin");
+              expatAPI(urlReLogin, jsonEncode(mdata)).then((ressReLogin) {
+                var resultReLogin = jsonDecode(ressReLogin);
+
+                if (resultReLogin["status"] == 200) {
+                  prefs.setString("email", user.email);
+                  prefs.setString("passwd",
+                      sha1.convert(utf8.encode(user.email)).toString());
+                  prefs.setBool("_rememberme", false);
+                  prefs.setString("id", resultReLogin["messages"]["id"]);
+                  prefs.setString("nama", resultReLogin["messages"]["nama"]);
+                  prefs.setString(
+                      "memberid", resultReLogin["messages"]["memberid"]);
+                  prefs.setString("role", resultReLogin["messages"]["role"]);
+                  prefs.setString("pin", resultReLogin["messages"]["pin"]);
+                  prefs.setString(
+                      "plafon", resultReLogin["messages"]["plafon"]);
+                  prefs.setString("is_google", "yes");
+                  Get.toNamed("/front-screen/createpin");
+                } else {
+                  GoogleLogin.logout();
+                  var psnerr = resultReLogin['messages']['error'];
+                  showAlert(psnerr, context);
+                }
+              }).catchError((err) {
+                GoogleLogin.logout();
+                showAlert(
+                  "Something Wrong, Please Contact Administrator",
+                  context,
+                );
+              });
+            }
+          }).catchError((err) {
+            GoogleLogin.logout();
+            showAlert(
+              "Something Wrong, Please Contact Administrator",
+              context,
+            );
+          });
+        } else if (resultLogin['status'] == 400 &&
+                resultLogin['error'] == '03' ||
+            resultLogin['status'] == 400 && resultLogin['error'] == '04') {
+          GoogleLogin.logout();
+          showAlert(
+            "Email Already use, please login via email manual",
+            context,
+          );
+        } else {
+          GoogleLogin.logout();
+          showAlert(
+            "Something Wrong, Please Contact Administrator",
+            context,
+          );
+        }
+      }).catchError((err) {
+        Navigator.pop(context);
+        showAlert(
+          "Something Wrong, Please Contact Administrator",
+          context,
+        );
+      });
+    } else {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+          "Sign up with Google Failed Please try again or try another method",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Color.fromRGBO(114, 162, 138, 1),
+      ));
+    }
   }
 
   @override
@@ -288,9 +400,9 @@ class _SigninViewState extends State<SigninView> {
                                 'passwd': sha1
                                     .convert(utf8
                                         .encode(_passwordTextController.text))
-                                    .toString()
+                                    .toString(),
+                                'is_google': 'no'
                               };
-                              // print(mdata);
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               var url = Uri.parse("$urlapi/auth/signin");
@@ -298,7 +410,6 @@ class _SigninViewState extends State<SigninView> {
                               await expatAPI(url, jsonEncode(mdata))
                                   .then((ress) {
                                 var result = jsonDecode(ress);
-                                print(result);
                                 if (result['status'] == 200) {
                                   prefs.setString(
                                       "email", _emailTextController.text);
@@ -320,12 +431,9 @@ class _SigninViewState extends State<SigninView> {
                                       "role", result["messages"]["role"]);
                                   prefs.setString(
                                       "pin", result["messages"]["pin"]);
-                                  prefs.setString("membership",
-                                      result["messages"]["membership"]);
                                   prefs.setString(
                                       "plafon", result["messages"]["plafon"]);
-                                  // prefs.setString(
-                                  //     "logged", jsonEncode(result["messages"]));
+                                  prefs.setString("is_google", "no");
                                   if (result['messages']['pin']?.isEmpty) {
                                     Get.toNamed("/front-screen/createpin");
                                   } else {
@@ -386,7 +494,10 @@ class _SigninViewState extends State<SigninView> {
                           name: "btnSecondaryGoogle",
                           text: "Sign up with Google",
                           boxsize: '80',
-                          onTap: () {},
+                          onTap: () async {
+                            var user = await GoogleLogin.login();
+                            loginGoogle(user!);
+                          },
                         ),
                       ),
                       SizedBox(

@@ -50,8 +50,6 @@ class _ProfileViewState extends State<ProfileView> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var getNama = prefs.getString("nama");
     nama = getNama!;
-    var getMembership = prefs.getString("membership");
-    membership = getMembership!;
     setState(() {
       isLoadingPref = false;
     });
@@ -63,13 +61,14 @@ class _ProfileViewState extends State<ProfileView> {
     if (query != null) {
       setState(() {
         resultData = query;
-        bearerToken().then(
-          (value) => {
-            setState(() {
-              // print(value);
-            })
-          },
-        );
+        membership = resultData['membership'];
+        // bearerToken().then(
+        //   (value) => {
+        //     setState(() {
+        //       // print(value);
+        //     })
+        //   },
+        // );
       });
     }
   }
@@ -147,9 +146,9 @@ class _ProfileViewState extends State<ProfileView> {
                                     overflow: TextOverflow.ellipsis,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                    ),
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700),
                                   ),
                             SizedBox(
                               height: 2.h,
