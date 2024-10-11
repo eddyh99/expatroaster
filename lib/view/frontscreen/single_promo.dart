@@ -35,7 +35,7 @@ class _SinglepromoViewState extends State<SinglepromoView> {
     var url = Uri.parse("$urlapi/v1/promotion/getpromo_byid?id=$localid");
     var query = jsonDecode(await expatAPI(url, body))["messages"];
     setState(() {
-      resultData = query[0];
+      resultData = query;
       is_loading = false;
     });
     printDebug(resultData);

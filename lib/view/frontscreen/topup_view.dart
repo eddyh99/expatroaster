@@ -1,4 +1,4 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
+// import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
@@ -28,7 +28,7 @@ class _TopupViewState extends State<TopupView> {
   @override
   void initState() {
     super.initState();
-    _checkConnectivity();
+    // _checkConnectivity();
     bearerToken().then(
       (value) => {
         setState(() {
@@ -60,7 +60,6 @@ class _TopupViewState extends State<TopupView> {
         ),
       );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -98,5 +97,4 @@ class _TopupViewState extends State<TopupView> {
             ),
             bottomNavigationBar: const Expatnav()));
   }
-
 }

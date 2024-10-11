@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PilihSettingsView extends StatefulWidget {
   const PilihSettingsView({super.key});
@@ -20,6 +21,12 @@ class _PilihSettingsViewState extends State<PilihSettingsView> {
   dynamic resultData;
   bool isLoadingPref = true;
   late final WebViewController wvcontroller;
+
+  Future<void> _launchInWebViewOrVC(Uri url) async {
+    if (!await launchUrl(url, mode: LaunchMode.inAppWebView)) {
+      throw Exception('Could not launch $url');
+    }
+  }
 
   @override
   void initState() {
@@ -175,7 +182,8 @@ class _PilihSettingsViewState extends State<PilihSettingsView> {
                       height: 8.h,
                       child: GestureDetector(
                         onTap: () {
-                          Get.toNamed("/front-screen/profile");
+                          _launchInWebViewOrVC(Uri.parse(
+                              'https://expatroasters.com/pages/terms'));
                         },
                         child: DecoratedBox(
                           decoration: const BoxDecoration(
@@ -220,7 +228,8 @@ class _PilihSettingsViewState extends State<PilihSettingsView> {
                       height: 8.h,
                       child: GestureDetector(
                         onTap: () {
-                          Get.toNamed("/front-screen/profile");
+                          _launchInWebViewOrVC(Uri.parse(
+                              'https://expatroasters.com/pages/terms'));
                         },
                         child: DecoratedBox(
                           decoration: const BoxDecoration(

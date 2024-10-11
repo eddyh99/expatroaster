@@ -67,7 +67,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
         onMessageReceived: (JavaScriptMessage message) async {
           setState(() {
             totalorder = message.message;
-            // print(totalorder + "ini total");
+            print(totalorder + "ini total");
           });
         },
       )
@@ -141,6 +141,8 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
           finalretail.add([subkategori, tempretail]);
         }
       }
+
+      print(finaldrink);
 
       is_loading = false;
     });

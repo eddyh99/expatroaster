@@ -33,12 +33,13 @@ class _GetstartedViewState extends State<GetstartedView> {
     final prefs = await SharedPreferences.getInstance();
     var email = prefs.getString("email");
     var passwd = prefs.getString("passwd");
+    var is_google = prefs.getString("is_google");
     var rememberme = prefs.getBool("_rememberme");
 
     if (rememberme == true) {
       showLoaderDialog(context);
       Map<String, dynamic> mdata;
-      mdata = {'email': email, 'passwd': passwd};
+      mdata = {'email': email, 'passwd': passwd, 'is_google': is_google};
       var url = Uri.parse("$urlapi/auth/signin");
       await expatAPI(url, jsonEncode(mdata)).then((ress) {
         var result = jsonDecode(ress);

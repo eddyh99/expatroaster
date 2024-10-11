@@ -323,7 +323,8 @@ class _ProfileViewState extends State<ProfileView> {
                           alignment: Alignment.center,
                           child: GestureDetector(
                             onTap: () {
-                              Get.toNamed("/front-screen/profile");
+                              _launchInWebViewOrVC(Uri.parse(
+                                  'https://expatroasters.com/pages/contact-us'));
                             },
                             child: const Text("CONTACT US",
                                 style: TextStyle(

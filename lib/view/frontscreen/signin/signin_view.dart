@@ -410,6 +410,7 @@ class _SigninViewState extends State<SigninView> {
                               await expatAPI(url, jsonEncode(mdata))
                                   .then((ress) {
                                 var result = jsonDecode(ress);
+                                print(result);
                                 if (result['status'] == 200) {
                                   prefs.setString(
                                       "email", _emailTextController.text);
