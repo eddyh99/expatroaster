@@ -15,6 +15,10 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
+dependencies {
+    implementation 'androidx.multidex:multidex:2.0.1'
+}
+
 android {
     namespace = "com.expatroasters"
     compileSdk = flutter.compileSdkVersion
@@ -38,6 +42,7 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        multiDexEnabled true
     }
 
     signingConfigs {
