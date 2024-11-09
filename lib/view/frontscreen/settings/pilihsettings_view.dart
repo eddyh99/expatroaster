@@ -138,7 +138,7 @@ class _PilihSettingsViewState extends State<PilihSettingsView> {
                       child: GestureDetector(
                         onTap: () {
                           _launchInWebViewOrVC(Uri.parse(
-                              'https://expatroasters.com/faq.html'));
+                              'https://mobile.expatroasters.com/faq.html'));
                         },
                         child: DecoratedBox(
                           decoration: const BoxDecoration(
@@ -184,7 +184,7 @@ class _PilihSettingsViewState extends State<PilihSettingsView> {
                       child: GestureDetector(
                         onTap: () {
                           _launchInWebViewOrVC(Uri.parse(
-                              'https://expatroasters.com/privacy_policy.html'));
+                              'https://mobile.expatroasters.com/privacy_policy.html'));
                         },
                         child: DecoratedBox(
                           decoration: const BoxDecoration(
@@ -230,7 +230,7 @@ class _PilihSettingsViewState extends State<PilihSettingsView> {
                       child: GestureDetector(
                         onTap: () {
                           _launchInWebViewOrVC(Uri.parse(
-                              'https://expatroasters.com/term_condition.html'));
+                              'https://mobile.expatroasters.com/term_condition.html'));
                         },
                         child: DecoratedBox(
                           decoration: const BoxDecoration(

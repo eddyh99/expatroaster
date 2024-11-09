@@ -197,7 +197,7 @@ class _GetstartedViewState extends State<GetstartedView> {
               child: Image.asset('assets/images/logo.png'),
             ),
             SizedBox(
-                height: 45.h,
+                height: 35.h,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
