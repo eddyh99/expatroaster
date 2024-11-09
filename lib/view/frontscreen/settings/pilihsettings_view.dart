@@ -137,7 +137,8 @@ class _PilihSettingsViewState extends State<PilihSettingsView> {
                       height: 8.h,
                       child: GestureDetector(
                         onTap: () {
-                          Get.toNamed("/front-screen/profile");
+                          _launchInWebViewOrVC(Uri.parse(
+                              'https://expatroasters.com/faq.html'));
                         },
                         child: DecoratedBox(
                           decoration: const BoxDecoration(
@@ -183,7 +184,7 @@ class _PilihSettingsViewState extends State<PilihSettingsView> {
                       child: GestureDetector(
                         onTap: () {
                           _launchInWebViewOrVC(Uri.parse(
-                              'https://expatroasters.com/pages/terms'));
+                              'https://expatroasters.com/privacy_policy.html'));
                         },
                         child: DecoratedBox(
                           decoration: const BoxDecoration(
@@ -229,7 +230,7 @@ class _PilihSettingsViewState extends State<PilihSettingsView> {
                       child: GestureDetector(
                         onTap: () {
                           _launchInWebViewOrVC(Uri.parse(
-                              'https://expatroasters.com/pages/terms'));
+                              'https://expatroasters.com/term_condition.html'));
                         },
                         child: DecoratedBox(
                           decoration: const BoxDecoration(

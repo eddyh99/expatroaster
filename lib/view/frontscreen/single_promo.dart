@@ -108,7 +108,7 @@ class _SinglepromoViewState extends State<SinglepromoView> {
                             borderRadius: BorderRadius.circular(18.0),
                           )),
                       onPressed: () async {
-                        Get.toNamed("/front-screen/allpromo");
+                        Get.toNamed("/front-screen/list_outlet");
                       },
                       child: const Text("Shop Now")),
                 ),
