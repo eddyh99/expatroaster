@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:expatroasters/utils/extensions.dart';
+import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
 import 'package:expatroasters/utils/google_login.dart';
 import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
+import 'package:expatroasters/widgets/backscreens/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,6 +47,66 @@ class _PilihSettingsViewState extends State<PilihSettingsView> {
     }
     await prefs.clear();
     Get.toNamed("/front-screen/signin");
+  }
+
+  Future accountdeletion() async {
+    var url = Uri.parse("$urlapi/v1/mobile/member/deactivate_member");
+    var query = jsonDecode(await expatAPI(url, ''))["messages"];
+    if (query["code"] == "200") {
+      logout();
+    }
+  }
+
+  void _showErrorBottomSheet() {
+    if (mounted) {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom +
+                  80, // Adjust bottom padding
+            ),
+            height: 300,
+            decoration: const BoxDecoration(
+              color: Colors.black,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Confirmation Deletion',
+                  style: TextStyle(
+                    color: Colors.redAccent,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Divider(
+                  color: Colors.white,
+                  thickness: 0.5,
+                ),
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 2.w),
+                    child: const Text(
+                      "You won't be able to use this platform again. Please keep in mind that transaction history will be saved as they have already integrated into our system. This data must be stored to maintain the integrity of the platform",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    )),
+                const SizedBox(height: 25),
+                ButtonWidget(
+                  name: "btmsheet",
+                  text: "Confirm",
+                  boxsize: '80',
+                  onTap: () => accountdeletion(),
+                )
+              ],
+            ),
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -251,6 +315,51 @@ class _PilihSettingsViewState extends State<PilihSettingsView> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text("TERMS & CONDITIONS",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                        textAlign: TextAlign.center),
+                                  ],
+                                ),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.arrow_right,
+                                      color: Colors.white),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 100.w,
+                      height: 8.h,
+                      child: GestureDetector(
+                        onTap: () {
+                          _showErrorBottomSheet();
+                        },
+                        child: DecoratedBox(
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                //
+                                color: Colors.white,
+                                width: 1.0,
+                              ),
+                            ),
+                          ),
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("ACCOUNT DELETION",
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 12,
