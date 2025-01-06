@@ -104,7 +104,7 @@ class _LandingViewState extends State<LandingView> {
                       text: "Get Started",
                       boxsize: '80',
                       onTap: () {
-                        Get.toNamed("/front-screen/getstarted");
+                        Get.toNamed("/front-screen/list_outlet");
                       }),
                 ),
                 SizedBox(

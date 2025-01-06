@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
@@ -69,6 +70,9 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
+    bearerToken().then((value) => {
+          if (value.isEmpty) {Get.toNamed("/front-screen/signin")}
+        });
     getProfile();
     getPrefer();
   }

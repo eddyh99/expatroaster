@@ -181,7 +181,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                 },
                 icon: Stack(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.shopping_cart,
                       color: Colors.white,
                     ),
@@ -245,7 +245,7 @@ class _AllMenuState extends State<AllMenu> with SingleTickerProviderStateMixin {
                   ),
                 ),
                 Container(
-                  height: 8.h,
+                  height: 7.h,
                   color: Colors.black,
                   child: TabBar(
                     physics: const ClampingScrollPhysics(),

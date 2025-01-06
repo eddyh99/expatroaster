@@ -29,8 +29,12 @@ class _OrderViewState extends State<OrderView> {
       (value) => {
         setState(() {
           token = value;
-          wvcontroller.loadRequest(Uri.parse(
-              "$urlbase/widget/order/ordersummary/$token?cabang=$idcabang"));
+          if (token.isEmpty) {
+            Get.toNamed("/front-screen/signin");
+          } else {
+            wvcontroller.loadRequest(Uri.parse(
+                "$urlbase/widget/order/ordersummary/$token?cabang=$idcabang"));
+          }
         }),
       },
     );
