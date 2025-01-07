@@ -37,13 +37,17 @@ class _HomeViewState extends State<HomeView> {
   Future<dynamic> getPrefer() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var getNama = prefs.getString("nama");
-    nama = getNama!;
+    nama = getNama ?? "";
     var getRole = prefs.getString("role");
     role = getRole!;
     print(role);
   }
 
   Future getProfile() async {
+    bearerToken().then((value) => {
+          if (value.isEmpty) {Get.toNamed("/front-screen/signin")}
+        });
+
     var url = Uri.parse("$urlapi/v1/mobile/member/get_userdetail");
     var query = jsonDecode(await expatAPI(url, body))["messages"];
     if (query != null) {
@@ -70,9 +74,6 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    bearerToken().then((value) => {
-          if (value.isEmpty) {Get.toNamed("/front-screen/signin")}
-        });
     getProfile();
     getPrefer();
   }

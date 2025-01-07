@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
@@ -606,16 +607,17 @@ class _SignupViewState extends State<SignupView> {
                   SizedBox(
                     height: 2.h,
                   ),
-                  SizedBox(
-                    child: ButtonWidget(
-                        name: "btnSecondaryGoogle",
-                        text: "Sign in with Google",
-                        boxsize: '80',
-                        onTap: () async {
-                          var user = await GoogleLogin.login();
-                          loginGoogle(user!);
-                        }),
-                  ),
+                  if (Platform.isAndroid)
+                    SizedBox(
+                      child: ButtonWidget(
+                          name: "btnSecondaryGoogle",
+                          text: "Sign in with Google",
+                          boxsize: '80',
+                          onTap: () async {
+                            var user = await GoogleLogin.login();
+                            loginGoogle(user!);
+                          }),
+                    ),
                   SizedBox(
                     height: 10.h,
                   ),
