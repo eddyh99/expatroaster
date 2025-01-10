@@ -35,8 +35,8 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   void initState() {
     super.initState();
-    _asyncMethod();
     getPrefer();
+    _asyncMethod();
     // _loadAllPreferences();
   }
 
@@ -47,8 +47,12 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   Future<dynamic> getPrefer() async {
+    bearerToken().then((value) => {
+          if (value.isEmpty) {Get.offAllNamed("/front-screen/signin")}
+        });
+
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    var getNama = prefs.getString("nama");
+    var getNama = prefs.getString("nama") ?? "";
     nama = getNama!;
     setState(() {
       isLoadingPref = false;
@@ -78,7 +82,7 @@ class _ProfileViewState extends State<ProfileView> {
     wvcontroller.loadRequest(Uri.parse("$urlbase/widget/order/removecookie"));
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();
-    Get.toNamed("/front-screen/signin");
+    Get.offAllNamed("/front-screen/signin");
   }
 
   @override

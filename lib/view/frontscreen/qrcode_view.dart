@@ -26,8 +26,12 @@ class _QrcodeViewState extends State<QrcodeView> {
 
   Future<void> getCompany() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    var getmemberid = prefs.getString("memberid");
-    var getnama = prefs.getString("nama");
+    bearerToken().then((value) => {
+          if (value.isEmpty) {Get.offAllNamed("/front-screen/signin")}
+        });
+
+    var getmemberid = prefs.getString("memberid") ?? "";
+    var getnama = prefs.getString("nama") ?? "";
     nama = getnama!;
     memberid = getmemberid!;
     setState(() {

@@ -7,7 +7,6 @@ import 'package:expatroasters/utils/globalvar.dart';
 import 'package:expatroasters/utils/google_login.dart';
 import 'package:expatroasters/widgets/backscreens/button_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';

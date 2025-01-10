@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
@@ -110,9 +111,9 @@ class _ListOutletState extends State<ListOutlet> {
   }
 
   Future<void> _getAddressFromLatLng(Position position) async {
-    await placemarkFromCoordinates(
-            _currentPosition!.latitude, _currentPosition!.longitude)
-        .then((List<Placemark> placemarks) {
+    try {
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
       Placemark place = placemarks[0];
       setState(() {
         _currentDistrict = place.administrativeArea;
@@ -140,9 +141,10 @@ class _ListOutletState extends State<ListOutlet> {
         }
         dropdownValue = _currentDistrict;
       });
-    }).catchError((e) {
-      debugPrint(e);
-    });
+    } catch (e) {
+      // Handle error here
+      debugPrint("Error occurred: $e");
+    }
   }
 
   @override

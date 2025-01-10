@@ -38,7 +38,7 @@ class _EnterpinViewState extends State<EnterpinView> {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () => Get.toNamed("/front-screen/signin"),
+          onPressed: () => Get.offAllNamed("/front-screen/signin"),
         ),
         backgroundColor: Colors.black,
       ),
@@ -56,7 +56,7 @@ class _EnterpinViewState extends State<EnterpinView> {
                 Text(
                   "Enter Pin",
                   style: TextStyle(
-                      color: Color.fromRGBO(114, 162, 138, 1),
+                      color: const Color.fromRGBO(114, 162, 138, 1),
                       fontSize: 36,
                       fontFamily: GoogleFonts.lora().fontFamily,
                       fontWeight: FontWeight.w700),
@@ -99,7 +99,7 @@ class _EnterpinViewState extends State<EnterpinView> {
                           var result = jsonDecode(ress);
                           if (result["status"] == 200) {
                             Navigator.pop(context);
-                            Get.toNamed("/front-screen/home");
+                            Get.offAllNamed("/front-screen/home");
                           } else {
                             Navigator.pop(context);
                             showAlert(result["messages"]["error"], context);
