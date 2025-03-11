@@ -160,8 +160,8 @@ class _ListOutletState extends State<ListOutlet> {
               onPressed: () => Get.toNamed('front-screen/home'),
             ),
             centerTitle: true,
-            title: Text(
-              "SELECT OUTLET",
+            title: const Text(
+              "SELECT BREWBAR",
               style: TextStyle(fontSize: 20),
             ),
             backgroundColor: Colors.transparent,
@@ -409,7 +409,7 @@ class _ListOutletState extends State<ListOutlet> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "Confirm Outlet",
+              "Confirm Brewbar",
               style: TextStyle(
                 fontFamily: GoogleFonts.lora().fontFamily,
                 color: const Color.fromRGBO(114, 162, 138, 1),

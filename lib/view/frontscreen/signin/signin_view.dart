@@ -59,6 +59,7 @@ class _SigninViewState extends State<SigninView> {
           prefs.setString("memberid", resultLogin["messages"]["memberid"]);
           prefs.setString("role", resultLogin["messages"]["role"]);
           prefs.setString("pin", resultLogin["messages"]["pin"]);
+          prefs.setString("phone", resultLogin["messages"]["phone"]);
           prefs.setString("plafon", resultLogin["messages"]["plafon"]);
           prefs.setString("is_google", "yes");
           if (resultLogin['messages']['pin']?.isEmpty) {

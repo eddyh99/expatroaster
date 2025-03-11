@@ -73,7 +73,7 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                       defaultPinTheme: PinTheme(
                         height: 50.0,
                         width: 50.0,
-                        textStyle: TextStyle(color: Colors.white),
+                        textStyle: const TextStyle(color: Colors.white),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           color: Colors.black,
@@ -99,7 +99,6 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                             var url = Uri.parse("$urlapi/auth/signin");
                             await expatAPI(url, jsonEncode(mdata)).then((ress) {
                               var result = jsonDecode(ress);
-                              print(result);
                               if (result['status'] == 200) {
                                 prefs.setString("email", email);
                                 prefs.setString("passwd", password);
@@ -113,6 +112,8 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                                     "role", result["messages"]["role"]);
                                 prefs.setString(
                                     "pin", result["messages"]["pin"]);
+                                prefs.setString(
+                                    "phone", result["messages"]["phone"] ?? "");
                                 prefs.setString(
                                     "plafon", result["messages"]["plafon"]);
                                 prefs.setString("is_google", "no");

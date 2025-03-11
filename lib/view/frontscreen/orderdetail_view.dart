@@ -58,29 +58,32 @@ class _OrderDetailViewState extends State<OrderDetailView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        extendBodyBehindAppBar: true,
-        backgroundColor: Colors.black,
-        body: SafeArea(
-          child: Stack(
-            children: [
-              WebViewWidget(controller: wvcontroller),
-              (isDataReady)
-                  ? Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                      ),
-                    )
-                  : Stack(),
-            ],
+        debugShowCheckedModeBanner: false,
+        home: PopScope(
+          canPop: false,
+          child: Scaffold(
+            extendBodyBehindAppBar: true,
+            backgroundColor: Colors.black,
+            body: SafeArea(
+              child: Stack(
+                children: [
+                  WebViewWidget(controller: wvcontroller),
+                  (isDataReady)
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        )
+                      : Stack(),
+                ],
+              ),
+            ),
+            // bottomNavigationBar: const Expatnav(),
+            floatingActionButton: favoriteButton(),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
           ),
-        ),
-        // bottomNavigationBar: const Expatnav(),
-        floatingActionButton: favoriteButton(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      ),
-    );
+        ));
   }
 
   Widget favoriteButton() {
@@ -101,7 +104,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
         " $totalorder Order",
         style: const TextStyle(fontSize: 18),
       ),
-      backgroundColor: Color.fromRGBO(131, 173, 152, 1),
+      backgroundColor: const Color.fromRGBO(131, 173, 152, 1),
       foregroundColor: Colors.white,
     );
   }

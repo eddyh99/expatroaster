@@ -58,7 +58,7 @@ class _PinViewState extends State<PinView> {
                 Text(
                   "Create New Pin",
                   style: TextStyle(
-                      color: Color.fromRGBO(114, 162, 138, 1),
+                      color: const Color.fromRGBO(114, 162, 138, 1),
                       fontSize: 36,
                       fontFamily: GoogleFonts.lora().fontFamily,
                       fontWeight: FontWeight.w700),
@@ -74,7 +74,7 @@ class _PinViewState extends State<PinView> {
                   defaultPinTheme: PinTheme(
                     height: 50.0,
                     width: 50.0,
-                    textStyle: TextStyle(color: Colors.white),
+                    textStyle: const TextStyle(color: Colors.white),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.black,
@@ -100,7 +100,7 @@ class _PinViewState extends State<PinView> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18.0),
                           )),
-                      child: Text("SAVE PIN"),
+                      child: const Text("SAVE PIN"),
                       onPressed: () async {
                         showLoaderDialog(context);
                         if (!_createpinFormKey.currentState!.validate()) {

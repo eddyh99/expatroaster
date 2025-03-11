@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 
 import 'package:crypto/crypto.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EnterpinView extends StatefulWidget {
   const EnterpinView({super.key});
@@ -22,6 +23,18 @@ class _EnterpinViewState extends State<EnterpinView> {
   final GlobalKey<FormState> _enterpinFormKey = GlobalKey<FormState>();
   final TextEditingController pinController = TextEditingController();
   final focusNode = FocusNode();
+  String phone = '';
+  Future<dynamic> getPrefer() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var getphone = prefs.getString("phone") ?? "";
+    phone = getphone;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getPrefer();
+  }
 
   @override
   void dispose() {
@@ -74,7 +87,7 @@ class _EnterpinViewState extends State<EnterpinView> {
                   defaultPinTheme: PinTheme(
                     height: 50.0,
                     width: 50.0,
-                    textStyle: TextStyle(color: Colors.white),
+                    textStyle: const TextStyle(color: Colors.white),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.black,
@@ -99,7 +112,11 @@ class _EnterpinViewState extends State<EnterpinView> {
                           var result = jsonDecode(ress);
                           if (result["status"] == 200) {
                             Navigator.pop(context);
-                            Get.offAllNamed("/front-screen/home");
+                            if (phone.isEmpty) {
+                              Get.toNamed("/front-screen/settings");
+                            } else {
+                              Get.offAllNamed("/front-screen/home");
+                            }
                           } else {
                             Navigator.pop(context);
                             showAlert(result["messages"]["error"], context);

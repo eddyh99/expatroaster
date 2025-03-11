@@ -1,11 +1,9 @@
 import 'package:expatroasters/utils/extensions.dart';
 import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/widgets/backscreens/Iconsosmed_widget.dart';
-import 'package:expatroasters/widgets/backscreens/async_widget.dart';
 import 'package:expatroasters/widgets/backscreens/bottomnav_widget.dart';
 import 'package:expatroasters/widgets/backscreens/shimmer_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -92,7 +90,7 @@ class _QrcodeViewState extends State<QrcodeView> {
                             nama,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 20,
                             ),
@@ -144,7 +142,7 @@ class _QrcodeViewState extends State<QrcodeView> {
                     ),
                     SizedBox(
                       height: 5.h,
-                      child: IconsosmedWidget(),
+                      child: const IconsosmedWidget(),
                     ),
                   ],
                 ),

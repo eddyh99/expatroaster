@@ -490,7 +490,7 @@ class _HomeViewState extends State<HomeView> {
                                                     ),
                                             ],
                                           )
-                                        : SizedBox.shrink()
+                                        : const SizedBox.shrink()
                                   ],
                                 ),
                               ),
@@ -510,7 +510,7 @@ class _HomeViewState extends State<HomeView> {
               ? Padding(
                   padding: EdgeInsets.only(top: 2.h),
                   child: const PromotionView())
-              : SizedBox.shrink(),
+              : const SizedBox.shrink(),
           SizedBox(
             height: 5.h,
           )
@@ -618,15 +618,16 @@ class CustomSlider extends StatelessWidget {
 
     return SliderTheme(
       data: SliderTheme.of(context).copyWith(
-        activeTrackColor: Color.fromRGBO(114, 162, 138, 1),
-        inactiveTrackColor: Color.fromARGB(255, 255, 255, 255).withOpacity(1),
+        activeTrackColor: const Color.fromRGBO(114, 162, 138, 1),
+        inactiveTrackColor:
+            const Color.fromARGB(255, 255, 255, 255).withValues(),
         trackHeight: 4.0,
         thumbShape:
             CustomThumbShape(const AssetImage('assets/images/thumb.png')),
         overlayShape: const RoundSliderOverlayShape(overlayRadius: 28.0),
         tickMarkShape: const RoundSliderTickMarkShape(),
-        activeTickMarkColor: Color.fromRGBO(114, 162, 138, 1),
-        inactiveTickMarkColor: Color.fromRGBO(255, 255, 255, 1),
+        activeTickMarkColor: const Color.fromRGBO(114, 162, 138, 1),
+        inactiveTickMarkColor: const Color.fromRGBO(255, 255, 255, 1),
       ),
       child: Stack(
         children: [

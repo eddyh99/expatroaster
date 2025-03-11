@@ -201,7 +201,7 @@ class _SignupViewState extends State<SignupView> {
           ),
           SizedBox(
             width: 80.w,
-            child: Divider(
+            child: const Divider(
               color: Colors.white,
             ),
           ),
@@ -212,7 +212,7 @@ class _SignupViewState extends State<SignupView> {
             "Sign Up",
             style: TextStyle(
                 fontFamily: GoogleFonts.lora().fontFamily,
-                color: Color.fromRGBO(114, 162, 138, 1),
+                color: const Color.fromRGBO(114, 162, 138, 1),
                 fontSize: 20,
                 fontWeight: FontWeight.w800),
           ),
@@ -273,7 +273,7 @@ class _SignupViewState extends State<SignupView> {
                             ),
                             contentPadding: const EdgeInsets.only(
                                 left: 20, bottom: 15, right: 13, top: 15),
-                            hintStyle: TextStyle(
+                            hintStyle: const TextStyle(
                                 fontSize: 12,
                                 color: Color.fromRGBO(163, 163, 163, 1)),
                             hintText: 'example@gmail.com',
@@ -349,7 +349,7 @@ class _SignupViewState extends State<SignupView> {
                             ),
                             contentPadding: const EdgeInsets.only(
                                 left: 20, bottom: 11, right: 13, top: 11),
-                            hintStyle: TextStyle(
+                            hintStyle: const TextStyle(
                                 fontSize: 12,
                                 color: Color.fromRGBO(163, 163, 163, 1)),
                             hintText: 'must be at least 8 characters',
@@ -433,7 +433,7 @@ class _SignupViewState extends State<SignupView> {
                             ),
                             contentPadding: const EdgeInsets.only(
                                 left: 20, bottom: 11, right: 13, top: 11),
-                            hintStyle: TextStyle(
+                            hintStyle: const TextStyle(
                                 fontSize: 12,
                                 color: Color.fromRGBO(163, 163, 163, 1)),
                             hintText: 'repeat password',

@@ -4,10 +4,8 @@ import 'package:expatroasters/utils/functions.dart';
 import 'package:expatroasters/utils/globalvar.dart';
 import 'package:expatroasters/utils/google_login.dart';
 import 'package:expatroasters/widgets/backscreens/button_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:convert';
@@ -257,7 +255,7 @@ class _GetstartedViewState extends State<GetstartedView> {
                           textAlign: TextAlign.center,
                           text: TextSpan(
                             children: [
-                              TextSpan(
+                              const TextSpan(
                                 text: 'By registering, you agree to our ',
                                 style: TextStyle(
                                   color: Colors.white,
@@ -266,7 +264,7 @@ class _GetstartedViewState extends State<GetstartedView> {
                               ),
                               TextSpan(
                                 text: "Terms of Use",
-                                style: TextStyle(
+                                style: const TextStyle(
                                   decoration: TextDecoration.underline,
                                   color: Colors.white,
                                   fontSize: 12,
@@ -276,7 +274,7 @@ class _GetstartedViewState extends State<GetstartedView> {
                                     Get.toNamed("/front-screen/termcondition");
                                   },
                               ),
-                              TextSpan(
+                              const TextSpan(
                                 text:
                                     ' Learn how we collect, use and share your data.',
                                 style: TextStyle(
